@@ -8,7 +8,7 @@ const bcrypt = require("bcrypt");
 
 // Define User Schema
 const userSchema = new mongoose.Schema({
-    name: { type: String, required: true }, // User's name
+    name: { type: String, required: true }, // User's name.
     email: { type: String, required: true, unique: true }, // User's email (must be unique)
     password: { type: String, required: true }, // Hashed password
     preferences: { type: String }, // User's dietary preferences (e.g., vegetarian)
