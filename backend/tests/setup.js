@@ -24,7 +24,7 @@ afterEach(async () => {
 
     for (const key in collections) {
         const collection = collections[key];
-        await collection.deleteMany(); // Clear each collection instead of dropping the database
+        await collection.deleteMany({}); // Clear each collection instead of dropping the database
     }
 });
 
@@ -32,6 +32,7 @@ afterEach(async () => {
  * Stops the in-memory MongoDB server after all tests.
  */
 afterAll(async () => {
+    await mongoose.connection.dropDatabase();
     await mongoose.connection.close();
     await mongoServer.stop();
 });

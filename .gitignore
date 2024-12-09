@@ -129,3 +129,6 @@ secrets.yml
 *.pem
 *.key
 *.crt
+
+
+uploads/

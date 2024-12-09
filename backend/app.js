@@ -11,7 +11,7 @@ app.use(cors());
 // Routes
 app.use('/api/images', require('./routes/imageRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
-//app.use('/api/nutrition', require('./routes/nutritionRoutes'));
+app.use('/api/nutrition', require('./routes/nutritionRoutes'));
 
-// Export the app for testing
+// Export the app
 module.exports = app;
