@@ -16,9 +16,6 @@
       "lcov",
       "text",
       "clover"
-    ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/tests/setup.js"
     ]
   },
   "keywords": [],

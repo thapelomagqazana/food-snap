@@ -67,4 +67,45 @@ const loginUser = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, loginUser };
+/**
+ * Updates the authenticated user's profile.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
+const updateUserProfile = async (req, res) => {
+    const { name, email, password } = req.body;
+
+    try {
+        // Fetch the authenticated user
+        const user = await User.findById(req.user.id);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found.' });
+        }
+
+        // Update user fields if provided
+        if (name) user.name = name;
+        if (email) user.email = email;
+
+        // Hash the new password if provided
+        if (password) {
+            user.password = await bcrypt.hash(password, 10);
+        }
+
+        // Save the updated user to the database
+        const updatedUser = await user.save();
+
+        res.status(200).json({
+            message: 'User profile updated successfully.',
+            user: {
+                id: updatedUser._id,
+                name: updatedUser.name,
+                email: updatedUser.email,
+            },
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to update profile.', error: error.message });
+    }
+};
+
+module.exports = { registerUser, loginUser, updateUserProfile };

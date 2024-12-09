@@ -1,12 +1,24 @@
 const request = require('supertest');
 const app = require('../app');
-const mongoose = require('mongoose');
 const FoodItem = require('../models/FoodItem');
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 describe('Nutrition Routes', () => {
     let foodItemId;
 
+    /**
+     * Connects to the test database.
+     */
     beforeAll(async () => {
+        const testDbUri = process.env.TEST_DB_URI;
+        await mongoose.connect(testDbUri, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+
         // Seed the database with a test food item
         const foodItem = new FoodItem({
             name: 'Test Food',
@@ -20,10 +32,24 @@ describe('Nutrition Routes', () => {
         foodItemId = savedItem._id;
     });
 
-    afterAll(async () => {
-        // Clean up the test database
-        await FoodItem.deleteMany({});
+    /**
+     * Clears all collections in the database after each test.
+     */
+    afterEach(async () => {
+        const collections = mongoose.connection.collections;
+        for (const key in collections) {
+            const collection = collections[key];
+            await collection.deleteMany({});
+        }
     });
+
+    /**
+     * Closes the database connection after all tests are complete.
+     */
+    afterAll(async () => {
+        await mongoose.connection.close();
+    });
+
 
     it('should fetch nutritional data for a valid food item ID', async () => {
         const response = await request(app).get(`/api/nutrition/${foodItemId}`);

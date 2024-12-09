@@ -2,21 +2,51 @@ const request = require('supertest');
 const app = require('../app');
 const path = require('path');
 const fs = require('fs');
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 describe('Image Routes', () => {
     const testImagePath = path.join(__dirname, 'test-image.jpg');
 
-    // Create a dummy file for testing
-    beforeAll(() => {
+    /**
+     * Connects to the test database.
+     */
+    beforeAll(async () => {
+        const testDbUri = process.env.TEST_DB_URI;
+        await mongoose.connect(testDbUri, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+
+        // Create a dummy file for testing
         fs.writeFileSync(testImagePath, 'dummy image content');
     });
 
-    // Remove dummy file after tests
-    afterAll(() => {
+    /**
+     * Clears all collections in the database after each test.
+     */
+    afterEach(async () => {
+        const collections = mongoose.connection.collections;
+        for (const key in collections) {
+            const collection = collections[key];
+            await collection.deleteMany({});
+        }
+    });
+
+    /**
+     * Closes the database connection after all tests are complete.
+     */
+    afterAll(async () => {
+        // Remove dummy file after tests
         if (fs.existsSync(testImagePath)) {
             fs.unlinkSync(testImagePath);
         }
+
+        await mongoose.connection.close();
     });
+
 
     it('should process an uploaded image and return recognized foods', async () => {
         const response = await request(app)
@@ -55,6 +85,4 @@ describe('Image Routes', () => {
     
         expect(response.status).toBe(404); // Assuming you have a 404 middleware
     });
-    
-
 });
