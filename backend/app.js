@@ -1,8 +1,13 @@
 const express = require('express');
 const cors = require('cors');
 const errorHandler = require("./middleware/errorHandler");
+const morganMiddleware = require("./middleware/loggingMiddleware");
 // Initialize app and connect to the database
 const app = express();
+
+
+// Middleware for request logging
+app.use(morganMiddleware);
 
 // Middleware
 app.use(express.json());
