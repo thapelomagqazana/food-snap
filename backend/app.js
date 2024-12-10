@@ -17,6 +17,7 @@ app.use(cors());
 app.use('/api/images', require('./routes/imageRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/nutrition', require('./routes/nutritionRoutes'));
+app.use('/api/classify', require('./routes/classifyRoutes'));
 
 // Error-handling middleware (should be the last middleware)
 app.use(errorHandler);

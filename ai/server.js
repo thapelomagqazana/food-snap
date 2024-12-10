@@ -6,4 +6,4 @@ dotenv.config({ path: '../.env' });
 
 
 const PORT = process.env.AI_PORT || 5030;
-app.listen(PORT, () => console.log(`AI server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`AI Service running on port ${PORT}`));
