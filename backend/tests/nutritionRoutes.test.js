@@ -4,7 +4,8 @@ const FoodItem = require('../models/FoodItem');
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 
-dotenv.config();
+// Load environment variables from the shared .env file
+dotenv.config({ path: '../.env' });
 
 describe('Nutrition Routes', () => {
     let foodItemId;

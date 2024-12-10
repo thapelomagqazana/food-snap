@@ -5,7 +5,8 @@ const fs = require('fs');
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 
-dotenv.config();
+// Load environment variables from the shared .env file
+dotenv.config({ path: '../.env' });
 
 describe('Image Routes', () => {
     const testImagePath = path.join(__dirname, 'test-image.jpg');

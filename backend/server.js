@@ -7,8 +7,8 @@ const app = require("./app");
 const connectDB = require('./config/db');
 
 
-// Load environment variables from .env file
-dotenv.config()
+// Load environment variables from the shared .env file
+dotenv.config({ path: '../.env' });
 
 connectDB();
 

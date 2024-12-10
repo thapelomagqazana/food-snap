@@ -7,7 +7,8 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
 
-dotenv.config();
+// Load environment variables from the shared .env file
+dotenv.config({ path: '../.env' });
 
 /**
  * Registers a new user.
