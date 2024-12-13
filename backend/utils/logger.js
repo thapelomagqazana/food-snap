@@ -1,4 +1,8 @@
 const { createLogger, format, transports } = require("winston");
+const dotenv = require("dotenv");
+
+// Load environment variables from the shared .env file
+dotenv.config({ path: '../.env' });
 
 // Define the log format
 const logFormat = format.combine(
@@ -21,8 +25,15 @@ const logger = createLogger({
 });
 
 // Log to console in development mode
-if (process.env.NODE_ENV === 'development') {
-    logger.add(new transports.Console({ format: format.simple() }));
+if (process.env.NODE_ENV === "development") {
+    logger.add(
+        new transports.Console({
+            format: format.combine(
+                format.colorize(), // Add colors for better visibility
+                format.simple()    // Simple format for console output
+            ),
+        })
+    );
 }
 
 module.exports = logger;

@@ -6,12 +6,11 @@ import axios from 'axios';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 /**
- * RegistrationForm Component
+ * LoginForm Component
  *
- * A user registration form with validation, error handling.
+ * A user login form with validation, error handling.
  */
-const RegistrationForm: React.FC = () => {
-  const [name, setName] = useState('');
+const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -19,10 +18,9 @@ const RegistrationForm: React.FC = () => {
 
   const isEmailValid = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const isPasswordValid = (password: string) =>  password.length >= 8;
-  const isNameValid = (name: string) => name.trim().length > 0;
 
 
-  const isFormValid = isNameValid(name) && isEmailValid(email) && isPasswordValid(password);
+  const isFormValid = isEmailValid(email) && isPasswordValid(password);
 
   const handleSubmit = async () => {
     // Reset error and success messages
@@ -35,15 +33,13 @@ const RegistrationForm: React.FC = () => {
     }
 
     try {
-      const response = await axios.post(`${apiUrl}/api/users/register`, {
-        name,
+      const response = await axios.post(`${apiUrl}/api/users/login`, {
         email,
         password,
       });
 
-      if (response.status === 201) {
-        setSuccess("Registration successful! Please log in.");
-        setName("");
+      if (response.status === 200) {
+        setSuccess("Login successful!");
         setEmail("");
         setPassword("");
       }
@@ -66,12 +62,6 @@ const RegistrationForm: React.FC = () => {
       }}
     >
       <FormField
-        type="text"
-        placeholder="Enter your full name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <FormField
         type="email"
         placeholder="Enter your email address"
         value={email}
@@ -90,9 +80,9 @@ const RegistrationForm: React.FC = () => {
       {success && (
         <p style={{ color: "green", marginBottom: "1rem" }}>{success}</p>
       )}
-      <SubmitButton isFormValid={isFormValid} onClick={handleSubmit} title="Register" />
+      <SubmitButton isFormValid={isFormValid} onClick={handleSubmit} title="Login" />
     </form>
   );
 };
 
-export default RegistrationForm;
+export default LoginForm;

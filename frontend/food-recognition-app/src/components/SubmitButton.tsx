@@ -8,9 +8,10 @@ import React from 'react';
 interface SubmitButtonProps {
   isFormValid: boolean; // Indicates whether the form is valid
   onClick: () => void; // Event handler for button click
+  title: string;
 }
 
-const SubmitButton: React.FC<SubmitButtonProps> = ({ isFormValid, onClick }) => {
+const SubmitButton: React.FC<SubmitButtonProps> = ({ isFormValid, onClick, title }) => {
   return (
     <button
       type="button"
@@ -27,7 +28,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({ isFormValid, onClick }) => 
         transition: 'background-color 0.3s ease-in-out',
       }}
     >
-      Register
+      {title}
     </button>
   );
 };
