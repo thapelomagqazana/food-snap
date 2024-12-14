@@ -4,9 +4,9 @@ const { getNutritionData } = require('../controllers/nutritionController');
 const router = express.Router();
 
 /**
- * GET /api/nutrition/:id
- * Fetch nutritional data for a food item by ID.
+ * POST /nutrition
+ * Retrieve nutritional information for identified food items.
  */
-router.get('/:id', getNutritionData);
+router.post('/', getNutritionData);
 
 module.exports = router;

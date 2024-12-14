@@ -19,11 +19,12 @@ const RegistrationPage: React.FC = () => {
         sx={{
           maxWidth: '500px',
           width: '100%',
-          backgroundColor: '#fff',
+          backgroundColor: "#f9fbe7",
           borderRadius: '12px',
           boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
           padding: '2rem',
           textAlign: 'center',
+          opacity: "0.8",
         }}
       >
         <FormHeader title="Create Your Account" />

@@ -55,7 +55,7 @@ const LoginForm: React.FC = () => {
       style={{
         maxWidth: '400px',
         margin: '0 auto',
-        background: '#f9f9f9',
+        background: "#f9fbe7",
         padding: '2rem',
         borderRadius: '12px',
         boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',

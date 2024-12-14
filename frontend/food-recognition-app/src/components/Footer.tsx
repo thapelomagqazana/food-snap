@@ -35,7 +35,7 @@ const Footer: React.FC = () => {
             {/* Container for links with icons */}
             <Box display="flex" justifyContent="center" gap={2} mt={1}>
                 {/* Privacy Policy Link */}
-                <Link href="#" underline="hover" color="inherit">
+                <Link href="#" underline="hover" color="#2e7d32">
                     <PrivacyTip sx={{ verticalAlign: "middle", mr: 0.5 }} />
                     Privacy Policy
                 </Link>
@@ -44,7 +44,7 @@ const Footer: React.FC = () => {
                 <Link
                     href="mailto:support@foodtrack.com"
                     underline="hover"
-                    color="inherit"
+                    color="#2e7d32"
                 >
                     <Email sx={{ verticalAlign: "middle", mr: 0.5 }} />
                     Contact Support

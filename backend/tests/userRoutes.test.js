@@ -3,12 +3,25 @@ const app = require('../app'); // Import your Express app
 const User = require('../models/User');
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 
 // Load environment variables from the shared .env file
 dotenv.config({ path: '../.env' });
 
+
+// Mock email transporter
+jest.mock("nodemailer", () => {
+    const nodemailerMock = require("nodemailer-mock");
+    return {
+        createTransport: nodemailerMock.createTransport,
+        mock: nodemailerMock.mock, // Expose mock for accessing sent emails
+    };
+});
+
 describe('User Routes', () => {
+    const nodemailer = require("nodemailer"); // Import mocked nodemailer
+    let testUser;
     /**
      * Connects to the test database.
      */
@@ -29,6 +42,8 @@ describe('User Routes', () => {
             const collection = collections[key];
             await collection.deleteMany({});
         }
+        // Reset mock email state
+        nodemailer.mock.reset();
     });
 
     /**
@@ -38,7 +53,7 @@ describe('User Routes', () => {
         await mongoose.connection.close();
     });
 
-    it('should register a new user and return a token', async () => {
+    it('should register a new user and should send an email with a verification link ', async () => {
         const response = await request(app)
             .post('/api/users/register')
             .send({
@@ -47,7 +62,14 @@ describe('User Routes', () => {
                 password: 'password123',
             });
         expect(response.status).toBe(201);
-        expect(response.body).toHaveProperty('token');
+        expect(response.body.message).toBe("Registration successful. Please verify your email.");
+
+        // Check that an email was sent
+        const sentEmails = nodemailer.mock.getSentMail(); // Access sent emails from mock
+        expect(sentEmails.length).toBe(1);
+        expect(sentEmails[0].to).toBe("john@example.com");
+        expect(sentEmails[0].subject).toBe("Verify Your Email - FoodTrack");
+        expect(sentEmails[0].html).toContain("Verify Email");
     });
 
     it('should not register a user with an existing email', async () => {
@@ -65,9 +87,43 @@ describe('User Routes', () => {
         expect(response.body.message).toBe('Email already in use.');
     });
 
+    it("should verify the user's email with a valid token", async () => {
+        // Register a user and get the token
+        await request(app)
+            .post("/api/users/register")
+            .send({
+                name: "Verification Test",
+                email: "verificationtest@example.com",
+                password: "password123",
+            });
+
+        const sentEmails = nodemailer.mock.getSentMail();
+        const verificationLink = sentEmails[0].html.match(/href="(.*?)"/)[1];
+        const token = verificationLink.split("token=")[1];
+
+        // Call the verify email endpoint
+        const verifyResponse = await request(app).get(`/api/users/verify-email?token=${token}`);
+
+        expect(verifyResponse.status).toBe(200);
+        expect(verifyResponse.body.message).toBe("Email verified successfully. You can now log in.");
+
+        // Ensure user is marked as verified in the database
+        const user = await User.findOne({ email: "verificationtest@example.com" });
+        expect(user.isVerified).toBe(true);
+    });
+
+    it("should not verify the user's email with an invalid token", async () => {
+        const response = await request(app).get("/api/users/verify-email?token=invalidtoken");
+
+        expect(response.status).toBe(400);
+        expect(response.body.message).toBe("Invalid or expired token.");
+    });
+
     it('should log in an existing user and return a token', async () => {
         const password = 'password123';
-        const user = new User({ name: 'John Doe', email: 'john@example.com', password });
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user = new User({ name: 'John Doe', email: 'john@example.com', password: hashedPassword });
         await user.save();
 
         const response = await request(app)
@@ -76,9 +132,26 @@ describe('User Routes', () => {
                 email: 'john@example.com',
                 password,
             });
-
+        
         expect(response.status).toBe(200);
         expect(response.body).toHaveProperty('token');
+    });
+
+    it("should not verify an already verified email", async () => {
+        const user = new User({
+            name: "Already Verified User",
+            email: "verifieduser@example.com",
+            password: "password123",
+            isVerified: true,
+        });
+        await user.save();
+
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
+
+        const response = await request(app).get(`/api/users/verify-email?token=${token}`);
+
+        expect(response.status).toBe(400);
+        expect(response.body.message).toBe("Email already verified.");
     });
 
     it('should deny login with invalid credentials', async () => {
@@ -134,20 +207,6 @@ describe('User Routes', () => {
         expect(response.status).toBe(401);
         expect(response.body.message).toBe('Invalid email or password.');
     });    
-
-    it('should hash the password before saving the user', async () => {
-        const user = new User({
-            name: 'Test User',
-            email: 'hashingtest@example.com',
-            password: 'plaintextpassword',
-        });
-    
-        await user.save();
-        const savedUser = await User.findOne({ email: 'hashingtest@example.com' });
-    
-        expect(savedUser.password).not.toBe('plaintextpassword'); // Password should be hashed
-        expect(await bcrypt.compare('plaintextpassword', savedUser.password)).toBe(true);
-    });
     
 });
 
@@ -184,7 +243,10 @@ describe('PUT /api/users/profile', () => {
     });
 
     beforeEach(async () => {
-        const user = new User({ name: 'Test User', email: 'test@example.com', password: "password123" });
+        const password = "password123";
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user = new User({ name: 'Test User', email: 'test@example.com', password: hashedPassword });
         await user.save();
         // Authenticate the user before each test
         const loginResponse = await request(app)

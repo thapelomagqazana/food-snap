@@ -1,8 +1,9 @@
 const request = require('supertest');
 const app = require('../app');
-const FoodItem = require('../models/FoodItem');
+const FoodItem = require('../models/NutritionData');
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const transporter = require("../utils/emailTransporter");
 
 // Load environment variables from the shared .env file
 dotenv.config({ path: '../.env' });
@@ -49,6 +50,9 @@ describe('Nutrition Routes', () => {
      */
     afterAll(async () => {
         await mongoose.connection.close();
+        if (transporter.close) {
+            transporter.close();
+        }
     });
 
 

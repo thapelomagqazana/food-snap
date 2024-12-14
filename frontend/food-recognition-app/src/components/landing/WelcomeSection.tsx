@@ -33,6 +33,7 @@ const WelcomeSection: React.FC = () => {
                 maxWidth: "600px", // Limits width to ensure content is easy to read.
                 margin: "2rem auto", // Centers the component on the page.
                 boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)", // Subtle shadow for depth.
+                opacity: "0.7",
             }}
         >
             {/* Main headline welcoming the user */}

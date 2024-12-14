@@ -27,7 +27,7 @@ describe('Classify Routes', () => {
 
     it('should classify an uploaded image successfully', async () => {
         // Mock AI service response
-        mockAxios.onPost(`http://localhost:${process.env.AI_PORT}/classify`).reply(200, {
+        mockAxios.onPost(`${process.env.AI_URL}/classify`).reply(200, {
             predictions: [{ className: 'apple', probability: 0.9 }],
         });
 
@@ -41,7 +41,7 @@ describe('Classify Routes', () => {
 
     it('should return 500 if AI service fails', async () => {
         // Mock AI service error
-        mockAxios.onPost(`http://localhost:${process.env.AI_PORT}/classify`).networkError();
+        mockAxios.onPost(`${process.env.AI_URL}/classify`).networkError();
 
         const res = await request(app)
             .post('/api/classify/image')
