@@ -2,6 +2,7 @@
  * Controller to fetch nutritional data for food items.
  */
 const NutritionData = require("../models/NutritionData");
+const axios = require("axios");
 
 /**
  * Fetch nutritional data for identified food items.
@@ -73,7 +74,6 @@ const getNutritionData = async (req, res) => {
             nutrition: nutritionData,
         });
     } catch (error) {
-        console.error('Error retrieving nutritional data:', error);
         res.status(500).json({ message: 'Error retrieving nutritional data.', error: error.message });
     }
 };
