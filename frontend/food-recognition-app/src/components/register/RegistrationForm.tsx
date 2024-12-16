@@ -42,7 +42,7 @@ const RegistrationForm: React.FC = () => {
       });
 
       if (response.status === 201) {
-        setSuccess("Registration successful! Please log in.");
+        setSuccess(response.data.message);
         setName("");
         setEmail("");
         setPassword("");

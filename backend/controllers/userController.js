@@ -49,10 +49,30 @@ const registerUser = async (req, res) => {
             to: email,
             subject: "Verify Your Email - FoodTrack",
             html: `
-                <h1>Welcome to FoodTrack!</h1>
-                <p>Click the link below to verify your email:</p>
-                <a href="${verificationLink}" target="_blank">Verify Email</a>
-                <p>If you did not sign up for FoodTrack, please ignore this email.</p>
+                <div style="font-family: Arial, sans-serif; line-height: 1.5; color: #333; background-color: #f9f9f9; padding: 20px; border-radius: 8px; max-width: 600px; margin: auto; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+                    <header style="text-align: center; margin-bottom: 20px;">
+                        <img src="https://yourlogo.com/logo.png" alt="FoodTrack Logo" style="width: 150px; margin-bottom: 10px;" />
+                        <h1 style="color: #2e7d32; font-size: 24px; margin: 0;">Welcome to FoodTrack!</h1>
+                    </header>
+                    <p style="font-size: 16px; margin: 0 0 15px;">
+                        Thank you for signing up with FoodTrack. We're excited to have you on board!
+                    </p>
+                    <p style="font-size: 16px; margin: 0 0 20px;">
+                        Please confirm your email address to start tracking your meals and managing your nutrition effectively.
+                    </p>
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <a href="${verificationLink}" style="display: inline-block; padding: 10px 20px; background-color: #2e7d32; color: white; text-decoration: none; font-size: 16px; border-radius: 4px; font-weight: bold;">
+                            Verify Email
+                        </a>
+                    </div>
+                    <p style="font-size: 14px; color: #666; margin: 0;">
+                        If you did not sign up for FoodTrack, please ignore this email. This verification link will expire in 24 hours.
+                    </p>
+                    <footer style="text-align: center; margin-top: 20px; font-size: 12px; color: #999;">
+                        <p style="margin: 0;">FoodTrack © 2024 | Your Nutrition Companion</p>
+                        <p style="margin: 0;">Need help? <a href="mailto:support@foodtrack.com" style="color: #2e7d32; text-decoration: none;">Contact Support</a></p>
+                    </footer>
+                </div>
             `,
         });
 
