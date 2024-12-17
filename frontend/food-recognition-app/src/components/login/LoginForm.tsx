@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import { Form, Button, Alert, Spinner } from "react-bootstrap";
 import PasswordInput from "../PasswordInput";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
+import axios from "../../axiosConfig";
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 import "./LoginForm.css";
 
 const LoginForm: React.FC = () => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: "", password: "", apiError: "" });
   const [loading, setLoading] = useState(false);
@@ -47,9 +52,10 @@ const LoginForm: React.FC = () => {
 
       if (response.status === 200) {
         setSuccessMessage("Login successful! Redirecting...");
+        login(response.data.token); // Store token and handle expiration
         // Optionally, redirect to Dashboard after login
         setTimeout(() => {
-          window.location.href = "/dashboard";
+          navigate("/dashboard");
         }, 2000);
       }
     } catch (error) {
