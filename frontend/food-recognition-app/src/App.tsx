@@ -3,14 +3,13 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import LoginPage from "./pages/LoginPage";
-import Background from "./components/Background";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import EmailVerification from "./components/register/EmailVerification";
 
 const App: React.FC = () => {
   return (
-    <Background>
+    <div className="app-container">
       <Header />
       <Router>
         <Routes>
@@ -23,8 +22,7 @@ const App: React.FC = () => {
         </Routes>
       </Router>
       <Footer />
-    </Background>
-
+    </div>
   );
 };
 

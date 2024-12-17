@@ -1,97 +1,193 @@
-import React, { useState } from 'react';
-import FormField from '../FormField';
-import ErrorMessage from '../ErrorMessage';
-import SubmitButton from '../SubmitButton';
-import axios from 'axios';
-const apiUrl = import.meta.env.VITE_API_URL;
+import React, { useState } from "react";
+import { Form, Button, Alert, Spinner } from "react-bootstrap";
+import axios, { AxiosError } from "axios";
+import PasswordInput from "../PasswordInput";
+import "./RegistrationForm.css";
 
-/**
- * RegistrationForm Component
- *
- * A user registration form with validation, error handling.
- */
 const RegistrationForm: React.FC = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [errors, setErrors] = useState({ 
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    apiError: "",
+  });
+  
+  const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string>("");
 
-  const isEmailValid = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const isPasswordValid = (password: string) =>  password.length >= 8;
-  const isNameValid = (name: string) => name.trim().length > 0;
+  const validateEmail = (email: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
+  const validatePassword = (password: string) =>
+    /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/.test(password);
 
-  const isFormValid = isNameValid(name) && isEmailValid(email) && isPasswordValid(password);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
 
-  const handleSubmit = async () => {
-    // Reset error and success messages
-    setError("");
-    setSuccess("");
+    // Inline validation
+    if (name === "email") {
+        setErrors({
+        ...errors,
+        email: validateEmail(value) ? "" : "Invalid email format.",
+        });
+    }
+      
+    if (name === "password") {
+        setErrors({
+          ...errors,
+          password: validatePassword(value)
+            ? ""
+            : "Password must be at least 8 characters, include 1 uppercase letter and 1 number.",
+          confirmPassword:
+            value !== formData.confirmPassword ? "Passwords do not match." : "",
+        });
+    }
 
-    if (!isFormValid) {
-      setError("Please fill out all fields correctly.");
-      return;
+    if (name === "confirmPassword") {
+      setErrors({
+        ...errors,
+        confirmPassword:
+          value !== formData.password ? "Passwords do not match." : "",
+      });
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrors({ ...errors, apiError: "" });
+    setSuccessMessage("");
+    setLoading(true);
+
+    // Final validation before submission
+    if (
+        !formData.name ||
+        !validateEmail(formData.email) ||
+        !validatePassword(formData.password) ||
+        formData.password !== formData.confirmPassword
+    ) {
+        setErrors({
+        ...errors,
+        apiError: "Please fill out all fields correctly.",
+        });
+        setLoading(false);
+        return;
     }
 
     try {
-      const response = await axios.post(`${apiUrl}/api/users/register`, {
-        name,
-        email,
-        password,
-      });
-
-      if (response.status === 201) {
-        setSuccess(response.data.message);
-        setName("");
-        setEmail("");
-        setPassword("");
-      }
-    } catch (apiError: any) {
-      setError(
-        apiError.response?.data?.message || "An error occurred. Please try again."
-      );
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/users/register`, {
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+        });
+  
+        if (response.status === 201) {
+          setSuccessMessage(response?.data?.message || "Registration successful! Please verify your email.");
+          setFormData({
+            name: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+          });
+        }
+    } catch (error) {
+        const axiosError = error as AxiosError<{ message: string }>;
+        setErrors({
+          ...errors,
+          apiError:
+            axiosError.response?.data?.message || "Registration failed. Please try again.",
+        });
+    } finally {
+        setLoading(false);
     }
   };
 
   return (
-    <form
-      style={{
-        maxWidth: '400px',
-        margin: '0 auto',
-        background: "#f9fbe7",
-        padding: '2rem',
-        borderRadius: '12px',
-        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
-      }}
-    >
-      <FormField
-        type="text"
-        placeholder="Enter your full name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <FormField
-        type="email"
-        placeholder="Enter your email address"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <FormField
-        type="password"
-        placeholder="Enter a secure password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <small style={{ fontSize: "0.9rem", color: "#888", display: "block", marginBottom: "1rem" }}>
-        Password must be at least 8 characters long
-      </small>
-      <ErrorMessage error={error} />
-      {success && (
-        <p style={{ color: "green", marginBottom: "1rem" }}>{success}</p>
-      )}
-      <SubmitButton isFormValid={isFormValid} onClick={handleSubmit} title="Register" />
-    </form>
+    <div className="registration-form p-4 bg-white rounded shadow">
+      <h2 className="text-center text-primary mb-4">Create Your Account</h2>
+
+      {errors.apiError && <Alert variant="danger">{errors.apiError}</Alert>}
+      {successMessage && <Alert variant="success">{successMessage}</Alert>}
+
+      <Form onSubmit={handleSubmit}>
+        {/* Name */}
+        <Form.Group controlId="name" className="mb-3">
+          <Form.Label>Name</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter your full name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+
+        {/* Email */}
+        <Form.Group controlId="email" className="mb-3">
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            type="email"
+            placeholder="Enter your email address"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+
+        {/* Password */}
+        <PasswordInput
+          label="Password"
+          name="password"
+          placeholder="Enter a secure password"
+          value={formData.password}
+          onChange={handleChange}
+          error={errors.password}
+        />
+
+        {/* Confirm Password */}
+        <PasswordInput
+          label="Confirm Password"
+          name="confirmPassword"
+          placeholder="Confirm your password"
+          value={formData.confirmPassword}
+          onChange={handleChange}
+          error={errors.confirmPassword}
+        />
+
+        {/* Submit Button */}
+        <Button
+          variant="success"
+          type="submit"
+          className="w-100"
+          disabled={loading}
+        >
+          {loading ? (
+            <>
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+                className="me-2"
+              />
+              Registering...
+            </>
+          ) : (
+            "Register"
+          )}
+        </Button>
+      </Form>
+    </div>
   );
 };
 

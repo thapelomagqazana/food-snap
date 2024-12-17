@@ -1,0 +1,36 @@
+
+.app-header {
+    font-family: "Poppins", sans-serif;
+    background-color: #f8f9fa; /* Bootstrap light gray background */
+    border-bottom: 1px solid #e0e0e0; /* Subtle border */
+    padding: 1rem 2rem; /* Add horizontal padding */
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Light shadow for depth */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem; /* Spacing between logo and tagline */
+}
+
+.app-logo {
+    width: 60px;
+    height: auto;
+    transition: transform 0.3s ease-in-out; /* Smooth hover effect */
+}
+
+.app-logo:hover {
+    transform: scale(1.1); /* Slight zoom effect */
+}
+  
+/* Tagline Styling */
+.app-tagline {
+    font-size: 1.2rem;
+    color: #555;
+    font-weight: 500;
+}

@@ -1,0 +1,32 @@
+.login-form {
+    max-width: 400px;
+    margin: 2rem auto;
+    border: 1px solid #ddd;
+}
+
+
+h2 {
+    font-family: "Poppins", sans-serif;
+}
+
+.login-form input {
+    font-size: 1rem;
+}
+
+
+.login-form .btn {
+    font-size: 1rem;
+}
+
+.text-muted {
+    font-size: 0.9rem;
+}
+
+a {
+    text-decoration: none;
+    color: #0d6efd;
+}
+
+a:hover {
+    text-decoration: underline;
+}

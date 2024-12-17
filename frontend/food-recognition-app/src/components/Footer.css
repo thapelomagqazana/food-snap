@@ -1,0 +1,27 @@
+.app-footer {
+    font-family: "Poppins", sans-serif;
+    background-color: #f8f9fa; /* Soft Bootstrap light gray */
+    border-top: 1px solid #e0e0e0; /* Subtle border */
+    color: #333; /* Dark gray for text */
+    padding: 1rem 0; /* Top and bottom padding */   
+}
+
+.footer-link {
+    color: #007bff;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+.footer-container {
+    text-align: center;
+}
+
+.footer-link:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+.text-muted {
+    color: #aaa; /* Lighter gray for separators */
+}

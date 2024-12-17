@@ -1,87 +1,126 @@
-import React, { useState } from 'react';
-import FormField from '../FormField';
-import ErrorMessage from '../ErrorMessage';
-import SubmitButton from '../SubmitButton';
-import axios from 'axios';
-const apiUrl = import.meta.env.VITE_API_URL;
+import React, { useState } from "react";
+import { Form, Button, Alert, Spinner } from "react-bootstrap";
+import PasswordInput from "../PasswordInput";
+import axios, { AxiosError } from "axios";
+import "./LoginForm.css";
 
-/**
- * LoginForm Component
- *
- * A user login form with validation, error handling.
- */
 const LoginForm: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState("");
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [errors, setErrors] = useState({ email: "", password: "", apiError: "" });
+  const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string>("");
 
-  const isEmailValid = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const isPasswordValid = (password: string) =>  password.length >= 8;
+  // Email validation function
+  const validateEmail = (email: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
 
-  const isFormValid = isEmailValid(email) && isPasswordValid(password);
+    // Inline validation for email
+    if (name === "email") {
+      setErrors({ ...errors, email: validateEmail(value) ? "" : "Invalid email format." });
+    }
+  };
 
-  const handleSubmit = async () => {
-    // Reset error and success messages
-    setError("");
-    setSuccess("");
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrors({ ...errors, apiError: "" });
+    setSuccessMessage("");
+    setLoading(true);
 
-    if (!isFormValid) {
-      setError("Please fill out all fields correctly.");
+    if (!validateEmail(formData.email) || !formData.password) {
+      setErrors({
+        ...errors,
+        apiError: "Please fill out all fields correctly.",
+      });
+      setLoading(false);
       return;
     }
 
     try {
-      const response = await axios.post(`${apiUrl}/api/users/login`, {
-        email,
-        password,
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/users/login`, {
+        email: formData.email,
+        password: formData.password,
       });
 
       if (response.status === 200) {
-        setSuccess("Login successful!");
-        setEmail("");
-        setPassword("");
+        setSuccessMessage("Login successful! Redirecting...");
+        // Optionally, redirect to Dashboard after login
+        setTimeout(() => {
+          window.location.href = "/dashboard";
+        }, 2000);
       }
-    } catch (apiError: any) {
-      setError(
-        apiError.response?.data?.message || "An error occurred. Please try again."
-      );
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message: string }>;
+      setErrors({
+        ...errors,
+        apiError: axiosError.response?.data?.message || "Invalid email or password.",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <form
-      style={{
-        maxWidth: '400px',
-        margin: '0 auto',
-        background: "#f9fbe7",
-        padding: '2rem',
-        borderRadius: '12px',
-        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
-      }}
-    >
-      <FormField
-        type="email"
-        placeholder="Enter your email address"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <FormField
-        type="password"
-        placeholder="Enter a secure password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <small style={{ fontSize: "0.9rem", color: "#888", display: "block", marginBottom: "1rem" }}>
-        Password must be at least 8 characters long
-      </small>
-      <ErrorMessage error={error} />
-      {success && (
-        <p style={{ color: "green", marginBottom: "1rem" }}>{success}</p>
-      )}
-      <SubmitButton isFormValid={isFormValid} onClick={handleSubmit} title="Login" />
-    </form>
+    <div className="login-form p-4 bg-white rounded shadow">
+      <h2 className="text-center text-primary mb-4">Welcome Back!</h2>
+
+      {errors.apiError && <Alert variant="danger">{errors.apiError}</Alert>}
+      {successMessage && <Alert variant="success">{successMessage}</Alert>}
+
+      <Form onSubmit={handleSubmit}>
+        {/* Email Field */}
+        <Form.Group controlId="email" className="mb-3">
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            type="email"
+            placeholder="Enter your email address"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            isInvalid={!!errors.email}
+            required
+          />
+          <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
+        </Form.Group>
+
+        {/* Password Field */}
+        <PasswordInput
+          label="Password"
+          name="password"
+          placeholder="Enter your password"
+          value={formData.password}
+          onChange={handleChange}
+          error={errors.password}
+        />
+
+        {/* Submit Button */}
+        <Button
+          variant="primary"
+          type="submit"
+          className="w-100"
+          disabled={loading}
+        >
+          {loading ? (
+            <>
+              <Spinner as="span" animation="border" size="sm" className="me-2" />
+              Logging in...
+            </>
+          ) : (
+            "Log In"
+          )}
+        </Button>
+
+        {/* Forgot Password Link */}
+        <div className="text-center mt-3">
+          <a href="/forgot-password" className="text-muted">
+            Forgot Password?
+          </a>
+        </div>
+      </Form>
+    </div>
   );
 };
 
