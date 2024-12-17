@@ -1,0 +1,57 @@
+/* Card container */
+.profile-summary {
+    border: none; /* Remove default border */
+    border-radius: 12px; /* Smooth rounded corners */
+    background-color: #f9f9f9; /* Subtle light background */
+    overflow: hidden;
+}
+
+/* Card Header */
+.profile-summary .card-header {
+    font-family: "Poppins", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    background-color: #6c757d; /* Bootstrap 'secondary' */
+    color: #ffffff; /* White text for contrast */
+    border-bottom: none;
+}
+
+/* Profile Details */
+.profile-summary .card-body div {
+    font-family: "Poppins", sans-serif;
+    font-size: 1rem;
+    color: #555; /* Soft gray for labels */
+}
+
+.profile-summary .card-body strong {
+    color: #007bff; /* Highlighted blue for labels */
+    margin-right: 0.5rem;
+}
+
+.profile-summary .card-body span {
+    font-weight: 500;
+    color: #333; /* Darker text for value */
+}
+
+/* Edit Button */
+.profile-summary .btn-primary {
+    background-color: #007bff; /* Bootstrap primary blue */
+    border: none;
+    padding: 0.5rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.profile-summary .btn-primary:hover {
+    background-color: #0056b3; /* Darker shade of blue on hover */
+    transform: scale(1.05);
+}
+
+/* Hover Effect */
+.profile-summary .card-body div:hover {
+    background-color: #f1faff; /* Light blue background on hover */
+    border-radius: 8px;
+    padding: 0.5rem;
+    transition: background-color 0.3s ease;
+}

@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require("path");
 const errorHandler = require("./middleware/errorHandler");
 const morganMiddleware = require("./middleware/loggingMiddleware");
 // Initialize app and connect to the database
@@ -11,6 +12,7 @@ app.use(morganMiddleware);
 
 // Middleware
 app.use(express.json());
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(cors());
 
 // Routes

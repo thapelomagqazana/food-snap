@@ -6,6 +6,9 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const transporter = require("../utils/emailTransporter");
+const multer = require("multer");
+const fs = require("fs");
+const path = require("path");
 const dotenv = require("dotenv");
 
 // Load environment variables from the shared .env file
@@ -69,7 +72,7 @@ const registerUser = async (req, res) => {
                         If you did not sign up for FoodTrack, please ignore this email. This verification link will expire in 24 hours.
                     </p>
                     <footer style="text-align: center; margin-top: 20px; font-size: 12px; color: #999;">
-                        <p style="margin: 0;">FoodTrack © 2024 | Your Nutrition Companion</p>
+                        <p style="margin: 0;">FoodTrack © 2024 | Your Nutrition Buddy</p>
                         <p style="margin: 0;">Need help? <a href="mailto:support@foodtrack.com" style="color: #2e7d32; text-decoration: none;">Contact Support</a></p>
                     </footer>
                 </div>
@@ -142,13 +145,33 @@ const loginUser = async (req, res) => {
     }
 };
 
+// Ensure upload directory exists
+const uploadDir = path.join(__dirname, "../uploads/profilePictures");
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+// Configure Multer to save uploaded files
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadDir); // Use the ensured upload directory
+  },
+  filename: (req, file, cb) => {
+    const timestamp = Date.now();
+    const sanitizedFileName = file.originalname.replace(/[^a-zA-Z0-9.-]/g, "_");
+    cb(null, `${timestamp}-${sanitizedFileName}`);
+  },
+});
+
+const upload = multer({ storage });
+
 /**
  * Updates the authenticated user's profile.
  * @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
 const updateUserProfile = async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, password, preferences, profilePicture } = req.body;
 
     try {
         // Fetch the authenticated user
@@ -160,11 +183,19 @@ const updateUserProfile = async (req, res) => {
 
         // Update user fields if provided
         if (name) user.name = name;
-        if (email) user.email = email;
+        if (preferences) user.preferences = preferences;
 
         // Hash the new password if provided
         if (password) {
             user.password = await bcrypt.hash(password, 10);
+        }
+
+        // Handle profile picture upload (Multer)
+        if (req.file) {
+            user.profilePicture = `/uploads/profilePictures/${req.file.filename}`;
+        } else if (profilePicture) {
+            // Handle URL-based profile picture
+            user.profilePicture = profilePicture;
         }
 
         // Save the updated user to the database
@@ -176,6 +207,8 @@ const updateUserProfile = async (req, res) => {
                 id: updatedUser._id,
                 name: updatedUser.name,
                 email: updatedUser.email,
+                preferences: updatedUser.preferences,
+                profilePicture: updatedUser.profilePicture,
             },
         });
     } catch (error) {
@@ -183,4 +216,4 @@ const updateUserProfile = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, loginUser, updateUserProfile, verifyEmail };
+module.exports = { registerUser, loginUser, updateUserProfile, verifyEmail, upload };

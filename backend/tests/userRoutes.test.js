@@ -4,6 +4,8 @@ const User = require('../models/User');
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const fs = require("fs");
+const path = require("path");
 const dotenv = require("dotenv");
 
 // Load environment variables from the shared .env file
@@ -212,6 +214,7 @@ describe('User Routes', () => {
 
 describe('PUT /api/users/profile', () => {
     let token;
+    let testUploadDir
 
     /**
      * Connects to the test database.
@@ -222,6 +225,11 @@ describe('PUT /api/users/profile', () => {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
+
+        testUploadDir = path.join(__dirname, "../uploads/profilePictures");
+        if (!fs.existsSync(testUploadDir)) {
+          fs.mkdirSync(testUploadDir, { recursive: true });
+        }
     });
 
     /**
@@ -240,6 +248,8 @@ describe('PUT /api/users/profile', () => {
      */
     afterAll(async () => {
         await mongoose.connection.close();
+        testUploadDir = path.join(__dirname, "../uploads/profilePictures");
+        fs.rmdirSync(testUploadDir, { recursive: true });
     });
 
     beforeEach(async () => {
@@ -257,15 +267,32 @@ describe('PUT /api/users/profile', () => {
     });
 
     it('should update the user profile successfully', async () => {
-        const response = await request(app)
+        const res = await request(app)
             .put('/api/users/profile')
             .set('Authorization', `Bearer ${token}`)
-            .send({ name: 'Updated User', email: 'updated@example.com' });
+            .send({
+                name: "Updated User",
+                preferences: "Vegan",
+              });
         
-        expect(response.status).toBe(200);
-        expect(response.body.message).toBe('User profile updated successfully.');
-        expect(response.body.user).toHaveProperty('name', 'Updated User');
-        expect(response.body.user).toHaveProperty('email', 'updated@example.com');
+      expect(res.status).toBe(200);
+      expect(res.body.message).toBe("User profile updated successfully.");
+      expect(res.body.user.name).toBe("Updated User");
+      expect(res.body.user.preferences).toBe("Vegan");
+    });
+
+    it("should update the profile picture (file upload)", async () => {
+        const res = await request(app)
+          .put("/api/users/profile")
+          .set("Authorization", `Bearer ${token}`)
+          .attach(
+            "profilePicture",
+            path.join(__dirname, "test-files", "test-image.png")
+          );
+        
+        expect(res.status).toBe(200);
+        expect(res.body.message).toBe("User profile updated successfully.");
+        expect(res.body.user.profilePicture).toContain("/uploads/profilePictures/");
     });
 
     it('should return 401 if no token is provided', async () => {
