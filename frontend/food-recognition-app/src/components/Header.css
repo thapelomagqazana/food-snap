@@ -1,9 +1,9 @@
-
+/* General Header Styling */
 .app-header {
     font-family: "Poppins", sans-serif;
     background-color: #f8f9fa; /* Bootstrap light gray background */
     border-bottom: 1px solid #e0e0e0; /* Subtle border */
-    padding: 1rem 2rem; /* Add horizontal padding */
+    padding: 0.75rem 1.5rem; /* Add horizontal padding */
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Light shadow for depth */
     position: sticky;
@@ -11,6 +11,34 @@
     z-index: 1000;
 }
 
+/* Navigation Bar Styling */
+.navbar {
+    background-color: #f8f9fa !important; /* Ensure consistent background */
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #007bff !important; /* Bootstrap primary color */
+    transition: color 0.3s ease-in-out;
+}
+
+.navbar-brand:hover {
+    color: #0056b3 !important; /* Darker shade on hover */
+}
+
+.nav-link {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333 !important;
+    transition: color 0.3s ease-in-out;
+}
+
+.nav-link:hover {
+    color: #007bff !important; /* Highlight on hover */
+}
+
+/* Logo and Tagline Styling */
 .header-content {
     display: flex;
     justify-content: center;
@@ -33,4 +61,18 @@
     font-size: 1.2rem;
     color: #555;
     font-weight: 500;
+    text-align: center;
+    margin: 0; /* Ensure no extra margin */
+}
+
+/* Logout Button Customization */
+.btn-danger {
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.btn-danger:hover {
+    background-color: #c82333; /* Slightly darker red */
+    border-color: #bd2130;
 }

@@ -1,0 +1,33 @@
+.dashboard-summary {
+    border: none; /* Remove default border */
+    border-radius: 12px; /* Rounded corners for modern appearance */
+    overflow: hidden; /* Ensures content stays clean */
+    background-color: #f9f9f9; /* Light gray for subtle contrast */
+}
+
+.dashboard-summary .card-header {
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: 1.25rem;
+    background-color: #007bff; /* Primary blue color */
+    color: #ffffff;
+    border-bottom: none;
+}
+
+.dashboard-summary .list-group-item {
+    font-family: "Poppins", sans-serif;
+    font-size: 1rem;
+    color: #555;
+    background-color: transparent; /* Ensure clean look */
+    border: none; /* Remove borders between list items */
+    padding: 0.75rem 1rem; /* Add spacing for better readability */
+}
+
+.dashboard-summary .list-group-item strong {
+    color: #007bff; /* Highlighted blue for labels */
+}
+
+.dashboard-summary .list-group-item:hover {
+    background-color: #e9f5ff; /* Soft blue background on hover */
+    transition: background-color 0.3s ease-in-out;
+}

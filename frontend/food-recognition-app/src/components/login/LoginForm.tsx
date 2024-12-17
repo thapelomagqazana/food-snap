@@ -52,9 +52,9 @@ const LoginForm: React.FC = () => {
 
       if (response.status === 200) {
         setSuccessMessage("Login successful! Redirecting...");
-        login(response.data.token); // Store token and handle expiration
         // Optionally, redirect to Dashboard after login
         setTimeout(() => {
+          login(response.data.token); // Store token and handle expiration
           navigate("/dashboard");
         }, 2000);
       }

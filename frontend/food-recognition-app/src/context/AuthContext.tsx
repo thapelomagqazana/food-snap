@@ -5,6 +5,7 @@ import { jwtDecode } from "jwt-decode";
 
 // Define types
 interface AuthContextType {
+    isAuthenticated: boolean;
     token: string | null;
     login: (token: string) => void;
     logout: () => void;
@@ -13,6 +14,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [token, setToken] = useState<string | null>(localStorage.getItem("authToken") || null);
     const navigate = useNavigate();
 
@@ -29,12 +31,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const logout = () => {
         localStorage.removeItem("authToken");
         setToken(null);
+        setIsAuthenticated(false);
         navigate("/login"); // Redirect to login
+        
     };
 
     const login = (newToken: string) => {
         localStorage.setItem("authToken", newToken);
         setToken(newToken);
+        setIsAuthenticated(true);
         setupAutoLogout(newToken); // Setup auto logout based on expiry
     };
 
@@ -51,18 +56,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     };
 
+    // Check token validity on page load
     useEffect(() => {
         if (token) {
           if (isTokenExpired(token)) {
             logout();
           } else {
+            setIsAuthenticated(true);
             setupAutoLogout(token);
           }
         }
-    }, [token]);
+    }, []);
 
     return (
-        <AuthContext.Provider value={{ token, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, token, login, logout }}>
           {children}
         </AuthContext.Provider>
     );

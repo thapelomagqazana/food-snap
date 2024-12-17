@@ -1,5 +1,6 @@
 import React from "react";
 import { useAuth } from "../context/AuthContext";
+import DashboardSummary from "../components/dashboard/DashboardSummary";
 import { Navigate } from "react-router-dom";
 
 const DashboardPage: React.FC = () => {
@@ -11,8 +12,7 @@ const DashboardPage: React.FC = () => {
 
   return (
     <div className="container mt-5">
-      <h1>Welcome to your Dashboard!</h1>
-      <p>Here is your daily nutritional data...</p>
+      <DashboardSummary />
     </div>
   );
 };
