@@ -7,11 +7,11 @@ import "./EditProfileForm.css";
 interface EditProfileFormProps {
   initialName: string;
   initialEmail: string;
-  initialDietaryPreference?: string;
+  initialDietaryPreferences: string[];
   initialProfilePicture?: string;
   onSave: (data: {
     name: string;
-    preferences: string;
+    preferences: string[];
     profilePicture?: File | string;
   }) => Promise<void>;
   onCancel: () => void;
@@ -20,14 +20,14 @@ interface EditProfileFormProps {
 const EditProfileForm: React.FC<EditProfileFormProps> = ({
   initialName,
   initialEmail,
-  initialDietaryPreference = "",
+  initialDietaryPreferences,
   initialProfilePicture,
   onSave,
   onCancel,
 }) => {
   const [name, setName] = useState(initialName);
-  const [dietaryPreference, setDietaryPreference] = useState(
-    initialDietaryPreference
+  const [dietaryPreferences, setDietaryPreferences] = useState<string[]>(
+    initialDietaryPreferences
   );
   const [profilePicture, setProfilePicture] = useState<File | string | undefined>(
     initialProfilePicture
@@ -48,7 +48,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
     try {
       await onSave({
         name,
-        preferences: dietaryPreference,
+        preferences: dietaryPreferences,
         profilePicture,
       });
       setSuccessMessage("Profile updated successfully!");
@@ -85,8 +85,8 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
 
       {/* Dietary Preferences */}
       <DietaryPreferencesDropdown
-        value={dietaryPreference}
-        onChange={setDietaryPreference}
+        values={dietaryPreferences}
+        onChange={setDietaryPreferences}
       />
 
       {/* Profile Picture Upload */}

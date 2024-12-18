@@ -272,13 +272,14 @@ describe('PUT /api/users/profile', () => {
             .set('Authorization', `Bearer ${token}`)
             .send({
                 name: "Updated User",
-                preferences: "Vegan",
+                preferences: ["Vegan"],
               });
         
       expect(res.status).toBe(200);
       expect(res.body.message).toBe("User profile updated successfully.");
       expect(res.body.user.name).toBe("Updated User");
-      expect(res.body.user.preferences).toBe("Vegan");
+      expect(res.body.user.preferences).toStrictEqual(["Vegan"]);
+
     });
 
     it("should update the profile picture (file upload)", async () => {
@@ -330,7 +331,7 @@ describe("GET /api/users/profile", () => {
       user = new User({  name: "John Doe",
         email: "john@example.com",
         password: hashedPassword,
-        preferences: "Vegetarian",
+        preferences: ["Vegetarian"],
         profilePicture: "/uploads/profilePictures/john.png",
       });
       await user.save();
@@ -358,7 +359,7 @@ describe("GET /api/users/profile", () => {
       expect(response.body).toEqual({
         name: "John Doe",
         email: "john@example.com",
-        preferences: "Vegetarian",
+        preferences: ["Vegetarian"],
         profilePicture: "/uploads/profilePictures/john.png",
       });
     });

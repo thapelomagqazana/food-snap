@@ -8,7 +8,7 @@ const ProfilePage: React.FC = () => {
   const [userData, setUserData] = useState({
     name: "",
     email: "",
-    preferences: "",
+    preferences: [] as string[], // Array to support multiple preferences
     profilePicture: "",
   });
 
@@ -27,7 +27,7 @@ const ProfilePage: React.FC = () => {
       setUserData({
         name: response.data.name,
         email: response.data.email,
-        preferences: response.data.preferences || "Not Set",
+        preferences:  response.data.preferences || [],
         profilePicture: response.data.profilePicture || "/default-profile.png",
       });
     } catch (err: any) {
@@ -46,7 +46,7 @@ const ProfilePage: React.FC = () => {
     try {
       const formData = new FormData();
       formData.append("name", updatedData.name);
-      formData.append("preferences", updatedData.preferences);
+      formData.append("preferences", JSON.stringify(updatedData.preferences));
 
       if (updatedData.profilePicture instanceof File) {
         formData.append("profilePicture", updatedData.profilePicture);
@@ -66,7 +66,7 @@ const ProfilePage: React.FC = () => {
       setUserData((prev) => ({
         ...prev,
         name: response.data.name,
-        preferences: response.data.preferences,
+        preferences: response.data.user.preferences || [],
         profilePicture: response.data.profilePicture || prev.profilePicture,
       }));
       // Refresh profile data after saving
@@ -89,7 +89,7 @@ const ProfilePage: React.FC = () => {
     <EditProfileForm
       initialName={userData.name}
       initialEmail={userData.email}
-      initialDietaryPreference={userData.preferences}
+      initialDietaryPreferences={userData.preferences}
       initialProfilePicture={userData.profilePicture}
       onSave={handleSave}
       onCancel={() => setIsEditing(false)}
@@ -98,7 +98,7 @@ const ProfilePage: React.FC = () => {
     <Profile
       name={userData.name}
       email={userData.email}
-      dietaryPreference={userData.preferences}
+      dietaryPreference={userData.preferences} // Display multiple preferences
       profilePicture={userData.profilePicture}
       onEdit={() => setIsEditing(true)}
     />

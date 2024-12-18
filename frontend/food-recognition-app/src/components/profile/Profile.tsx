@@ -1,11 +1,11 @@
 import React from "react";
-import { Card, Button } from "react-bootstrap";
+import { Card, Button, Badge } from "react-bootstrap";
 import "./Profile.css";
 
 interface ProfileProps {
   name: string;
   email: string;
-  dietaryPreference?: string;
+  dietaryPreference?: string[];
   profilePicture?: string;
   onEdit: () => void; // Action to trigger Edit Mode
 }
@@ -13,7 +13,7 @@ interface ProfileProps {
 const Profile: React.FC<ProfileProps> = ({
   name,
   email,
-  dietaryPreference = "Not Set",
+  dietaryPreference = [],
   profilePicture,
   onEdit,
 }) => {
@@ -21,7 +21,7 @@ const Profile: React.FC<ProfileProps> = ({
   const imageUrl = profilePicture
     ? `${serverBaseUrl}${profilePicture}`
     : "/default-profile.png";
-
+  
   return (
     <Card className="profile-page shadow-sm">
       <Card.Header className="bg-secondary text-white text-center">
@@ -45,8 +45,18 @@ const Profile: React.FC<ProfileProps> = ({
           <strong>Email:</strong> <span>{email}</span>
         </div>
         <div className="mb-3">
-          <strong>Dietary Preference:</strong>{" "}
-          <span>{dietaryPreference}</span>
+        <strong>Dietary Preferences:</strong>
+        <div className="dietary-preferences mt-2">
+            {dietaryPreference.length > 0 ? (
+              dietaryPreference.map((preference, index) => (
+                <Badge key={index} bg="info" className="me-1">
+                  {preference}
+                </Badge>
+              ))
+            ) : (
+              <span>Not Set</span>
+            )}
+          </div>
         </div>
 
         {/* Edit Profile Button */}
