@@ -171,7 +171,11 @@ const upload = multer({ storage });
  * @param {Object} res - Express response object.
  */
 const updateUserProfile = async (req, res) => {
+    // Check if the upload directory exists
+    console.log("Upload Directory:", uploadDir);
     const { name, password, preferences, profilePicture } = req.body;
+
+    console.log(profilePicture);
 
     try {
         // Fetch the authenticated user
@@ -192,6 +196,7 @@ const updateUserProfile = async (req, res) => {
 
         // Handle profile picture upload (Multer)
         if (req.file) {
+            console.log("Uploaded File:", req.file);
             user.profilePicture = `/uploads/profilePictures/${req.file.filename}`;
         } else if (profilePicture) {
             // Handle URL-based profile picture
@@ -216,4 +221,29 @@ const updateUserProfile = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, loginUser, updateUserProfile, verifyEmail, upload };
+/**
+ * Fetch the user's profile.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
+const fetchUserProfile = async (req, res) => {
+    try {
+        // Fetch the user data using the userId from the token
+        const user = await User.findById(req.user.id);
+    
+        if (!user) {
+          return res.status(404).json({ message: "User not found." });
+        }
+    
+        res.status(200).json({
+          name: user.name,
+          email: user.email,
+          preferences: user.preferences || null,
+          profilePicture: user.profilePicture || null,
+        });
+      } catch (error) {
+        res.status(500).json({ message: `Error fetching user profile: ${error.message}`});
+      }
+};
+
+module.exports = { registerUser, loginUser, updateUserProfile, verifyEmail, upload, fetchUserProfile };

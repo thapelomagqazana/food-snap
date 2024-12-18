@@ -312,3 +312,102 @@ describe('PUT /api/users/profile', () => {
         expect(response.body.message).toBe('Invalid or expired token.');
     });
 });
+
+describe("GET /api/users/profile", () => {
+    let token;
+    let user;
+  
+    beforeAll(async () => {
+      // Connect to the test database
+      await mongoose.connect(process.env.TEST_DB_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      });
+
+      const password = "password123";
+      // Hash the password
+      const hashedPassword = await bcrypt.hash(password, 10);
+      user = new User({  name: "John Doe",
+        email: "john@example.com",
+        password: hashedPassword,
+        preferences: "Vegetarian",
+        profilePicture: "/uploads/profilePictures/john.png",
+      });
+      await user.save();
+      // Authenticate the user before each test
+      const loginResponse = await request(app)
+          .post('/api/users/login')
+          .send({ email: "john@example.com", password: 'password123' });
+
+      token = loginResponse.body.token;
+
+    });
+  
+    afterAll(async () => {
+      // Cleanup: Remove test user and close the database connection
+      await User.deleteMany();
+      await mongoose.connection.close();
+    });
+  
+    it("should return the user's profile when authenticated", async () => {
+      const response = await request(app)
+        .get("/api/users/profile")
+        .set("Authorization", `Bearer ${token}`);
+  
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual({
+        name: "John Doe",
+        email: "john@example.com",
+        preferences: "Vegetarian",
+        profilePicture: "/uploads/profilePictures/john.png",
+      });
+    });
+  
+    it("should return 401 if no token is provided", async () => {
+      const response = await request(app).get("/api/users/profile");
+  
+      expect(response.status).toBe(401);
+      expect(response.body).toEqual({ message: "Access denied. No token provided." });
+    });
+  
+    it("should return 403 if the token is invalid", async () => {
+      const response = await request(app)
+        .get("/api/users/profile")
+        .set("Authorization", "Bearer invalidtoken");
+  
+      expect(response.status).toBe(403);
+      expect(response.body).toEqual({ message: "Invalid or expired token." });
+    });
+  
+    // it("should return 404 if the user is not found", async () => {
+    //   // Generate a token for a non-existent user
+    //   const invalidUserToken = jwt.sign({ id: new mongoose.Types.ObjectId() }, process.env.JWT_SECRET, { expiresIn: "1h" });
+  
+    //   const response = await request(app)
+    //     .get("/api/users/profile")
+    //     .set("Authorization", `Bearer ${invalidUserToken}`);
+
+    //   console.log(response.body.message);
+  
+    //   expect(response.status).toBe(404);
+    //   expect(response.body).toEqual({ message: "User not found." });
+    // });
+  
+    // it("should return 500 on server error", async () => {
+    //   // Mock the User.findById method to throw an error
+    //   jest.spyOn(User, "findById").mockImplementationOnce(() => {
+    //     throw new Error("Database error");
+    //   });
+  
+    //   const response = await request(app)
+    //     .get("/api/users/profile")
+    //     .set("Authorization", `Bearer ${token}`);
+      
+    //   console.log(response.body.message);
+    //   expect(response.status).toBe(500);
+    //   expect(response.body).toEqual({ message: "Server error." });
+  
+    //   // Restore the original implementation
+    //   User.findById.mockRestore();
+    // });
+});

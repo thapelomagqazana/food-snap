@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuth } from "../context/AuthContext";
 import DashboardSummary from "../components/dashboard/DashboardSummary";
-import ProfileSummary from "../components/dashboard/ProfileSummary";
+// import ProfileSummary from "../components/dashboard/ProfileSummary";
 import { Navigate } from "react-router-dom";
 
 const DashboardPage: React.FC = () => {
@@ -12,10 +12,10 @@ const DashboardPage: React.FC = () => {
     fats: 50,
   };
 
-  const userProfile = {
-    name: "John Doe",
-    email: "johndoe@example.com",
-  };
+  // const userProfile = {
+  //   name: "John Doe",
+  //   email: "johndoe@example.com",
+  // };
 
   const { token } = useAuth();
 
@@ -33,7 +33,7 @@ const DashboardPage: React.FC = () => {
         <DashboardSummary {...nutritionalSummary} />
 
         {/* Profile Summary */}
-        <ProfileSummary {...userProfile} />
+        {/* <ProfileSummary {...userProfile} /> */}
 
         {/* Additional Content Placeholder */}
         <div className="text-center">

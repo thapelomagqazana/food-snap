@@ -4,6 +4,7 @@ import LandingPage from "./pages/LandingPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
+import ProfilePage from "./pages/ProfilePage";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -27,7 +28,7 @@ const App: React.FC = () => {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/verify-email" element={<EmailVerification />} />
             <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
-            {/* <Route path="/profile" element={<Profile />} /> */}
+            <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
         </Routes>
       <Footer />
     </div>

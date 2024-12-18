@@ -1,0 +1,23 @@
+.dietary-preferences-group {
+    margin-bottom: 1.5rem; /* Consistent spacing with other form groups */
+}
+
+.dietary-preferences-label {
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 0.5rem;
+    display: block; /* Ensure label is aligned properly */
+}
+
+.dietary-preferences-select {
+    border-radius: 8px; /* Rounded corners for modern look */
+    border: 1px solid #ced4da; /* Light gray border for consistency */
+    padding: 0.5rem 0.75rem; /* Comfortable padding for usability */
+    font-size: 1rem; /* Improve readability */
+    transition: border-color 0.2s, box-shadow 0.2s; /* Smooth focus transition */
+}
+
+.dietary-preferences-select:focus {
+    border-color: #80bdff; /* Highlight border on focus */
+    box-shadow: 0 0 0 3px rgba(128, 189, 255, 0.3); /* Subtle focus shadow */
+}
