@@ -1,53 +1,70 @@
+/* Container Styling */
 .nav-buttons {
     display: flex;
     justify-content: center;
-    gap: 1rem; /* Spacing between buttons */
-    margin-top: 1.5rem;
-    flex-wrap: wrap; /* Ensures responsiveness */
+    align-items: center;
+    gap: 15px; /* Equal spacing between buttons */
+    margin-top: 20px;
+    flex-wrap: wrap; /* Ensure buttons wrap on smaller screens */
 }
 
-.register-btn {
-    background-color: #28a745; /* Bootstrap success green */
-    border-color: #28a745;
-    color: #fff;
-    font-weight: 500;
-    transition: transform 0.2s, box-shadow 0.2s;
+/* Register Button */
+.register-btn,
+.capture-btn,
+.edit-btn {
+    background-color: #4caf50; /* Primary green */
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
 }
 
-.register-btn:hover {
-    background-color: #218838;
-    border-color: #1e7e34;
-    transform: scale(1.05);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+.register-btn:hover,
+.capture-btn:hover,
+.edit-btn:hover {
+    background-color: #388e3c; /* Darker green on hover */
 }
 
-.login-btn {
-    background-color: #007bff; /* Bootstrap primary blue */
-    border-color: #007bff;
-    color: #fff;
-    font-weight: 500;
-    transition: transform 0.2s, box-shadow 0.2s;
+/* Login Button */
+.login-btn,
+.upload-btn {
+    background-color: #ffb74d; /* Light orange */
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
 }
 
-
-.login-btn:hover {
-    background-color: #0069d9;
-    border-color: #0062cc;
-    transform: scale(1.05);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+.login-btn:hover,
+.upload-btn:hover {
+    background-color: #f57c00; /* Darker orange on hover */
 }
 
+/* Explore as Guest Button */
 .explore-btn {
-    background-color: #fd7e14; /* Bootstrap orange */
-    border-color: #fd7e14;
-    color: #fff;
-    font-weight: 500;
-    transition: transform 0.2s, box-shadow 0.2s;
+    background-color: #64b5f6; /* Light blue */
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
 }
 
 .explore-btn:hover {
-    background-color: #e36414;
-    border-color: #d9530e;
-    transform: scale(1.05);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    background-color: #1976d2; /* Darker blue on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-buttons {
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 10px;
+    }
+
+    .btn {
+    width: 100%; /* Full width for smaller screens */
+    padding: 12px 0; /* Adjust padding for vertical layout */
+    }
 }

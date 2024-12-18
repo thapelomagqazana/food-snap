@@ -1,33 +1,84 @@
+/* General Card Styling */
 .dashboard-summary {
-    border: none; /* Remove default border */
-    border-radius: 12px; /* Rounded corners for modern appearance */
-    overflow: hidden; /* Ensures content stays clean */
-    background-color: #f9f9f9; /* Light gray for subtle contrast */
+    border-radius: 8px; /* Rounded corners for a modern look */
+    overflow: hidden; /* Ensures content fits neatly within the card */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
-.dashboard-summary .card-header {
-    font-family: "Poppins", sans-serif;
-    font-weight: 600;
-    font-size: 1.25rem;
-    background-color: #007bff; /* Primary blue color */
-    color: #ffffff;
-    border-bottom: none;
+/* Header Styling */
+.summary-header {
+    background-color: #4caf50; /* Primary green */
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 15px;
+    border-bottom: 2px solid #388e3c; /* Darker green border */
 }
 
-.dashboard-summary .list-group-item {
-    font-family: "Poppins", sans-serif;
-    font-size: 1rem;
-    color: #555;
-    background-color: transparent; /* Ensure clean look */
-    border: none; /* Remove borders between list items */
-    padding: 0.75rem 1rem; /* Add spacing for better readability */
+/* List Styling */
+.list-group-item {
+    font-size: 1.1rem; /* Slightly larger text for readability */
+    font-weight: 500; /* Bold text for emphasis */
+    border: none; /* Remove default borders */
+    padding: 10px 15px;
 }
 
-.dashboard-summary .list-group-item strong {
-    color: #007bff; /* Highlighted blue for labels */
+/* Calorie Item */
+.list-group-item:first-child {
+    font-size: 1.2rem; /* Highlight calories as the main metric */
+    color: #d32f2f; /* Red for emphasis */
 }
 
-.dashboard-summary .list-group-item:hover {
-    background-color: #e9f5ff; /* Soft blue background on hover */
-    transition: background-color 0.3s ease-in-out;
+/* General Styling */
+.list-group-item strong {
+    color: #4caf50; /* Primary green for labels */
+}
+
+/* Responsive Design */
+
+/* Smartphone View (up to 576px) */
+@media (max-width: 576px) {
+    .dashboard-summary {
+        margin: 20px auto;
+        box-shadow: none; /* Minimal shadow for small devices */
+    }
+
+    .summary-header {
+        font-size: 1.3rem; /* Smaller font for compact screens */
+    }
+
+    .list-group-item {
+        font-size: 1rem; /* Adjust text size for readability */
+        padding: 8px 12px;
+    }
+}
+
+/* Tablet View (576px to 768px) */
+@media (min-width: 576px) and (max-width: 768px) {
+    .dashboard-summary {
+        margin: 25px auto;
+    }
+
+    .summary-header {
+        font-size: 1.4rem; /* Moderate font size */
+    }
+
+    .list-group-item {
+        font-size: 1.1rem; /* Standard size for tablets */
+    }
+}
+
+/* Desktop View (768px and up) */
+@media (min-width: 768px) {
+    .dashboard-summary {
+        margin: 30px auto;
+        max-width: 600px; /* Wider card for desktop */
+    }
+
+    .summary-header {
+        font-size: 1.5rem; /* Larger font size for emphasis */
+    }
+
+    .list-group-item {
+        font-size: 1.2rem; /* Highlight key metrics on larger screens */
+    }
 }

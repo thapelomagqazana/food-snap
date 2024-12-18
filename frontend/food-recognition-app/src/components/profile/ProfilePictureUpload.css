@@ -1,43 +1,86 @@
+/* General Styling */
 .profile-picture-upload {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
-.profile-picture-upload img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease-in-out;
+/* Profile Picture Container */
+.profile-picture-container {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    margin-bottom: 10px;
 }
 
-
-.profile-picture-upload img:hover {
-    transform: scale(1.05);
+/* Profile Picture */
+.profile-picture {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image maintains its aspect ratio */
+    border: 2px solid #4caf50; /* Green border for profile picture */
+    padding: 3px;
+    background-color: #ffffff; /* White background for image */
 }
 
-.profile-picture-upload .file-input {
-    margin-top: 10px;
-    width: auto;
-}
-
-.profile-picture-upload .file-input input[type="file"] {
-    display: none;
-}
-
-.profile-picture-upload .file-input label {
-    background-color: #007bff;
-    color: white;
-    padding: 8px 16px;
+/* File Input Styling */
+.upload-input {
     font-size: 0.9rem;
+    padding: 8px;
+    border: 1px solid #e0e0e0; /* Light gray border */
     border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    margin-top: 10px;
 }
 
-.profile-picture-upload .file-input label:hover {
-    background-color: #0056b3;
+/* Hover and Focus Effects */
+.upload-input:hover {
+    border-color: #4caf50; /* Green border on hover */
 }
+
+.upload-input:focus {
+    outline: none;
+    border-color: #4caf50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.3); /* Green shadow for focus */
+}
+
+/* Responsive Design */
+
+/* Smartphone View (up to 576px) */
+@media (max-width: 576px) {
+    .profile-picture-container {
+    width: 80px;
+    height: 80px; /* Smaller profile picture for compact screens */
+    }
+
+    .upload-input {
+    font-size: 0.8rem;
+    padding: 6px;
+    }
+}
+
+/* Tablet View (576px to 768px) */
+@media (min-width: 576px) and (max-width: 768px) {
+    .profile-picture-container {
+    width: 90px;
+    height: 90px; /* Moderate size for tablets */
+    }
+
+    .upload-input {
+    font-size: 0.9rem;
+    padding: 8px;
+    }
+}
+
+/* Desktop View (768px and up) */
+@media (min-width: 768px) {
+    .profile-picture-container {
+    width: 100px;
+    height: 100px; /* Default size for desktops */
+    }
+
+    .upload-input {
+    font-size: 1rem;
+    padding: 10px;
+    }
+}
+  

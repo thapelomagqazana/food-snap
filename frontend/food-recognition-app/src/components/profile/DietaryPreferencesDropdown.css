@@ -1,23 +1,65 @@
-.dietary-preferences-group {
-    margin-bottom: 1.5rem; /* Consistent spacing with other form groups */
+/* General Form Group Styling */
+.dietary-preferences-dropdown {
+    margin-bottom: 20px;
 }
 
-.dietary-preferences-label {
-    font-weight: 500;
-    color: #555;
-    margin-bottom: 0.5rem;
-    display: block; /* Ensure label is aligned properly */
+/* Label Styling */
+.dietary-preferences-dropdown .form-label {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #4caf50; /* Primary green for labels */
+    margin-bottom: 10px;
 }
 
-.dietary-preferences-select {
-    border-radius: 8px; /* Rounded corners for modern look */
-    border: 1px solid #ced4da; /* Light gray border for consistency */
-    padding: 0.5rem 0.75rem; /* Comfortable padding for usability */
-    font-size: 1rem; /* Improve readability */
-    transition: border-color 0.2s, box-shadow 0.2s; /* Smooth focus transition */
+/* Dropdown Styling */
+.preferences-select {
+    height: 150px; /* Fixed height for multiple selections */
+    border: 1px solid #e0e0e0; /* Light gray border */
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 1rem;
+    background-color: #ffffff; /* White background for readability */
+    overflow-y: auto; /* Scroll for long lists */
 }
 
-.dietary-preferences-select:focus {
-    border-color: #80bdff; /* Highlight border on focus */
-    box-shadow: 0 0 0 3px rgba(128, 189, 255, 0.3); /* Subtle focus shadow */
+/* Option Styling */
+.preferences-select option {
+    padding: 5px;
+    font-size: 1rem;
 }
+
+/* Hover and Focus Effects */
+.preferences-select:focus {
+    border-color: #4caf50; /* Green border on focus */
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3); /* Green shadow for accessibility */
+}
+
+/* Responsive Design */
+
+/* Smartphone View (up to 576px) */
+@media (max-width: 576px) {
+    .preferences-select {
+    font-size: 0.9rem; /* Smaller font size for compact devices */
+    padding: 8px;
+    height: 120px; /* Reduced height for smaller screens */
+    }
+}
+
+/* Tablet View (576px to 768px) */
+@media (min-width: 576px) and (max-width: 768px) {
+    .preferences-select {
+    font-size: 1rem;
+    padding: 10px;
+    height: 140px; /* Moderate height for tablets */
+    }
+}
+
+/* Desktop View (768px and up) */
+@media (min-width: 768px) {
+    .preferences-select {
+    font-size: 1rem; /* Standard font size */
+    padding: 12px;
+    height: 150px; /* Default height for desktops */
+    }
+}
+  

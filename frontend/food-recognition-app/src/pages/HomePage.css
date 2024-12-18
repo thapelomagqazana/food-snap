@@ -1,33 +1,27 @@
-/* General Form Styling */
-.edit-profile-form {
-    max-width: 600px;
+/* General Styling for HomePage */
+.home-page {
+    max-width: 800px;
     margin: 30px auto;
     background-color: #ffffff;
+    padding: 20px;
     border-radius: 8px; /* Rounded corners for a modern look */
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
 /* Title Styling */
-.edit-profile-form h4 {
-    font-size: 1.5rem;
+.home-title {
+    font-size: 2rem;
     font-weight: bold;
     color: #4caf50; /* Primary green */
 }
 
-/* Form Fields */
-.edit-profile-form .form-control {
-    border: 1px solid #e0e0e0; /* Light gray borders */
-    border-radius: 6px;
-    padding: 10px;
+/* Description Styling */
+.home-description {
+    font-size: 1.2rem;
+    color: #616161; /* Neutral gray */
 }
 
-/* Alerts */
-.alert {
-    font-size: 1rem;
-    margin-bottom: 15px;
-}
-
-/* Buttons */
+/* Button Styling */
 button {
     font-size: 1rem;
     font-weight: bold;
@@ -40,17 +34,27 @@ button:hover {
     opacity: 0.9; /* Subtle hover effect */
 }
 
+button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5); /* Blue outline for focus */
+}
+
 /* Responsive Design */
 
 /* Smartphone View (up to 576px) */
 @media (max-width: 576px) {
-    .edit-profile-form {
+    .home-page {
+    padding: 15px;
     margin: 20px auto;
-    box-shadow: none; /* Minimal shadow for small devices */
+    box-shadow: none; /* Minimal shadow for compact devices */
     }
 
-    .edit-profile-form h4 {
-    font-size: 1.3rem;
+    .home-title {
+    font-size: 1.5rem;
+    }
+
+    .home-description {
+    font-size: 1rem;
     }
 
     button {
@@ -61,12 +65,16 @@ button:hover {
 
 /* Tablet View (576px to 768px) */
 @media (min-width: 576px) and (max-width: 768px) {
-    .edit-profile-form {
-    margin: 25px auto;
+    .home-page {
+    padding: 20px;
     }
 
-    .edit-profile-form h4 {
-    font-size: 1.4rem;
+    .home-title {
+    font-size: 1.8rem;
+    }
+
+    .home-description {
+    font-size: 1.1rem;
     }
 
     button {
@@ -77,16 +85,23 @@ button:hover {
 
 /* Desktop View (768px and up) */
 @media (min-width: 768px) {
-    .edit-profile-form {
-    margin: 30px auto;
+    .home-page {
+    padding: 30px;
+    max-width: 900px; /* Wider container for desktop */
     }
 
-    .edit-profile-form h4 {
-    font-size: 1.5rem;
+    .home-title {
+    font-size: 2rem;
+    }
+
+    .home-description {
+    font-size: 1.2rem;
     }
 
     button {
     font-size: 1.1rem;
     padding: 12px 24px;
+    margin-right: 20px;
     }
 }
+  

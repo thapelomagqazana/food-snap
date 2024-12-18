@@ -1,0 +1,112 @@
+/* General Container Styling */
+.image-preview-container {
+    max-width: 600px;
+    margin: 30px auto;
+}
+
+/* Title Styling */
+.image-preview-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #4caf50; /* Primary green */
+    margin-bottom: 20px;
+}
+
+/* General Card Styling */
+.image-preview {
+    border-radius: 8px; /* Rounded corners for a modern look */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    overflow: hidden; /* Ensures image and content fit within the card */
+}
+
+/* Preview Image Styling */
+.preview-image {
+    width: 100%;
+    height: auto;
+    max-height: 300px; /* Constrain height for consistency */
+    object-fit: cover; /* Ensures the image maintains its aspect ratio */
+    border-bottom: 1px solid #e0e0e0; /* Divider between image and buttons */
+}
+
+/* Button Styling */
+button {
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    opacity: 0.9; /* Subtle hover effect */
+}
+
+button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5); /* Blue outline for focus */
+}
+
+/* Responsive Design */
+
+/* Smartphone View (up to 576px) */
+@media (max-width: 576px) {
+    .image-preview-container {
+    margin: 20px auto;
+    box-shadow: none; /* Minimal shadow for small devices */
+    }
+
+    .image-preview-title {
+    font-size: 1.5rem;
+    }
+
+    .preview-image {
+    max-height: 250px; /* Adjust image height for narrow screens */
+    }
+
+    button {
+    font-size: 0.9rem; /* Smaller button text for compact devices */
+    padding: 8px 16px;
+    }
+}
+
+/* Tablet View (576px to 768px) */
+@media (min-width: 576px) and (max-width: 768px) {
+    .image-preview-container {
+    margin: 25px auto;
+    }
+
+    .image-preview-title {
+    font-size: 1.6rem;
+    }
+
+    .preview-image {
+    max-height: 280px; /* Moderate height for tablets */
+    }
+
+    button {
+    font-size: 1rem;
+    padding: 10px 20px;
+    }
+}
+
+/* Desktop View (768px and up) */
+@media (min-width: 768px) {
+    .image-preview-container {
+    max-width: 700px; /* Wider container for desktop */
+    margin: 30px auto;
+    }
+
+    .image-preview-title {
+    font-size: 1.8rem;
+    }
+
+    .preview-image {
+    max-height: 350px; /* Larger image for wider screens */
+    }
+
+    button {
+    font-size: 1.1rem; /* Larger button text for readability */
+    padding: 12px 24px;
+    }
+}
+  

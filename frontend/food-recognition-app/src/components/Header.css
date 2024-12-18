@@ -1,78 +1,153 @@
-/* General Header Styling */
+/* General Styling for Header */
 .app-header {
-    font-family: "Poppins", sans-serif;
-    background-color: #f8f9fa; /* Bootstrap light gray background */
-    border-bottom: 1px solid #e0e0e0; /* Subtle border */
-    padding: 0.75rem 1.5rem; /* Add horizontal padding */
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Light shadow for depth */
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    background-color: #f5f5f5; /* Neutral background for the header */
+    padding: 10px 0;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    position: fixed; /* Fix the header at the top */
+    top: 0; /* Align to the top */
+    left: 0; /* Align to the left edge */
+    width: 100%; /* Full width to cover the viewport */
+    z-index: 1000; /* Ensure it stays above other elements */
 }
 
-/* Navigation Bar Styling */
-.navbar {
-    background-color: #f8f9fa !important; /* Ensure consistent background */
+/* Container Styling */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
 }
 
+/* Navbar Brand (Logo Text) */
 .navbar-brand {
     font-size: 1.5rem;
-    font-weight: 600;
-    color: #007bff !important; /* Bootstrap primary color */
-    transition: color 0.3s ease-in-out;
+    color: #4caf50; /* Primary color */
+    font-weight: bold;
+    text-decoration: none;
 }
 
 .navbar-brand:hover {
-    color: #0056b3 !important; /* Darker shade on hover */
+    color: #388e3c; /* Darker shade for hover */
 }
 
+/* Navigation Links */
 .nav-link {
+    color: #616161; /* Dark gray for links */
     font-size: 1rem;
     font-weight: 500;
-    color: #333 !important;
-    transition: color 0.3s ease-in-out;
+    transition: color 0.3s ease;
 }
 
 .nav-link:hover {
-    color: #007bff !important; /* Highlight on hover */
+    color: #4caf50; /* Primary color on hover */
 }
 
-/* Logo and Tagline Styling */
-.header-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem; /* Spacing between logo and tagline */
-}
-
-.app-logo {
-    width: 60px;
-    height: auto;
-    transition: transform 0.3s ease-in-out; /* Smooth hover effect */
-}
-
-.app-logo:hover {
-    transform: scale(1.1); /* Slight zoom effect */
-}
-  
-/* Tagline Styling */
-.app-tagline {
-    font-size: 1.2rem;
-    color: #555;
-    font-weight: 500;
-    text-align: center;
-    margin: 0; /* Ensure no extra margin */
-}
-
-/* Logout Button Customization */
+/* Logout Button */
 .btn-danger {
-    font-size: 0.9rem;
-    font-weight: 600;
-    transition: background-color 0.3s ease-in-out;
+    background-color: #e57373; /* Danger red */
+    border: none;
+    font-weight: bold;
+    padding: 8px 16px;
+    transition: background-color 0.3s ease;
 }
 
 .btn-danger:hover {
-    background-color: #c82333; /* Slightly darker red */
-    border-color: #bd2130;
+    background-color: #d32f2f; /* Darker red on hover */
+}
+
+/* Default Header (Unauthenticated State) */
+.app-logo {
+    height: 60px; /* Adjust logo size */
+    width: auto;
+    display: block;
+    color: #4caf50;
+}
+
+.app-tagline {
+    font-size: 1.2rem;
+    color: #4caf50; /* Primary color */
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Responsive Design */
+
+/* Smartphone View (up to 576px) */
+@media (max-width: 576px) {
+    .app-header {
+        padding: 15px 10px; /* Adjust padding for smaller screens */
+    }
+
+    .navbar-brand {
+        font-size: 1.2rem; /* Smaller logo text */
+    }
+
+    .nav-link {
+        font-size: 0.9rem; /* Smaller font size for links */
+    }
+
+    .btn-danger {
+        padding: 6px 12px; /* Compact button size */
+        font-size: 0.9rem;
+    }
+
+    .app-tagline {
+        font-size: 1rem; /* Smaller tagline */
+    }
+
+    body {
+        padding-top: 140px;
+    }
+}
+
+/* Tablet View (576px to 768px) */
+@media (min-width: 576px) and (max-width: 768px) {
+    .app-header {
+        padding: 15px 20px; /* Moderate padding */
+    }
+
+    .navbar-brand {
+        font-size: 1.4rem; /* Slightly larger logo text */
+    }
+
+    .nav-link {
+        font-size: 1rem; /* Standard font size for links */
+    }
+
+    .btn-danger {
+        padding: 8px 16px; /* Standard button size */
+        font-size: 1rem;
+    }
+
+    .app-tagline {
+        font-size: 1.1rem; /* Moderate tagline size */
+    }
+}
+
+/* Desktop View (768px and up) */
+@media (min-width: 768px) {
+    .app-header {
+        padding: 20px 0; /* Generous padding for desktop */
+    }
+
+    .navbar-brand {
+        font-size: 1.5rem; /* Default logo text size */
+    }
+
+    .nav-link {
+        font-size: 1rem; /* Standard font size */
+    }
+
+    .btn-danger {
+        padding: 10px 20px; /* Larger button size for desktop */
+        font-size: 1rem;
+    }
+
+    .app-tagline {
+        font-size: 1.2rem; /* Default tagline size */
+    }
+
+    /* Push content down to avoid overlap */
+    body {
+        padding-top: 110px;
+    }
 }

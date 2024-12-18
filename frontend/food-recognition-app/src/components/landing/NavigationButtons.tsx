@@ -4,6 +4,19 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./NavigationButtons.css";
 
+/**
+ * NavigationButtons Component
+ * Renders a set of navigation buttons:
+ * - "Register" for new users to sign up.
+ * - "Log In" for existing users to access their accounts.
+ * - "Explore as Guest" for users to browse without logging in.
+ *
+ * Features:
+ * - Modern styling with icons for better user experience.
+ * - Responsive design to adapt to various screen sizes.
+ * 
+ * @returns {JSX.Element} The rendered navigation buttons component.
+ */
 const NavigationButtons: React.FC = () => {
   return (
     <div className="nav-buttons">

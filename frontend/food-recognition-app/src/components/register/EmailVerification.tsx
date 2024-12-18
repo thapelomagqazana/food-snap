@@ -4,13 +4,27 @@ import { Spinner, Alert, Button, Container } from "react-bootstrap";
 import axios, { AxiosError } from "axios";
 import "./EmailVerification.css";
 
+/**
+ * EmailVerification Component
+ * Handles the email verification process based on a token received via URL parameters.
+ * 
+ * Features:
+ * - Displays a loading state while verifying the email.
+ * - Shows a success message and a call-to-action if the verification is successful.
+ * - Displays an error message with appropriate actions if the verification fails.
+ * 
+ * @returns {JSX.Element} The rendered email verification component.
+ */
 const EmailVerification: React.FC = () => {
+  // React Router hook to access URL parameters
   const [searchParams] = useSearchParams();
+  // State to track verification status: loading, success, or error
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
+  // Message to display based on the verification outcome
   const [message, setMessage] = useState<string>("");
 
   useEffect(() => {
-    const token = searchParams.get("token");
+    const token = searchParams.get("token"); // Get the token from URL parameters
 
     if (!token) {
       setStatus("error");
@@ -18,6 +32,7 @@ const EmailVerification: React.FC = () => {
       return;
     }
 
+    // Function to verify the email using the token
     const verifyEmail = async () => {
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/users/verify-email`, {
@@ -27,7 +42,6 @@ const EmailVerification: React.FC = () => {
         setStatus("success");
         setMessage(response.data.message || "Your email has been successfully verified!");
       } catch (error) {
-        // Use AxiosError type and safely access properties
         const axiosError = error as AxiosError<{ message: string }>;
         setStatus("error");
         setMessage(
@@ -36,7 +50,7 @@ const EmailVerification: React.FC = () => {
       }
     };
 
-    verifyEmail();
+    verifyEmail(); // Call the email verification function
   }, [searchParams]);
 
   return (

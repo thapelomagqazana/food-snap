@@ -1,0 +1,120 @@
+/* General Styling */
+.camera-interface {
+    max-width: 700px;
+    margin: 30px auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Title Styling */
+.camera-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #4caf50; /* Primary green */
+    margin-bottom: 20px;
+}
+
+/* Video Viewfinder */
+.camera-viewfinder {
+    width: 100%;
+    height: 300px;
+    object-fit: cover; /* Ensures video fits nicely within the container */
+    border-radius: 6px;
+    border: 2px solid #e0e0e0; /* Light gray border for video */
+}
+
+/* Buttons */
+button {
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 12px 20px; 
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+    height: 50px; /* Fixed height for all buttons */
+    width: 150px; /* Optional: Consistent width for alignment */
+}
+
+button:hover {
+    opacity: 0.9; /* Subtle hover effect */
+}
+
+button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5); /* Focus effect */
+}
+
+/* Error Message */
+.text-danger {
+    color: #d32f2f; /* Dark red */
+    font-size: 1rem;
+}
+
+/* Responsive Design */
+
+/* Smartphone View (up to 576px) */
+@media (max-width: 576px) {
+    .camera-interface {
+    padding: 15px;
+    margin: 20px auto;
+    box-shadow: none; /* Minimal shadow for compact devices */
+    }
+
+    .camera-title {
+    font-size: 1.5rem;
+    }
+
+    .camera-viewfinder {
+    height: 250px; /* Smaller height for narrow screens */
+    }
+
+    button {
+    font-size: 0.9rem;
+    width: 100%;
+    padding: 8px 16px;
+    margin-bottom: 20px;
+    }
+}
+
+/* Tablet View (576px to 768px) */
+@media (min-width: 576px) and (max-width: 768px) {
+    .camera-interface {
+    padding: 20px;
+    }
+
+    .camera-title {
+    font-size: 1.6rem;
+    }
+
+    .camera-viewfinder {
+    height: 300px; /* Standard height for tablets */
+    }
+
+    button {
+    font-size: 1rem;
+    padding: 10px 20px;
+    }
+}
+
+/* Desktop View (768px and up) */
+@media (min-width: 768px) {
+    .camera-interface {
+    padding: 30px;
+    max-width: 800px; /* Wider container for desktop */
+    }
+
+    .camera-title {
+    font-size: 1.8rem;
+    }
+
+    .camera-viewfinder {
+    height: 350px; /* Larger height for wider screens */
+    }
+
+    button {
+    font-size: 1.1rem;
+    padding: 12px 24px;
+    }
+}
+  
