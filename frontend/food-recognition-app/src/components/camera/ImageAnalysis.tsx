@@ -1,53 +1,48 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Spinner } from "react-bootstrap";
 import "./ImageAnalysis.css";
 
 /**
  * ImageAnalysis Component
- * Simulates and displays a food image analysis process.
+ * Simulates the analysis of a food image and returns a sample result.
  * 
  * Props:
- * - image: Base64 string representing the uploaded or captured image.
- * - onAnalysisComplete: Callback function triggered when the analysis is complete.
+ * - image: Base64 string representing the image to be analyzed.
+ * - onAnalysisComplete: Callback function that receives the analysis result.
  * 
  * Features:
- * - Displays the uploaded image during analysis.
- * - Shows a spinner and progress text while the analysis is ongoing.
- * - Simulates a delay before invoking the analysis complete callback.
+ * - Displays the provided image during the analysis process.
+ * - Shows a spinner and message while the analysis is in progress.
+ * - Simulates a delay to mimic real-world API behavior.
  * 
  * @returns {JSX.Element} The rendered image analysis component.
  */
 interface ImageAnalysisProps {
   image: string; // Base64 image string
-  onAnalysisComplete: (data: any) => void; // Callback with analysis result
+  onAnalysisComplete: (result: any) => void; // Callback for analysis result
 }
 
-const ImageAnalysis: React.FC<ImageAnalysisProps> = ({ image, onAnalysisComplete }) => {
-  useEffect(() => {
-    // Simulate a delay for analysis
-    const analyzeImage = async () => {
-      // Replace with actual API call for image analysis
-      setTimeout(() => {
-        const fakeAnalysisData = { nutrition: "Sample Nutrition Data" };
-        onAnalysisComplete(fakeAnalysisData);
-      }, 3000); // Simulate a 3-second delay
-    };
+const ImageAnalysis: React.FC<ImageAnalysisProps> = ({
+  image,
+  onAnalysisComplete,
+}) => {
+  React.useEffect(() => {
+    // Simulate analysis delay
+    const timer = setTimeout(() => {
+      onAnalysisComplete({ nutrition: "Sample Nutrition Data" });
+    }, 3000);
 
-    analyzeImage();
+    return () => clearTimeout(timer); // Cleanup timer on unmount
   }, [image, onAnalysisComplete]);
 
   return (
     <div className="image-analysis text-center">
       {/* Display the image being analyzed */}
-      <img
-        src={image}
-        alt="Analyzing Food"
-        className="analysis-image rounded shadow-sm mb-3"
-      />
+      <img src={image} alt="Analyzing" className="analysis-image img-fluid mb-3" />
 
-      {/* Loading Spinner and Message */}
+      {/* Spinner and Progress Message */}
       <div className="analysis-status">
-        <Spinner animation="border" role="status" className="me-2" />
+        <Spinner animation="border" role="status" className="me-2 spinner" />
         <span>Analyzing your food...</span>
       </div>
     </div>

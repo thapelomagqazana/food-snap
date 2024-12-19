@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
 import ProfilePage from "./pages/ProfilePage";
 import HomePage from "./pages/HomePage";
+import ImageAnalysisPage from "./pages/ImageAnalysisPage";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -30,7 +31,7 @@ const App: React.FC = () => {
             <Route path="/verify-email" element={<EmailVerification />} />
             <Route path="/home" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
             <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
-            <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+            <Route path="/analysis" element={<ProtectedRoute><ImageAnalysisPage /></ProtectedRoute>} />
         </Routes>
       <Footer />
     </div>

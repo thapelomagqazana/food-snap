@@ -1,0 +1,75 @@
+/* General Styling */
+.image-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Space between buttons */
+    margin-top: 20px;
+}
+
+/* Button Styling */
+.control-button {
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Rotate Button */
+.control-button.btn-secondary:hover {
+    background-color: #6c757d; /* Darker gray on hover */
+    transform: scale(1.05); /* Slight scaling effect */
+}
+
+/* Reset Button */
+.control-button.btn-warning:hover {
+    background-color: #ffc107; /* Bright yellow on hover */
+    transform: scale(1.05);
+}
+
+/* Analyze Button */
+.control-button.btn-success:hover {
+    background-color: #388e3c; /* Darker green on hover */
+    transform: scale(1.05);
+}
+
+/* Responsive Design */
+
+/* Smartphone View (up to 576px) */
+@media (max-width: 576px) {
+    .image-controls {
+        flex-direction: column; /* Stack buttons vertically */
+        gap: 15px;
+    }
+
+    .control-button {
+        font-size: 0.9rem; /* Smaller font for compact screens */
+        padding: 8px 16px;
+    }
+}
+
+/* Tablet View (576px to 768px) */
+@media (min-width: 576px) and (max-width: 768px) {
+    .image-controls {
+        flex-direction: row; /* Maintain horizontal layout */
+        gap: 10px;
+    }
+
+    .control-button {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+}
+
+/* Desktop View (768px and up) */
+@media (min-width: 768px) {
+    .image-controls {
+        gap: 12px;
+    }
+
+    .control-button {
+        font-size: 1rem;
+        padding: 12px 24px;
+    }
+}

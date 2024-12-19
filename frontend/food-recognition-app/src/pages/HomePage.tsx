@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import CameraInterface from "../components/camera/CameraInterface";
 import ImagePreview from "../components/camera/ImagePreview";
-import ImageAnalysis from "../components/camera/ImageAnalysis";
-import ImageUploadButton from "../components/imageUpload/ImageUploadButton";
+import ImageUploadButton from "../components/camera/ImageUploadButton";
 import "./HomePage.css";
+import { useNavigate } from "react-router-dom";
 
 /**
  * HomePage Component
@@ -23,11 +23,12 @@ import "./HomePage.css";
  */
 const HomePage: React.FC = () => {
   // State to manage the current screen
-  const [screen, setScreen] = useState<"home" | "camera" | "preview" | "analysis" | "upload">("home");
+  const [screen, setScreen] = useState<"home" | "camera" | "preview" | "upload">("home");
   // State to store the captured image data
   const [capturedImage, setCapturedImage] = useState<string>("");
+  const navigate = useNavigate();
   // State to store the analysis result
-  const [analysisData, setAnalysisData] = useState<any | null>(null);
+  // const [analysisData, setAnalysisData] = useState<any | null>(null);
 
   // Handle capturing an image from the camera
   const handleCapture = (imageData: string) => {
@@ -37,16 +38,16 @@ const HomePage: React.FC = () => {
 
   // Handle using the captured image
   const handleUseImage = () => {
-    setScreen("analysis"); // Navigate to the analysis screen
+    navigate("/analysis", { state: { image: capturedImage } });
   };
 
   // Handle analysis completion
-  const handleAnalysisComplete = (data: any) => {
-    setAnalysisData(data); // Save analysis data
-    setScreen("home"); // Navigate back to the home screen
-    alert("Analysis complete!"); // Notify user (optional)
-    console.log("Analysis Data:", data);
-  };
+  // const handleAnalysisComplete = (data: any) => {
+  //   setAnalysisData(data); // Save analysis data
+  //   setScreen("home"); // Navigate back to the home screen
+  //   alert("Analysis complete!"); // Notify user (optional)
+  //   console.log("Analysis Data:", data);
+  // };
 
 
 
@@ -93,15 +94,6 @@ const HomePage: React.FC = () => {
           imageSrc={capturedImage}
           onUseImage={handleUseImage}
           onRetake={handleRetake}
-        />
-      )}
-
-
-      {/* Analysis Screen */}
-      {screen === "analysis" && (
-        <ImageAnalysis
-          image={capturedImage}
-          onAnalysisComplete={handleAnalysisComplete}
         />
       )}
 
