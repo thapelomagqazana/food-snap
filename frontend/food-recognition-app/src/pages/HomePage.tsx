@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 import CameraInterface from "../components/camera/CameraInterface";
 import ImagePreview from "../components/camera/ImagePreview";
 import ImageAnalysis from "../components/camera/ImageAnalysis";
+import ImageUploadButton from "../components/imageUpload/ImageUploadButton";
 import "./HomePage.css";
 
 /**
@@ -22,7 +23,7 @@ import "./HomePage.css";
  */
 const HomePage: React.FC = () => {
   // State to manage the current screen
-  const [screen, setScreen] = useState<"home" | "camera" | "preview" | "analysis">("home");
+  const [screen, setScreen] = useState<"home" | "camera" | "preview" | "analysis" | "upload">("home");
   // State to store the captured image data
   const [capturedImage, setCapturedImage] = useState<string>("");
   // State to store the analysis result
@@ -74,6 +75,7 @@ const HomePage: React.FC = () => {
           <Button
             className="btn upload-btn"
             size="lg"
+            onClick={() => setScreen("upload")}
            >
             Upload Image
           </Button>
@@ -102,6 +104,13 @@ const HomePage: React.FC = () => {
           onAnalysisComplete={handleAnalysisComplete}
         />
       )}
+
+      {/* Upload Screen */}
+      {screen === "upload" && (
+        <ImageUploadButton onImageSelect={handleCapture} />
+      )}
+
+      
     </div>
   );
 };
