@@ -1,0 +1,86 @@
+/* General Styling */
+.image-analysis {
+    max-width: 600px;
+    margin: 30px auto;
+    text-align: center;
+    padding: 20px;
+    border-radius: 8px; /* Rounded corners for a modern look */
+    background-color: #ffffff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Analysis Image */
+.analysis-image {
+    width: 100%;
+    max-width: 400px; /* Constrain image size */
+    height: auto;
+    object-fit: cover; /* Ensures the image maintains its aspect ratio */
+    border: 2px solid #e0e0e0; /* Light gray border for the image */
+    padding: 5px;
+    background-color: #f9f9f9; /* Light background for image container */
+}
+
+/* Analysis Status */
+.analysis-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #616161; /* Neutral gray for status text */
+    margin-top: 15px;
+}
+
+/* Spinner */
+.analysis-status .spinner-border {
+    color: #4caf50; /* Primary green for the spinner */
+}
+
+/* Responsive Design */
+
+/* Smartphone View (up to 576px) */
+@media (max-width: 576px) {
+    .image-analysis {
+        padding: 15px;
+        box-shadow: none; /* Minimal shadow for compact devices */
+    }
+
+    .analysis-image {
+        max-width: 300px; /* Reduce image size for smaller screens */
+    }
+
+    .analysis-status {
+        font-size: 1rem; /* Adjust font size for readability */
+    }
+}
+
+/* Tablet View (576px to 768px) */
+@media (min-width: 576px) and (max-width: 768px) {
+    .image-analysis {
+        padding: 20px;
+    }
+
+    .analysis-image {
+        max-width: 350px; /* Moderate size for tablets */
+    }
+
+    .analysis-status {
+        font-size: 1.1rem;
+    }
+}
+
+/* Desktop View (768px and up) */
+@media (min-width: 768px) {
+    .image-analysis {
+        padding: 25px;
+    }
+
+    .analysis-image {
+        max-width: 400px; /* Default size for desktops */
+    }
+
+    .analysis-status {
+        font-size: 1.2rem;
+    }
+}
+  
