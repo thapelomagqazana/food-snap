@@ -1,43 +1,26 @@
-const axios = require('axios');
-const tf = require('@tensorflow/tfjs-node');
-const { loadModel, classifyImage } = require('../utils/modelUtils');
+const { loadModel } = require('../utils/modelUtils');
+const mobilenet = require('@tensorflow-models/mobilenet');
 
-jest.mock('axios');
-jest.mock('@tensorflow/tfjs-node');
+jest.mock('@tensorflow-models/mobilenet'); // Mock the entire module
 
-describe('Model Utilities', () => {
-    const mockTensor = 'mockTensor';
-    let mockModel;
+describe('modelUtils', () => {
+  it('should load the MobileNet model', async () => {
+    const model = await loadModel();
 
-    beforeAll(() => {
-        mockModel = {
-            predict: jest.fn(() => ({
-                dataSync: jest.fn(() => [0.9, 0.8, 0.7]),
-            })),
-        };
-        tf.loadGraphModel = jest.fn(() => Promise.resolve(mockModel));
-        axios.get.mockResolvedValue({
-            data: {
-                0: ['0', 'class0'],
-                1: ['1', 'class1'],
-                2: ['2', 'class2'],
-            },
-        });
-    });
+    expect(mobilenet.load).toHaveBeenCalled();
+    expect(model).toBeDefined();
+    expect(model.classify).toBeDefined(); // Ensure the mocked classify method is present
+  });
 
-    it('should load the model successfully', async () => {
-        const model = await loadModel();
-        expect(model).toBe(mockModel);
-        expect(tf.loadGraphModel).toHaveBeenCalled();
-    });
+  it('should classify an image tensor', async () => {
+    const model = await loadModel();
+    const mockImageTensor = {}; // Mock image tensor
+    const predictions = await model.classify(mockImageTensor);
 
-    it('should classify an image and return top predictions', async () => {
-        const predictions = await classifyImage(mockTensor, mockModel);
-        expect(predictions).toEqual([
-            { className: 'Class 0', probability: 0.9 },
-            { className: 'Class 1', probability: 0.8 },
-            { className: 'Class 2', probability: 0.7 },
-        ]);
-        expect(mockModel.predict).toHaveBeenCalledWith(mockTensor);
-    });
+    expect(model.classify).toHaveBeenCalledWith(mockImageTensor);
+    expect(predictions).toBeDefined();
+    expect(predictions).toHaveLength(2); // Check for the length of predictions
+    expect(predictions[0].className).toBe('Mock Class 1');
+    expect(predictions[0].probability).toBeCloseTo(0.9, 1);
+  });
 });

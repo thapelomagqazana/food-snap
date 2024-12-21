@@ -1,18 +1,18 @@
-const fs = require("fs");
-const tf = require("@tensorflow/tfjs-node");
+const tf = require('@tensorflow/tfjs-node');
+const fs = require('fs');
 
 /**
- * Reads and preprocesses an image file for TensorFlow.js.
- * @param {string} filePath - Path to the image file.
- * @returns {tf.Tensor} - Preprocessed tensor for the model.
+ * Preprocess an uploaded image file.
+ * @param {string} filePath - Path to the uploaded image file.
+ * @returns {tf.Tensor3D} - Preprocessed tensor for classification.
  */
 const preprocessImage = (filePath) => {
     const imageBuffer = fs.readFileSync(filePath);
-    const decodedImage = tf.node.decodeImage(imageBuffer, 3); // Ensure RGB channels
+    const decodedImage = tf.node.decodeImage(imageBuffer, 3); // Ensure 3 channels (RGB)
     const resizedImage = tf.image.resizeBilinear(decodedImage, [224, 224]); // Resize to MobileNet input size
     const normalizedImage = resizedImage.div(255.0); // Normalize pixel values to [0, 1]
-    const expandedImage = normalizedImage.expandDims(0); // Add batch dimension
-    return expandedImage;
+    return normalizedImage.expandDims(0); // Add batch dimension
 };
+  
 
 module.exports = { preprocessImage };

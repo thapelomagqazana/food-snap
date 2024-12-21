@@ -1,52 +1,33 @@
 const tf = require('@tensorflow/tfjs-node');
-const axios = require('axios');
+const mobilenet = require('@tensorflow-models/mobilenet');
 
-let classNames = {};
-
-/**
- * Fetches ImageNet class names from a remote URL.
- * @returns {Promise<void>}
- */
-const fetchClassNames = async () => {
-    try {
-        const response = await axios.get('https://storage.googleapis.com/download.tensorflow.org/data/imagenet_class_index.json');
-        const data = response.data;
-        classNames = Object.fromEntries(Object.entries(data).map(([key, value]) => [parseInt(key), value[1]]));
-        console.log('Class names fetched successfully');
-    } catch (error) {
-        console.error('Error fetching class names:', error.message);
-    }
-};
-
-// Fetch the class names before running predictions
-fetchClassNames();
+let model;
 
 /**
- * Loads the pre-trained MobileNet model.
- * @returns {Promise<tf.GraphModel>} - The loaded TensorFlow.js model.
+ * Load the MobileNet model.
  */
 const loadModel = async () => {
-    const modelUrl = 'https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.25_224/model.json';
-    return await tf.loadGraphModel(modelUrl);
+  try {
+    console.log('Loading MobileNet model...');
+    model = await mobilenet.load({ version: 2, alpha: 1.0 });
+    console.log('MobileNet model loaded successfully.');
+    return model;
+  } catch (error) {
+    console.error('Error loading MobileNet model:', error.message);
+  }
 };
 
 /**
- * Runs predictions on a preprocessed image.
- * @param {tf.Tensor} imageTensor - Preprocessed image tensor.
- * @param {tf.GraphModel} model - Loaded TensorFlow.js model.
- * @returns {Array} - Top 5 predictions.
+ * Classify an image tensor using the loaded model.
+ * @param {tf.Tensor3D} imageTensor - The image tensor to classify.
+ * @returns {Array} - Predictions with class names and probabilities.
  */
-const classifyImage = async (imageTensor, model) => {
-    const predictions = model.predict(imageTensor);
-    const top5 = Array.from(predictions.dataSync())
-        .map((value, index) => ({ index, probability: value }))
-        .sort((a, b) => b.probability - a.probability)
-        .slice(0, 5);
-
-    return top5.map(({ index, probability }) => ({
-        className: classNames[index] || `Class ${index}`, // Use classNames mapping
-        probability,
-    }));
+const classifyImage = async (imageTensor) => {
+  await loadModel();
+  if (!model) {
+    throw new Error('Model is not loaded.');
+  }
+  return await model.classify(imageTensor);
 };
 
-module.exports = { loadModel, classifyImage, fetchClassNames };
+module.exports = { loadModel, classifyImage };

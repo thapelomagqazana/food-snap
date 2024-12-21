@@ -1,21 +1,19 @@
-const tf = jest.createMockFromModule('@tensorflow/tfjs-node');
-
-tf.node = {
-    decodeImage: jest.fn(() => ({
-        resizeBilinear: jest.fn(() => ({
-            div: jest.fn(() => ({
-                expandDims: jest.fn(() => 'mockTensor'), // Mocked final tensor
-            })),
-        })),
-    })),
-};
-
-tf.image = {
-    resizeBilinear: jest.fn(() => ({
+const tf = {
+    node: {
+      decodeImage: jest.fn(() => ({
         div: jest.fn(() => ({
-            expandDims: jest.fn(() => 'mockTensor'),
+          expandDims: jest.fn(() => 'mocked-tensor'),
         })),
-    })),
-};
-
-module.exports = tf;
+      })),
+    },
+    image: {
+      resizeBilinear: jest.fn(() => ({
+        div: jest.fn(() => ({
+          expandDims: jest.fn(() => 'mocked-resized-tensor'),
+        })),
+      })),
+    },
+  };
+  
+  module.exports = tf;
+  

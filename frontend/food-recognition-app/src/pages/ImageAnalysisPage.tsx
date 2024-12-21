@@ -44,7 +44,7 @@ const ImageAnalysisPage: React.FC = () => {
 
   const handleAnalysisComplete = (result: any) => {
     console.log("Analysis Result:", result);
-    alert("Analysis Complete!");
+    alert("Analysis Complete! Food items identified.");
     setIsAnalyzing(false);
     navigate("/home"); // Navigate back to home after analysis
   };
