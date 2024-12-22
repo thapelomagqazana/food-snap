@@ -19,7 +19,7 @@ const classifyImage = async (req, res) => {
 
         // Call AI service
         const aiResponse = await axios.post(
-            `http://localhost:${process.env.AI_PORT}/classify`,
+            `${process.env.FASTAPI_URL}/classify`,
             formData,
             { headers: formData.getHeaders() }
         );
