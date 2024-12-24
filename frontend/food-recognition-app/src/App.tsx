@@ -8,8 +8,8 @@ import ProfilePage from "./pages/ProfilePage";
 import HomePage from "./pages/HomePage";
 import ImageAnalysisPage from "./pages/ImageAnalysisPage";
 
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import Header from "./components/utils/Header";
+import Footer from "./components/utils/Footer";
 import EmailVerification from "./components/register/EmailVerification";
 
 import { useAuth } from "./context/AuthContext";
@@ -32,6 +32,7 @@ const App: React.FC = () => {
             <Route path="/home" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
             <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
             <Route path="/analysis" element={<ProtectedRoute><ImageAnalysisPage /></ProtectedRoute>} />
+            <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
         </Routes>
       <Footer />
     </div>

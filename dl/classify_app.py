@@ -27,6 +27,7 @@ with open("class_labels.json", "r") as f:
 
 @app.post("/classify")
 async def classify_image(file: UploadFile = File(...)):
+    print(file)
     try:
         # Read and preprocess the image
         image = Image.open(file.file).convert("RGB")

@@ -30,7 +30,7 @@ const ImageAnalysis: React.FC<ImageAnalysisProps> = ({
   React.useEffect(() => {
     const analyzeImage = async () => {
       try {
-        // console.log(image);
+        // console.log("Cropped Image Data:", image);
         // Extract the Base64 data
         const base64Data = image.split(",")[1]; // Remove the "data:image/...;base64," prefix
 

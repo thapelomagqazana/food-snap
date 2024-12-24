@@ -15,22 +15,29 @@ const classifyImage = async (req, res) => {
         }
 
         const formData = new FormData();
-        formData.append('image', req.file.buffer, req.file.originalname);
+        // Use the field name 'file' to match the API's expected form field
+        formData.append('file', req.file.buffer, req.file.originalname);
 
-        // Call AI service
+        // Call the FastAPI service
         const aiResponse = await axios.post(
             `${process.env.FASTAPI_URL}/classify`,
             formData,
-            { headers: formData.getHeaders() }
+            {
+                headers: {
+                    ...formData.getHeaders(), // Include form-data headers
+                    'Content-Type': 'multipart/form-data', // Explicitly set content type
+                },
+            }
         );
-    
-        // Ensure data exists
+
+        // Ensure data exists in the response
         if (!aiResponse || !aiResponse.data) {
             throw new Error('Invalid response from AI service.');
         }
-    
-        res.status(200).json(aiResponse.data);
+
+        res.status(200).json(aiResponse.data); // Return the AI service response
     } catch (error) {
+        console.error('Error during classification:', error.message);
         res.status(500).json({ message: 'Error classifying image.', error: error.message });
     }
 };

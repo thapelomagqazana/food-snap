@@ -8,17 +8,13 @@ const ImageAnalysisPage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Always initialize state with a valid default value
   const initialImage = location.state?.image || "";
-
-  // Hooks
   const [image, setImage] = useState<string>(initialImage);
   const [isCropped, setIsCropped] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
-  // Redirect if no image is provided
   if (!initialImage) {
-    navigate("/home"); // Redirect to home
+    navigate("/home");
     return null;
   }
 
@@ -28,12 +24,29 @@ const ImageAnalysisPage: React.FC = () => {
   };
 
   const handleRotate = () => {
-    // Rotate image logic
-    alert("Rotate functionality not implemented.");
+    // Rotate the image logic
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+  
+    const img = new Image();
+    img.src = image;
+  
+    img.onload = () => {
+      canvas.width = img.height; // Swap width and height for 90-degree rotation
+      canvas.height = img.width;
+  
+      if (ctx) {
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        ctx.rotate((90 * Math.PI) / 180); // Rotate 90 degrees
+        ctx.drawImage(img, -img.width / 2, -img.height / 2);
+        const rotatedImage = canvas.toDataURL("image/png");
+        setImage(rotatedImage);
+      }
+    };
   };
+  
 
   const handleReset = () => {
-    // Reset image to original
     setImage(initialImage);
     setIsCropped(false);
   };
@@ -46,7 +59,7 @@ const ImageAnalysisPage: React.FC = () => {
     console.log("Analysis Result:", result);
     alert("Analysis Complete! Food items identified.");
     setIsAnalyzing(false);
-    navigate("/home"); // Navigate back to home after analysis
+    navigate("/home");
   };
 
   return (
@@ -70,3 +83,4 @@ const ImageAnalysisPage: React.FC = () => {
 };
 
 export default ImageAnalysisPage;
+

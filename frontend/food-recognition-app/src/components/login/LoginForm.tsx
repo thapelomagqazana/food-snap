@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button, Alert, Spinner } from "react-bootstrap";
-import PasswordInput from "../PasswordInput";
+import PasswordInput from "../utils/PasswordInput";
 import { AxiosError } from "axios";
 import axios from "../../axiosConfig";
 import { useAuth } from "../../context/AuthContext";
