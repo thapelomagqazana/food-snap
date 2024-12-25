@@ -28,8 +28,14 @@ describe('Classify Routes', () => {
     it('should classify an uploaded image successfully', async () => {
         // Mock AI service response
         mockAxios.onPost(`${process.env.FASTAPI_URL}/classify`).reply(200, {
-            message:"Image classified successfully.", predictions: [
-                {label: "grilled_cheese_sandwich", confidence: "37.26%"},
+            message: "Objects detected successfully.",
+            detections: [
+                {
+                    label: "apple",
+                    confidence: "87.65%",
+                    bbox: [50, 50, 150, 150],
+                    thumbnail: "data:image/jpeg;base64,/9j/4AAQSkZ..."
+                },
             ]
         });
 
@@ -38,7 +44,7 @@ describe('Classify Routes', () => {
             .attach('image', Buffer.from('mock image content'), 'test.jpg');
 
         expect(res.status).toBe(200);
-        expect(res.body).toHaveProperty('predictions');
+        expect(res.body).toHaveProperty('detections');
     });
 
     it('should return 500 if AI service fails', async () => {

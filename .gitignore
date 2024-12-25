@@ -133,3 +133,5 @@ secrets.yml
 
 
 uploads/
+yolov5s.pt
+.pytest_cache
