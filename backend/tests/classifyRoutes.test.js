@@ -28,7 +28,9 @@ describe('Classify Routes', () => {
     it('should classify an uploaded image successfully', async () => {
         // Mock AI service response
         mockAxios.onPost(`${process.env.FASTAPI_URL}/classify`).reply(200, {
-            message:"Image classified successfully.",predicted_label:"chocolate_mousse",confidence:"26.63%"
+            message:"Image classified successfully.", predictions: [
+                {label: "grilled_cheese_sandwich", confidence: "37.26%"},
+            ]
         });
 
         const res = await request(app)
@@ -36,7 +38,7 @@ describe('Classify Routes', () => {
             .attach('image', Buffer.from('mock image content'), 'test.jpg');
 
         expect(res.status).toBe(200);
-        expect(res.body).toHaveProperty('predicted_label');
+        expect(res.body).toHaveProperty('predictions');
     });
 
     it('should return 500 if AI service fails', async () => {

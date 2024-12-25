@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import CropTool from "../components/camera/CropTool";
 import ImageControls from "../components/camera/ImageControls";
 import ImageAnalysis from "../components/camera/ImageAnalysis";
+import "./ImageAnalysisPage.css";
 
 const ImageAnalysisPage: React.FC = () => {
   const location = useLocation();
@@ -12,6 +13,7 @@ const ImageAnalysisPage: React.FC = () => {
   const [image, setImage] = useState<string>(initialImage);
   const [isCropped, setIsCropped] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisResults, setAnalysisResults] = useState<any | null>(null);
 
   if (!initialImage) {
     navigate("/home");
@@ -53,19 +55,20 @@ const ImageAnalysisPage: React.FC = () => {
 
   const handleAnalyze = () => {
     setIsAnalyzing(true);
+    setAnalysisResults(null); // Reset results for a new analysis
   };
 
   const handleAnalysisComplete = (result: any) => {
-    console.log("Analysis Result:", result);
-    alert("Analysis Complete! Food items identified.");
+    setAnalysisResults(result);
     setIsAnalyzing(false);
-    navigate("/home");
   };
+
+  console.log(analysisResults);
 
   return (
     <div className="container mt-4">
       <h1 className="text-center mb-4 dashboard-btn">Image Analysis</h1>
-      {!isAnalyzing && (
+      {!isAnalyzing && !analysisResults && (
         <>
           <CropTool imageSrc={image} onCrop={handleCrop} />
           <ImageControls
@@ -78,6 +81,39 @@ const ImageAnalysisPage: React.FC = () => {
       {isAnalyzing && (
         <ImageAnalysis image={image} onAnalysisComplete={handleAnalysisComplete} />
       )}
+      {analysisResults && (
+        <div className="analysis-results-card p-4 mt-4">
+          <h2 className="text-center mb-3">Analysis Results</h2>
+          <div className="predicted-label text-center">
+            <h3>{analysisResults.predicted_label}</h3>
+          </div>
+          <div className="confidence-meter mt-3">
+            <p className="text-center mb-1">
+              Confidence:
+            </p>
+            <div className="progress">
+              <div
+                className="progress-bar bg-success"
+                role="progressbar"
+                style={{ width: `${parseFloat(analysisResults.confidence).toFixed(2)}%` }}
+                aria-valuenow={parseFloat(analysisResults.confidence).toFixed(2)}
+                aria-valuemin={0}
+                aria-valuemax={100}
+              >
+                {parseFloat(analysisResults.confidence).toFixed(2)}%
+              </div>
+            </div>
+          </div>
+          <div className="text-center mt-4">
+            <button onClick={() => alert('Action triggered')} className="btn btn-primary">
+              Go Back
+            </button>
+          </div>
+        </div>
+      )}
+
+
+
     </div>
   );
 };

@@ -27,25 +27,29 @@ with open("class_labels.json", "r") as f:
 
 @app.post("/classify")
 async def classify_image(file: UploadFile = File(...)):
-    print(file)
     try:
         # Read and preprocess the image
         image = Image.open(file.file).convert("RGB")
         input_tensor = preprocess(image).unsqueeze(0)  # Add batch dimension
-        
+
         # Perform inference
         with torch.no_grad():
             outputs = model(input_tensor)
             probabilities = torch.nn.functional.softmax(outputs[0], dim=0)
 
-        # Get the top prediction
-        top_prob, top_idx = torch.max(probabilities, dim=0)
-        predicted_label = class_labels[str(top_idx.item())]
+        # Get the top 5 predictions
+        top_probs, top_indices = torch.topk(probabilities, k=5)
+        predictions = []
+        for prob, idx in zip(top_probs, top_indices):
+            predicted_label = class_labels[str(idx.item())]
+            predictions.append({
+                "label": predicted_label,
+                "confidence": f"{prob.item() * 100:.2f}%"
+            })
 
         return JSONResponse(content={
             "message": "Image classified successfully.",
-            "predicted_label": predicted_label,
-            "confidence": f"{top_prob.item() * 100:.2f}%",
+            "predictions": predictions
         })
 
     except Exception as e:
@@ -53,4 +57,3 @@ async def classify_image(file: UploadFile = File(...)):
             "message": "Failed to classify image.",
             "error": str(e)
         }, status_code=500)
-

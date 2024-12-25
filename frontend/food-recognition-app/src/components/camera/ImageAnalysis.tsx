@@ -1,5 +1,5 @@
-import React from "react";
-import { Spinner } from "react-bootstrap";
+import React, { useState } from "react";
+import { Spinner, Alert, Button } from "react-bootstrap";
 import axios from "axios";
 import "./ImageAnalysis.css";
 
@@ -27,9 +27,12 @@ const ImageAnalysis: React.FC<ImageAnalysisProps> = ({
   image,
   onAnalysisComplete,
 }) => {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   React.useEffect(() => {
     const analyzeImage = async () => {
       try {
+        setErrorMessage(null);
         // console.log("Cropped Image Data:", image);
         // Extract the Base64 data
         const base64Data = image.split(",")[1]; // Remove the "data:image/...;base64," prefix
@@ -55,7 +58,7 @@ const ImageAnalysis: React.FC<ImageAnalysisProps> = ({
         onAnalysisComplete(response.data);
       } catch (error: any) {
         console.error("Image analysis failed:", error.message);
-        alert("Failed to analyze the image. Please try again.");
+        setErrorMessage("Failed to analyze the image. Please try again.");
       }
     };
 
@@ -67,11 +70,21 @@ const ImageAnalysis: React.FC<ImageAnalysisProps> = ({
       {/* Display the image being analyzed */}
       <img src={image} alt="Analyzing" className="analysis-image img-fluid mb-3" />
 
+      {/* Error Alert */}
+      {errorMessage && (
+        <Alert variant="danger" className="mt-3">
+          {errorMessage}
+        </Alert>
+      )}
+
       {/* Spinner and Progress Message */}
       <div className="analysis-status">
         <Spinner animation="border" role="status" className="me-2 spinner" />
-        <span>Analyzing your food...</span>
+        <span>Analyzing your image... Please wait.</span>
       </div>
+      <Button variant="secondary" className="mt-3" onClick={() => window.history.back()}>
+        Cancel
+      </Button>
     </div>
   );
 };
