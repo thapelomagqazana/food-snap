@@ -24,7 +24,7 @@ const Footer: React.FC = () => {
         
         {/* Footer Links */}
         <div className="footer-links">
-          <a href="/privacy" className="footer-link">
+          <a href="#" className="footer-link">
             Privacy Policy
           </a>
           <span className="mx-2 text-muted">{" "}|{" "}</span>

@@ -78,11 +78,13 @@ const ImageAnalysis: React.FC<ImageAnalysisProps> = ({
       )}
 
       {/* Spinner and Progress Message */}
-      <div className="analysis-status">
-        <Spinner animation="border" role="status" className="me-2 spinner" />
-        <span>Analyzing your image... Please wait.</span>
-      </div>
-      <Button variant="secondary" className="mt-3" onClick={() => window.history.back()}>
+      {!errorMessage && (
+          <div className="analysis-status">
+            <Spinner animation="border" role="status" className="me-2 spinner" />
+            <span>Analyzing your image...</span>
+          </div>
+      )}
+      <Button className="mt-3 capture-btn" onClick={() => window.history.back()}>
         Cancel
       </Button>
     </div>

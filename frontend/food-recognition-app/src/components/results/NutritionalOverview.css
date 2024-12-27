@@ -1,0 +1,38 @@
+.nutritional-overview {
+    max-width: 800px;
+    margin: auto;
+}
+
+.food-thumbnail {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table-primary {
+    background-color: #e9f5ff;
+    color: #333;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.card-header {
+    font-size: 1.5rem;
+}
+
+@media (max-width: 576px) {
+    .nutritional-overview {
+        padding: 15px;
+    }
+
+    .food-thumbnail {
+        margin-bottom: 20px;
+    }
+
+    .card-header {
+        font-size: 1.25rem;
+    }
+}

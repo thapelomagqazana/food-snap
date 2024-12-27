@@ -32,9 +32,9 @@ const Header: React.FC = () => {
                 <Nav.Link href="/home" className="me-3">
                   Home
                 </Nav.Link>
-                <Nav.Link href="/dashboard" className="me-3">
+                {/* <Nav.Link href="/dashboard" className="me-3">
                   Dashboard
-                </Nav.Link>
+                </Nav.Link> */}
                 <Nav.Link href="/profile" className="me-3">
                   Profile
                 </Nav.Link>
@@ -51,7 +51,7 @@ const Header: React.FC = () => {
             <a href="/" aria-label="Navigate to Home">
               {/* App Logo */}
               <img
-                src="/logo.png" // Replace with actual logo file path
+                src="/foodTrack.webp" // Replace with actual logo file path
                 alt="FoodTrack Logo"
                 className="app-logo"
               />

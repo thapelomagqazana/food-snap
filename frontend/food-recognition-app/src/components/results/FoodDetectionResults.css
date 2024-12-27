@@ -29,6 +29,15 @@
     font-size: 0.8rem;
 }
 
+.food-detection-results .clickable {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.food-detection-results .clickable:hover {
+    background-color: #f8f9fa;
+}
+
 @media (min-width: 576px) {
     .food-label {
         font-size: 1.2rem;

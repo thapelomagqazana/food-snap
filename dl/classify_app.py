@@ -12,7 +12,13 @@ app = FastAPI()
 model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)  # Use 'yolov5x' for highest accuracy
 
 # Set confidence threshold
-CONFIDENCE_THRESHOLD = 0.25  # Default value, can be modified
+CONFIDENCE_THRESHOLD = 0.25
+
+# Define the food-related categories
+FOOD_CATEGORIES = [
+    "banana", "apple", "orange", "broccoli", "carrot",
+    "hot dog", "pizza", "donut", "cake"
+]
 
 @app.post("/classify")
 async def detect_objects(
@@ -35,11 +41,19 @@ async def detect_objects(
 
         # Extract detections
         detections = []
+        seen_labels = set()  # Keep track of added labels to avoid duplication
+
         for *box, confidence, cls in results.xyxy[0].tolist():
             if confidence < confidence_threshold:
                 continue  # Skip predictions below the threshold
 
             label = model.names[int(cls)]
+            if label not in FOOD_CATEGORIES:
+                continue  # Skip non-food categories
+            if label in seen_labels:
+                continue  # Skip if label is already added
+            seen_labels.add(label)
+
             x_min, y_min, x_max, y_max = map(int, box)
 
             # Crop region of interest
@@ -59,7 +73,8 @@ async def detect_objects(
         # Check if detections are empty
         if not detections:
             return JSONResponse(content={
-                "message": "No objects detected above the confidence threshold."
+                "message": "No objects detected above the confidence threshold.",
+                "detections": detections,
             })
 
         return JSONResponse(content={

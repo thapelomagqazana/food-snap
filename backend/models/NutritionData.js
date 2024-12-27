@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 
 // Define FoodItem schema
 const nutritionDataSchema = new mongoose.Schema({
-    name: { type: String, required: true, unique: true }, // Food item name
+    name: { type: String, required: true, unique: true, uppercase: true }, // Food item name
     calories: { type: Number, required: true }, // Calories per serving
     protein: { type: Number, required: true }, // Protein in grams
     carbs: { type: Number, required: true }, // Carbs in grams

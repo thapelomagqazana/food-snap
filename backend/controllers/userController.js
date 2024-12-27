@@ -46,6 +46,9 @@ const registerUser = async (req, res) => {
         // Email verification link
         const verificationLink = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`;
 
+        // Update the logo path to use the backend's static file
+        const logoUrl = `../static/images/foodTrack.webp`;
+
         // Send verification email
         await transporter.sendMail({
             from: process.env.EMAIL_USER,
@@ -54,7 +57,7 @@ const registerUser = async (req, res) => {
             html: `
                 <div style="font-family: Arial, sans-serif; line-height: 1.5; color: #333; background-color: #f9f9f9; padding: 20px; border-radius: 8px; max-width: 600px; margin: auto; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
                     <header style="text-align: center; margin-bottom: 20px;">
-                        <img src="https://yourlogo.com/logo.png" alt="FoodTrack Logo" style="width: 150px; margin-bottom: 10px;" />
+                        <img src=${logoUrl} alt="FoodTrack Logo" style="width: 150px; margin-bottom: 10px;" />
                         <h1 style="color: #2e7d32; font-size: 24px; margin: 0;">Welcome to FoodTrack!</h1>
                     </header>
                     <p style="font-size: 16px; margin: 0 0 15px;">

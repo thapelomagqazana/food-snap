@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
 import CropTool from "../components/camera/CropTool";
 import ImageControls from "../components/camera/ImageControls";
 import ImageAnalysis from "../components/camera/ImageAnalysis";
@@ -82,6 +83,15 @@ const ImageAnalysisPage: React.FC = () => {
       {isAnalyzing && (
         <ImageAnalysis image={image} onAnalysisComplete={handleAnalysisComplete} />
       )}
+      {analysisResults?.detections?.length === 0 && (
+        <div className="text-center mt-4">
+          <p>The model used doesn't recognize any food items in the image. Please try another image.</p>
+          <Button className="capture-btn" onClick={() => navigate(-1)}>
+            Back
+          </Button>
+        </div>
+      )}
+
       {analysisResults && (
         <FoodDetectionResults detections={analysisResults.detections} />
       )}

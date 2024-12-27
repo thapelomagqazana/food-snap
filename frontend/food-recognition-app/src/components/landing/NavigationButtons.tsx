@@ -31,9 +31,9 @@ const NavigationButtons: React.FC = () => {
       </Button>
 
       {/* Explore as Guest Button */}
-      <Button href="/explore" className="btn explore-btn">
+      {/* <Button href="/explore" className="btn explore-btn">
         <i className="bi bi-search me-2"></i> Explore as Guest
-      </Button>
+      </Button> */}
     </div>
   );
 };

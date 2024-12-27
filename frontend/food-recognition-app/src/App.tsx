@@ -11,6 +11,7 @@ import ImageAnalysisPage from "./pages/ImageAnalysisPage";
 import Header from "./components/utils/Header";
 import Footer from "./components/utils/Footer";
 import EmailVerification from "./components/register/EmailVerification";
+import NutritionalOverview from "./components/results/NutritionalOverview";
 
 import { useAuth } from "./context/AuthContext";
 import { Navigate } from "react-router-dom";
@@ -33,6 +34,7 @@ const App: React.FC = () => {
             <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
             <Route path="/analysis" element={<ProtectedRoute><ImageAnalysisPage /></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+            <Route path="/nutrition-overview" element={<ProtectedRoute><NutritionalOverview /></ProtectedRoute>} />
         </Routes>
       <Footer />
     </div>

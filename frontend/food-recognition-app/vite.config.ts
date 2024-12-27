@@ -18,6 +18,9 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
+    build: {
+      outDir: 'dist',
+    },
     server: {
       watch: {
         usePolling: true,
