@@ -75,7 +75,6 @@ coverage/
 .sentryclirc
 
 # Docker
-Dockerfile
 docker-compose.yml
 *.dockerignore
 .docker/
