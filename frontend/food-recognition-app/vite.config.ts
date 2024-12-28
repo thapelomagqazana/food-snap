@@ -11,13 +11,13 @@ export default defineConfig(({ mode }) => {
   console.log('Loaded environment variables:', env);
   
   // Prepare environment variables with `import.meta.env` prefix
-  const envWithImportMetaPrefix = Object.entries(env).reduce<Record<string, string>>(
-    (acc, [key, value]) => {
-      acc[`import.meta.env.${key}`] = JSON.stringify(value);
-      return acc;
-    },
-    {}
-  );
+  // const envWithImportMetaPrefix = Object.entries(env).reduce<Record<string, string>>(
+  //   (acc, [key, value]) => {
+  //     acc[`import.meta.env.${key}`] = JSON.stringify(value);
+  //     return acc;
+  //   },
+  //   {}
+  // );
 
   return {
     plugins: [react()],
@@ -36,7 +36,7 @@ export default defineConfig(({ mode }) => {
       setupFiles: './src/tests/setup.ts',
     },
     define: {
-      ...envWithImportMetaPrefix,
+      'import.meta.env.VITE_API_URL': JSON.stringify(env.VITE_API_URL),
     },
     resolve: {
       alias: {
