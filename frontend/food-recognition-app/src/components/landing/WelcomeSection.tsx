@@ -18,11 +18,12 @@ const WelcomeSection: React.FC = () => {
     <div className="welcome-section text-center py-5">
       {/* Welcome Title */}
       <h1 className="welcome-title display-4 fw-bold">
-        Welcome to the Food Recognition App!
+        Welcome to FoodTrack!
       </h1>
       {/* Welcome Description */}
       <p className="welcome-description lead mt-3 mb-4">
-        Easily recognize your meals, track your nutrition, and achieve your health goals.
+        Your personal assistant for food recognition, nutrition tracking, and
+        health goals.
       </p>
     </div>
   );
