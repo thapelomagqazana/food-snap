@@ -1,6 +1,9 @@
 # Node.js Backend Dockerfile
 FROM node:18-alpine
 
+# Install curl
+RUN apk add --no-cache curl
+
 # Set working directory
 WORKDIR /app
 
