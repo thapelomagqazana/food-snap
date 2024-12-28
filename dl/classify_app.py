@@ -9,7 +9,7 @@ import base64
 app = FastAPI()
 
 # Load YOLOv5 model
-model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)  # Use 'yolov5x' for highest accuracy
+model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True, trust_repo=True)  # Use 'yolov5x' for highest accuracy
 
 # Set confidence threshold
 CONFIDENCE_THRESHOLD = 0.25
