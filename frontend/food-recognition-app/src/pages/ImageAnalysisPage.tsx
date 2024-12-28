@@ -5,7 +5,6 @@ import CropTool from "../components/camera/CropTool";
 import ImageControls from "../components/camera/ImageControls";
 import ImageAnalysis from "../components/camera/ImageAnalysis";
 import FoodDetectionResults from "../components/results/FoodDetectionResults";
-// import "./ImageAnalysisPage.css";
 
 const ImageAnalysisPage: React.FC = () => {
   const location = useLocation();
@@ -13,7 +12,6 @@ const ImageAnalysisPage: React.FC = () => {
 
   const initialImage = location.state?.image || "";
   const [image, setImage] = useState<string>(initialImage);
-  const [isCropped, setIsCropped] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisResults, setAnalysisResults] = useState<any | null>(null);
   const [imageHeader, setImageHeader] = useState<string>("Image Analysis");
@@ -25,40 +23,35 @@ const ImageAnalysisPage: React.FC = () => {
 
   const handleCrop = (croppedImage: string) => {
     setImage(croppedImage);
-    setIsCropped(true);
   };
 
   const handleRotate = () => {
-    // Rotate the image logic
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
-  
     const img = new Image();
     img.src = image;
-  
+
     img.onload = () => {
-      canvas.width = img.height; // Swap width and height for 90-degree rotation
+      canvas.width = img.height; 
       canvas.height = img.width;
-  
+
       if (ctx) {
         ctx.translate(canvas.width / 2, canvas.height / 2);
-        ctx.rotate((90 * Math.PI) / 180); // Rotate 90 degrees
+        ctx.rotate((90 * Math.PI) / 180);
         ctx.drawImage(img, -img.width / 2, -img.height / 2);
         const rotatedImage = canvas.toDataURL("image/png");
         setImage(rotatedImage);
       }
     };
   };
-  
 
   const handleReset = () => {
     setImage(initialImage);
-    setIsCropped(false);
   };
 
   const handleAnalyze = () => {
     setIsAnalyzing(true);
-    setAnalysisResults(null); // Reset results for a new analysis
+    setAnalysisResults(null);
   };
 
   const handleAnalysisComplete = (result: any) => {
@@ -91,8 +84,7 @@ const ImageAnalysisPage: React.FC = () => {
           </Button>
         </div>
       )}
-
-      {analysisResults && (
+      {analysisResults && analysisResults.detections?.length > 0 && (
         <FoodDetectionResults detections={analysisResults.detections} />
       )}
     </div>
@@ -100,4 +92,3 @@ const ImageAnalysisPage: React.FC = () => {
 };
 
 export default ImageAnalysisPage;
-

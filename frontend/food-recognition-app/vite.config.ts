@@ -1,14 +1,14 @@
-import { defineConfig, loadEnv } from 'vite'
-import react from '@vitejs/plugin-react'
-import path from "path";
+import { defineConfig, loadEnv } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   // Load .env from the parent directory
   const env = loadEnv(mode, path.resolve(__dirname, '../..'), '');
-  // console.log('Loaded ENV:', env.VITE_API_URL);   // Add only variables you need explicitly
-
-  const envWithImportMetaPrefix = Object.entries(env).reduce(
+  
+  // Prepare environment variables with `import.meta.env` prefix
+  const envWithImportMetaPrefix = Object.entries(env).reduce<Record<string, string>>(
     (acc, [key, value]) => {
       acc[`import.meta.env.${key}`] = JSON.stringify(value);
       return acc;
@@ -40,5 +40,5 @@ export default defineConfig(({ mode }) => {
         '@': path.resolve(__dirname, 'src'),
       },
     },
-  }
+  };
 });
