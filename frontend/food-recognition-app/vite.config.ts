@@ -1,47 +1,28 @@
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
+import dotenv from 'dotenv';
 
-// https://vite.dev/config/
-export default defineConfig(({ mode }) => {
+// Load environment variables
+dotenv.config({ path: path.resolve(__dirname, '.env') });
 
-  // Load .env file based on the mode
-  const env = loadEnv(mode, process.cwd());
-
-  console.log('Loaded environment variables:', env);
-  
-  // Prepare environment variables with `import.meta.env` prefix
-  // const envWithImportMetaPrefix = Object.entries(env).reduce<Record<string, string>>(
-  //   (acc, [key, value]) => {
-  //     acc[`import.meta.env.${key}`] = JSON.stringify(value);
-  //     return acc;
-  //   },
-  //   {}
-  // );
-
-  return {
-    plugins: [react()],
-    build: {
-      outDir: 'dist',
+export default defineConfig({
+  plugins: [react()],
+  build: {
+    outDir: 'dist', // Output directory for production build
+  },
+  server: {
+    watch: {
+      usePolling: true, // Enable polling for file changes
+      interval: 100,
     },
-    server: {
-      watch: {
-        usePolling: true,
-        interval: 100,
-      },
+  },
+  define: {
+    'import.meta.env.VITE_API_URL': JSON.stringify(process.env.VITE_API_URL),
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src'), // Alias for the `src` directory
     },
-    test: {
-      globals: true,
-      environment: 'jsdom',
-      setupFiles: './src/tests/setup.ts',
-    },
-    define: {
-      'import.meta.env.VITE_API_URL': JSON.stringify(env.VITE_API_URL || 'https://food-track-api.up.railway.app'),
-    },
-    resolve: {
-      alias: {
-        '@': path.resolve(__dirname, 'src'),
-      },
-    },
-  };
+  },
 });
