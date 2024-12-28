@@ -4,8 +4,9 @@ import path from 'path';
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
-  // Load .env from the parent directory
-  const env = loadEnv(mode, path.resolve(__dirname, '../..'), '');
+
+  // Load .env file based on the mode
+  const env = loadEnv(mode, process.cwd());
 
   console.log('Loaded environment variables:', env);
   
