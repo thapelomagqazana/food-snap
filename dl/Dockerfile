@@ -15,6 +15,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application files
 COPY . .
+COPY yolov5su.pt /app/yolov5su.pt
+
 
 # Expose port
 EXPOSE 8000
