@@ -6,6 +6,8 @@ import path from 'path';
 export default defineConfig(({ mode }) => {
   // Load .env from the parent directory
   const env = loadEnv(mode, path.resolve(__dirname, '../..'), '');
+
+  console.log('Loaded environment variables:', env);
   
   // Prepare environment variables with `import.meta.env` prefix
   const envWithImportMetaPrefix = Object.entries(env).reduce<Record<string, string>>(

@@ -101,6 +101,7 @@ const RegistrationForm: React.FC = () => {
 
     // Submit form data via API
     try {
+      console.log('API URL:', import.meta.env.VITE_API_URL);
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/users/register`,
         {
