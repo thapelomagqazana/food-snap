@@ -3,7 +3,7 @@ const {
     registerUser, loginUser, 
     updateUserProfile, verifyEmail,
     upload, fetchUserProfile } = require('../controllers/userController');
-const { authenticate } = require('../middleware/authMiddleware');
+const { authMiddleware } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
@@ -13,7 +13,7 @@ const router = express.Router();
 router.post('/register', registerUser); // User registration
 router.post('/login', loginUser);       // User login
 router.get("/verify-email", verifyEmail);
-router.put('/profile', authenticate, upload.single("profilePicture"), updateUserProfile);
-router.get("/profile", authenticate, fetchUserProfile);
+router.put('/profile', authMiddleware, upload.single("profilePicture"), updateUserProfile);
+router.get("/profile", authMiddleware, fetchUserProfile);
 
 module.exports = router;

@@ -1,35 +1,22 @@
-/**
- * Middleware to verify JSON Web Tokens (JWT) for protected routes.
- */
+const jwt = require('jsonwebtoken');
+const logger = require('../utils/logger');
+const { jwtSecret } = require("../config/env");
 
-const jwt = require("jsonwebtoken");
-const User = require("../models/User"); // Ensure User model is imported for database lookup
-
-/**
- * Middleware function to authenticate user requests.
- * @param {Object} req - Express request object.
- * @param {Object} res - Express response object.
- * @param {Function} next - Callback to pass control to the next middleware.
- */
-const authenticate = async (req, res, next) => {
-    // Get the token from the request headers
-    const token = req.header("Authorization")?.replace("Bearer ", ""); // Extract the token
+exports.authMiddleware = (req, res, next) => {
+    const token = req.headers.authorization?.split(' ')[1]; // Extract token from header
 
     if (!token) {
-        return res.status(401).json({ message: "Access denied. No token provided." });
+        logger.warn('Unauthorized access: Missing token');
+        return res.status(401).json({ message: 'Unauthorized' });
     }
 
     try {
-        // Verify the token
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-        // Find the user in the database and attach it to the request object
-        req.user = await User.findById(decoded.id).select("-password");
-
-        next(); // Pass control to the next middleware
-    } catch (err) {
-        res.status(403).json({ message: "Invalid or expired token." });
+        // Verify token
+        const decoded = jwt.verify(token, jwtSecret);
+        req.user = decoded; // Attach user data to request
+        next();
+    } catch (error) {
+        logger.error('Unauthorized access: Invalid token', error);
+        res.status(401).json({ message: 'Unauthorized' });
     }
 };
-
-module.exports = { authenticate };

@@ -25,6 +25,7 @@ module.exports = {
     redisHost: process.env.REDIS_HOST || '127.0.0.1',
     redisPort: process.env.REDIS_PORT || 6379,
     redisPassword: process.env.REDIS_PASSWORD || null,
+    nodeEnv: process.env.NODE_ENV || "development",
     // aws: {
     //     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     //     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,

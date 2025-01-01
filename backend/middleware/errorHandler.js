@@ -9,12 +9,11 @@ const logger = require('../utils/logger');
 const errorHandler = (err, req, res, next) => {
     logger.error(err.stack || err.message);
 
-    const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+    if (err.name === 'MongoNotConnectedError') {
+        return res.status(500).json({ message: 'Database unavailable' });
+    }
 
-    res.status(statusCode).json({
-        message: err.message,
-        ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
-    });
+    res.status(err.status || 500).json({ message: err.message || 'Internal Server Error' });
 };
 
 module.exports = errorHandler;

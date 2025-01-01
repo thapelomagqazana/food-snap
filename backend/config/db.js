@@ -4,6 +4,8 @@
  */
 
 const mongoose = require("mongoose");
+const logger = require("../utils/logger");
+const { mongoURI } = require("./env");
 
 /**
  * Connects to the MongoDB database using Mongoose.
@@ -11,13 +13,13 @@ const mongoose = require("mongoose");
  */
 const connectDB = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_URI, {
+        await mongoose.connect(mongoURI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
-        console.log("MongoDB connected");
+        logger.info('MongoDB connected successfully');
     } catch (error) {
-        console.log("Database connection failed:", error);
+        logger.error('MongoDB connection error:', error);
         process.exit(1); // Exit with failure code
     }
 };

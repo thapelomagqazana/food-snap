@@ -20,10 +20,15 @@ app.use(cors());
 app.use('/static', express.static(path.join(__dirname, 'static')));
 
 // Routes
-app.use('/api/images', require('./routes/imageRoutes'));
-app.use('/api/users', require('./routes/userRoutes'));
-app.use('/api/nutrition', require('./routes/nutritionRoutes'));
-app.use('/api/classify', require('./routes/classifyRoutes'));
+// app.use('/api/images', require('./routes/imageRoutes'));
+// app.use('/api/users', require('./routes/userRoutes'));
+// app.use('/api/nutrition', require('./routes/nutritionRoutes'));
+// app.use('/api/classify', require('./routes/classifyRoutes'));
+
+// Version 2 Routes
+app.use('/api/v2/auth', require("./versions/v2/routes/authRoutes"));
+// app.use('/api/v2/food', v2FoodRoutes);
+// app.use('/api/v2/logs', v2LogRoutes);
 
 
 

@@ -1,39 +1,44 @@
 const { createLogger, format, transports } = require("winston");
-const dotenv = require("dotenv");
+const { nodeEnv } = require("../config/env");
 
-// Load environment variables from the shared .env file
-dotenv.config({ path: '../.env' });
-
-// Define the log format
+// Define log format
 const logFormat = format.combine(
     format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
     format.printf(({ timestamp, level, message, stack }) => {
-        return `${timestamp} [${level.toUpperCase()}]: ${stack || message}`;
+        return stack
+            ? `${timestamp} [${level}]: ${message} - ${stack}` // Log stack trace for errors
+            : `${timestamp} [${level}]: ${message}`;
     })
 );
 
-// Create the logger
+// Create logger instance
 const logger = createLogger({
-    level: 'info', // Log level
+    level: nodeEnv === 'production' ? 'info' : 'debug', // Log level based on environment
     format: logFormat,
     transports: [
-        // Write all logs to a file
-        new transports.File({ filename: 'logs/app.log' }),
-        // Write error logs to a separate file
-        new transports.File({ filename: 'logs/error.log', level: 'error' }),
+        // Log to console
+        new transports.Console({
+            format: format.combine(
+                format.colorize(), // Add colors for console logs
+                logFormat
+            ),
+        }),
+        // Log to a file
+        new transports.File({
+            filename: 'logs/error.log',
+            level: 'error', // Log only errors to this file
+        }),
+        new transports.File({
+            filename: 'logs/combined.log',
+        }),
+    ],
+    exceptionHandlers: [
+        new transports.File({ filename: 'logs/exceptions.log' }),
+    ],
+    rejectionHandlers: [
+        new transports.File({ filename: 'logs/rejections.log' }),
     ],
 });
 
-// Log to console in development mode
-if (process.env.NODE_ENV === "development") {
-    logger.add(
-        new transports.Console({
-            format: format.combine(
-                format.colorize(), // Add colors for better visibility
-                format.simple()    // Simple format for console output
-            ),
-        })
-    );
-}
-
+// Export the logger instance
 module.exports = logger;
