@@ -27,7 +27,7 @@ app.use('/static', express.static(path.join(__dirname, 'static')));
 
 // Version 2 Routes
 app.use('/api/v2/auth', require("./versions/v2/routes/authRoutes"));
-// app.use('/api/v2/food', v2FoodRoutes);
+app.use('/api/v2/food', require("./versions/v2/routes/foodRoutes"));
 // app.use('/api/v2/logs', v2LogRoutes);
 
 

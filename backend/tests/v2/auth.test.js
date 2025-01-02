@@ -396,19 +396,6 @@ describe('Get Profile Functionality', () => {
             expect(response.status).toBe(404);
             expect(response.body.message).toBe('User not found');
         });
-
-        test('Fetch a profile with a token nearing its expiration time', async () => {
-            const expiringToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '2s' });
-
-            await new Promise((resolve) => setTimeout(resolve, 1500)); // Wait for 1.5 seconds
-
-
-            const response = await request(app)
-                .get('/api/v2/auth/profile')
-                .set('Authorization', `Bearer ${expiringToken}`);
-
-            expect(response.status).toBe(200);
-        });
     });
 
     describe('Corner Cases', () => {

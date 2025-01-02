@@ -1,0 +1,2 @@
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+This is a plain text file used to test invalid uploads.
