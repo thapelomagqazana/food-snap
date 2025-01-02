@@ -1,0 +1,293 @@
+/* Home Container */
+.home-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    min-height: 100vh; /* Ensure the container takes up at least the full viewport height */
+    overflow-y: auto; /* Enable vertical scrolling when content overflows */
+    padding: 20px;
+    background: linear-gradient(135deg, #f9f9f9, #ffffff);
+    text-align: center;
+}
+
+/* Header */
+header h1 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between buttons */
+    width: 100%; /* Ensure buttons stretch */
+    max-width: 400px; /* Limit button width */
+}
+
+.snap-photo-btn,
+.upload-gallery-btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.snap-photo-btn {
+    background-color: #76c893;
+    color: white;
+}
+
+.snap-photo-btn:hover {
+    background-color: #5ca478;
+}
+
+.upload-gallery-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.upload-gallery-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Preview Container */
+.preview-container {
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+    border-top: 1px solid #ddd;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    position: sticky; /* Keep navigation at the bottom during scrolling */
+    bottom: 0;
+    z-index: 10;
+}
+
+.bottom-nav .nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #555;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.bottom-nav .nav-link i {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.bottom-nav .nav-link:hover,
+.bottom-nav .nav-link.active {
+    color: #76c893;
+}
+
+.preview-container {
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.preview-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.preview-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.preview-image {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    object-fit: contain;
+}
+
+
+.remove-preview-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.remove-preview-btn:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+@media (max-width: 768px) {
+    .home-container {
+        padding: 15px; /* Reduce padding for smaller screens */
+    }
+
+    header h1 {
+        font-size: 24px; /* Smaller font size for header */
+        margin-bottom: 15px;
+    }
+
+    .action-buttons {
+        gap: 15px; /* Reduce space between buttons */
+    }
+
+    .snap-photo-btn,
+    .upload-gallery-btn {
+        padding: 12px; /* Adjust button padding for smaller screens */
+        font-size: 14px; /* Slightly smaller font size */
+    }
+
+    .preview-container {
+        gap: 10px;
+    }
+
+    .preview-title {
+        font-size: 16px;
+    }
+
+    .preview-wrapper {
+        max-width: 250px; /* Smaller preview size */
+    }
+
+    .remove-preview-btn {
+        width: 25px;
+        height: 25px;
+        font-size: 12px;
+    }
+
+    .bottom-nav .nav-link i {
+        font-size: 18px; /* Smaller icons */
+    }
+
+    .bottom-nav .nav-link {
+        font-size: 12px; /* Smaller text */
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .home-container {
+        padding: 20px; /* Maintain moderate padding */
+    }
+
+    header h1 {
+        font-size: 26px; /* Larger font size for tablet */
+        margin-bottom: 20px;
+    }
+
+    .action-buttons {
+        gap: 18px; /* Adjust space between buttons */
+    }
+
+    .snap-photo-btn,
+    .upload-gallery-btn {
+        padding: 14px; /* Medium-sized padding */
+        font-size: 15px; /* Medium-sized font */
+    }
+
+    .preview-container {
+        gap: 15px;
+    }
+
+    .preview-title {
+        font-size: 17px; /* Slightly larger title */
+    }
+
+    .preview-wrapper {
+        max-width: 280px; /* Larger preview size */
+    }
+
+    .remove-preview-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 13px;
+    }
+
+    .bottom-nav .nav-link i {
+        font-size: 20px; /* Maintain icon size for tablets */
+    }
+
+    .bottom-nav .nav-link {
+        font-size: 13px; /* Slightly larger text */
+    }
+}
+
+@media (min-width: 1024px) {
+    .home-container {
+        padding: 30px; /* Increase padding for desktop */
+    }
+
+    header h1 {
+        font-size: 28px; /* Larger font for desktop */
+        margin-bottom: 25px;
+    }
+
+    .action-buttons {
+        gap: 20px; /* Maintain space between buttons */
+    }
+
+    .snap-photo-btn,
+    .upload-gallery-btn {
+        padding: 16px; /* Larger padding for desktop */
+        font-size: 16px; /* Default font size */
+    }
+
+    .preview-container {
+        gap: 20px; /* Increase gap for spacious layout */
+        margin-bottom: 100px;
+    }
+
+    .preview-title {
+        font-size: 18px; /* Default font size for title */
+    }
+
+    .preview-wrapper {
+        max-width: 300px; /* Larger preview size */
+    }
+
+    .remove-preview-btn {
+        width: 30px; /* Default size */
+        height: 30px; /* Default size */
+        font-size: 14px; /* Default font size */
+    }
+
+    .bottom-nav .nav-link i {
+        font-size: 22px; /* Larger icons for desktop */
+    }
+
+    .bottom-nav .nav-link {
+        font-size: 14px; /* Default font size */
+    }
+}
+

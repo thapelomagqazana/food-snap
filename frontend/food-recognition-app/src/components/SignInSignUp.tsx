@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from "../context/AuthContext";
 import { Alert, Spinner } from 'react-bootstrap';
 import '../styles/SignInSignUp.css';
 
 const SignInSignUp: React.FC = () => {
+    const { login } = useAuth(); // Authentication context for login functionality
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
@@ -51,6 +53,7 @@ const SignInSignUp: React.FC = () => {
                 setSuccess('Login successful! Redirecting...');
                 setTimeout(() => {
                     setLoading(false);
+                    login(response.data.token); // Store token and handle expiration
                     navigate('/home');
                 }, 1500);
             }

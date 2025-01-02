@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import SplashScreen from './components/SplashScreen';
 import SignInSignUp from './components/SignInSignUp';
-import HomeScreen from "./pages/HomeScreen";
+import HomeScreen from "./components/HomeScreen";
 import RegistrationScreen from "./components/RegistrationScreen";
 import OnboardingScreen from './components/OnboardingScreen';
 
