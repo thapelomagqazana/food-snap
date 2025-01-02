@@ -1,0 +1,212 @@
+/* General Styles (Desktop by Default) */
+.signin-signup-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    text-align: center;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.signin-signup-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+header h1 {
+    font-size: 32px;
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 15px;
+}
+
+header p {
+    font-size: 18px;
+    color: #666666;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    font-size: 15px;
+    color: #444444;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-group input:focus {
+    border-color: #76c893;
+    box-shadow: 0 0 6px rgba(118, 200, 147, 0.5);
+}
+
+.signin-button, .signup-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s ease;
+}
+
+.signin-button {
+    background-color: #76c893;
+    color: #ffffff;
+}
+
+.signin-button:hover {
+    background-color: #5ca478;
+    transform: translateY(-3px);
+}
+
+.signup-button {
+    background-color: #007bff;
+    color: #ffffff;
+    margin-top: 10px;
+}
+
+.signup-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-3px);
+}
+
+.forgot-password {
+    font-size: 15px;
+    color: #007bff;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.signup-section {
+    margin-top: 30px;
+    font-size: 16px;
+    color: #555555;
+}
+
+.signup-section p {
+    margin-bottom: 10px;
+}
+
+.success-message {
+    color: #28a745;
+    font-size: 15px;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.error-message {
+    color: #d9534f;
+    font-size: 15px;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+/* Responsive Adjustments */
+
+/* Smartphone View (max-width: 600px) */
+@media (max-width: 600px) {
+    .signin-signup-container {
+        max-width: 90%; /* Adjust container width */
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    header h1 {
+        font-size: 24px; /* Smaller font for header */
+    }
+
+    header p {
+        font-size: 14px; /* Smaller font for subtext */
+        margin-bottom: 20px;
+    }
+
+    .input-group input {
+        padding: 10px; /* Reduced padding for input fields */
+        font-size: 14px;
+    }
+
+    .signin-button, .signup-button {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .forgot-password {
+        font-size: 13px;
+    }
+}
+
+/* Tablet View (min-width: 601px and max-width: 1024px) */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .signin-signup-container {
+        max-width: 80%; /* Slightly wider container for tablets */
+        margin: 40px auto;
+        padding: 25px;
+    }
+
+    header h1 {
+        font-size: 28px; /* Adjusted font size */
+    }
+
+    header p {
+        font-size: 16px;
+    }
+
+    .input-group input {
+        padding: 12px;
+        font-size: 15px;
+    }
+
+    .signin-button, .signup-button {
+        padding: 12px;
+        font-size: 15px;
+    }
+}
+
+/* Desktop View (min-width: 1025px) */
+@media (min-width: 1025px) {
+    .signin-signup-container {
+        max-width: 400px; /* Default desktop size */
+    }
+
+    header h1 {
+        font-size: 32px;
+    }
+
+    header p {
+        font-size: 18px;
+    }
+
+    .input-group input {
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    .signin-button, .signup-button {
+        padding: 12px;
+        font-size: 16px;
+    }
+}

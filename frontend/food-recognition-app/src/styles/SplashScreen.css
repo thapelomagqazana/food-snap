@@ -1,0 +1,103 @@
+/* General Styles (Default for Desktop) */
+.splash-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+    background: linear-gradient(135deg, #76c893, #d4f1c5);
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    animation: fadeIn 2s ease-in;
+}
+
+.logo {
+    font-size: 56px;
+    font-weight: 800;
+    color: #ff7f11;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.tagline {
+    font-size: 22px;
+    color: #333333;
+    margin-bottom: 30px;
+    font-weight: 500;
+    line-height: 1.5;
+    max-width: 90%;
+}
+
+.loading-indicator {
+    font-size: 16px;
+    color: #666666;
+    margin-top: 20px;
+    animation: fadeBounce 1.5s infinite ease-in-out;
+}
+
+/* Smartphone View */
+@media (max-width: 600px) {
+    .splash-container {
+        padding: 15px;
+    }
+
+    .logo {
+        font-size: 36px;
+        margin-bottom: 10px;
+    }
+
+    .tagline {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .loading-indicator {
+        font-size: 14px;
+    }
+}
+
+/* Tablet View */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .splash-container {
+        padding: 20px;
+    }
+
+    .logo {
+        font-size: 48px;
+        margin-bottom: 12px;
+    }
+
+    .tagline {
+        font-size: 20px;
+        margin-bottom: 25px;
+    }
+
+    .loading-indicator {
+        font-size: 15px;
+    }
+}
+
+/* Desktop View */
+@media (min-width: 1025px) {
+    .splash-container {
+        padding: 30px;
+    }
+
+    .logo {
+        font-size: 56px;
+        margin-bottom: 15px;
+    }
+
+    .tagline {
+        font-size: 22px;
+        margin-bottom: 30px;
+    }
+
+    .loading-indicator {
+        font-size: 16px;
+    }
+}
