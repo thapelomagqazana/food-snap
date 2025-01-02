@@ -1,0 +1,75 @@
+.bottom-nav {
+    border-top: 1px solid #ddd;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    background-color: #ffffff; /* Ensure consistent background across devices */
+    position: sticky; /* Sticky to bottom for scrolling */
+    bottom: 0;
+}
+
+/* General Nav Link Styles */
+.bottom-nav .nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #555;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.bottom-nav .nav-link i {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.bottom-nav .nav-link:hover,
+.bottom-nav .nav-link.active {
+    color: #76c893; /* Highlight active or hovered links */
+}
+
+/* Smartphone View */
+@media (max-width: 600px) {
+    .bottom-nav {
+        padding: 10px 0; /* Reduce padding for smaller screens */
+    }
+
+    .bottom-nav .nav-link {
+        font-size: 12px; /* Smaller font size for compact view */
+    }
+
+    .bottom-nav .nav-link i {
+        font-size: 18px; /* Slightly smaller icons */
+    }
+}
+
+/* Tablet View */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .bottom-nav {
+        padding: 15px 0; /* Slightly increased padding for medium screens */
+    }
+
+    .bottom-nav .nav-link {
+        font-size: 14px; /* Standard font size */
+    }
+
+    .bottom-nav .nav-link i {
+        font-size: 20px; /* Standard icon size */
+    }
+}
+
+/* Desktop View */
+@media (min-width: 1025px) {
+    .bottom-nav {
+        padding: 20px 0; /* Spacious padding for larger screens */
+    }
+
+    .bottom-nav .nav-link {
+        font-size: 16px; /* Larger font for clarity */
+    }
+
+    .bottom-nav .nav-link i {
+        font-size: 22px; /* Larger icons for better visibility */
+    }
+}
+

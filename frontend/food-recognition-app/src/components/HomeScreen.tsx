@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Navbar, Nav, Modal, Button } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
+import BottomNav from './BottomNav';
+import { useNavigate } from 'react-router-dom';
 import '../styles/HomeScreen.css';
 
 const HomeScreen: React.FC = () => {
@@ -8,7 +10,7 @@ const HomeScreen: React.FC = () => {
     const [timeOfDay, setTimeOfDay] = useState<string>('');
     const [cameraModalVisible, setCameraModalVisible] = useState<boolean>(false);
     const [videoStream, setVideoStream] = useState<MediaStream | null>(null);
-    const [previewImage, setPreviewImage] = useState<string | null>(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -48,6 +50,22 @@ const HomeScreen: React.FC = () => {
         }
     };
 
+    const capturePhoto = () => {
+        const canvas = document.createElement('canvas');
+        const videoElement = document.querySelector('video') as HTMLVideoElement;
+
+        canvas.width = videoElement.videoWidth;
+        canvas.height = videoElement.videoHeight;
+
+        const ctx = canvas.getContext('2d');
+        ctx?.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+        const imageBase64 = canvas.toDataURL('image/png');
+        navigate('/food-recognition', { state: { image: imageBase64, filePath: null } });
+
+        closeCameraModal();
+    };
+
     const closeCameraModal = () => {
         if (videoStream) {
             videoStream.getTracks().forEach((track) => track.stop());
@@ -69,7 +87,8 @@ const HomeScreen: React.FC = () => {
             if (file) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    setPreviewImage(e.target?.result as string);
+                    const imageBase64 = e.target?.result as string;
+                    navigate('/food-recognition', { state: { image: imageBase64, filePath: file } });
                 };
                 reader.readAsDataURL(file);
             }
@@ -112,51 +131,15 @@ const HomeScreen: React.FC = () => {
                     )}
                 </Modal.Body>
                 <Modal.Footer>
+                    <Button variant="success" onClick={capturePhoto}>
+                        Capture Photo
+                    </Button>
                     <Button variant="secondary" onClick={closeCameraModal}>
                         Close
                     </Button>
                 </Modal.Footer>
             </Modal>
-
-            {/* File Preview */}
-            {previewImage && (
-                <div className="preview-container">
-                    <h5 className="preview-title">Image Preview:</h5>
-                    <div className="preview-wrapper">
-                        <img src={previewImage} alt="Selected file preview" className="preview-image" />
-                        <button
-                            className="remove-preview-btn"
-                            onClick={() => setPreviewImage(null)} // Clear the preview
-                        >
-                            Remove Preview
-                        </button>
-                    </div>
-                </div>
-            )}
-
-
-            <Navbar fixed="bottom" bg="light" className="bottom-nav">
-                <Nav className="w-100 justify-content-around">
-                    <Nav.Item>
-                        <Nav.Link href="#home">
-                            <i className="bi bi-house-fill"></i>
-                            <span>Home</span>
-                        </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link href="#logs">
-                            <i className="bi bi-list-check"></i>
-                            <span>Logs</span>
-                        </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link href="#profile">
-                            <i className="bi bi-person-circle"></i>
-                            <span>Profile</span>
-                        </Nav.Link>
-                    </Nav.Item>
-                </Nav>
-            </Navbar>
+            <BottomNav />
         </div>
     );
 };

@@ -68,33 +68,6 @@ header h1 {
     gap: 15px;
 }
 
-/* Bottom Navigation */
-.bottom-nav {
-    border-top: 1px solid #ddd;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-    position: sticky; /* Keep navigation at the bottom during scrolling */
-    bottom: 0;
-    z-index: 10;
-}
-
-.bottom-nav .nav-link {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #555;
-    font-size: 14px;
-    transition: color 0.3s ease;
-}
-
-.bottom-nav .nav-link i {
-    font-size: 20px;
-    margin-bottom: 5px;
-}
-
-.bottom-nav .nav-link:hover,
-.bottom-nav .nav-link.active {
-    color: #76c893;
-}
 
 .preview-container {
     margin-top: 20px;
@@ -186,14 +159,6 @@ header h1 {
         height: 25px;
         font-size: 12px;
     }
-
-    .bottom-nav .nav-link i {
-        font-size: 18px; /* Smaller icons */
-    }
-
-    .bottom-nav .nav-link {
-        font-size: 12px; /* Smaller text */
-    }
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
@@ -279,14 +244,6 @@ header h1 {
     .remove-preview-btn {
         width: 30px; /* Default size */
         height: 30px; /* Default size */
-        font-size: 14px; /* Default font size */
-    }
-
-    .bottom-nav .nav-link i {
-        font-size: 22px; /* Larger icons for desktop */
-    }
-
-    .bottom-nav .nav-link {
         font-size: 14px; /* Default font size */
     }
 }
