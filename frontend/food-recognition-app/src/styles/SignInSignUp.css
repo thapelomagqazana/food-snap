@@ -57,7 +57,7 @@ header p {
     box-shadow: 0 0 6px rgba(118, 200, 147, 0.5);
 }
 
-.signin-button, .signup-button {
+.signin-button, .signup-button-1 {
     width: 100%;
     padding: 12px;
     font-size: 16px;
@@ -78,13 +78,13 @@ header p {
     transform: translateY(-3px);
 }
 
-.signup-button {
+.signup-button-1 {
     background-color: #007bff;
     color: #ffffff;
     margin-top: 10px;
 }
 
-.signup-button:hover {
+.signup-button-1:hover {
     background-color: #0056b3;
     transform: translateY(-3px);
 }
@@ -124,6 +124,30 @@ header p {
     margin-bottom: 15px;
     text-align: left;
 }
+
+/* Custom Alert */
+.custom-alert {
+    margin: 15px 0; /* Adds spacing between alerts and other elements */
+    padding: 15px 20px; /* Larger padding for better readability */
+    border-radius: 8px; /* Rounded corners for a modern look */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for emphasis */
+    font-size: 14px; /* Slightly larger font for clarity */
+}
+
+/* Success Alert Specific */
+.custom-alert.alert-success {
+    background-color: #d4edda; /* Light green background */
+    border-color: #c3e6cb; /* Green border */
+    color: #155724; /* Dark green text */
+}
+
+/* Danger Alert Specific */
+.custom-alert.alert-danger {
+    background-color: #f8d7da; /* Light red background */
+    border-color: #f5c6cb; /* Red border */
+    color: #721c24; /* Dark red text */
+}
+
 
 /* Responsive Adjustments */
 

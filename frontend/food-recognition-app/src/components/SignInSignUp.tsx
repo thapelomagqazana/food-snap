@@ -1,31 +1,42 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Alert, Spinner } from 'react-bootstrap';
 import '../styles/SignInSignUp.css';
 
 const SignInSignUp: React.FC = () => {
     const [formData, setFormData] = useState({ email: '', password: '' });
+    const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [emailValid, setEmailValid] = useState(false);
     const navigate = useNavigate();
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+
+        if (name === 'email') {
+            setEmailValid(/\S+@\S+\.\S+/.test(value));
+        }
     };
 
     const handleSignIn = async () => {
         setError('');
         setSuccess('');
+        setLoading(true);
 
         // Input validation
         if (!formData.email || !formData.password) {
-            setError('Email and password are required');
+            setError('Email and password are required.');
+            setLoading(false);
             return;
         }
 
-        if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            setError('Invalid email format');
+        if (!emailValid) {
+            setError('Invalid email format.');
+            setLoading(false);
             return;
         }
 
@@ -36,31 +47,31 @@ const SignInSignUp: React.FC = () => {
                 password: formData.password,
             });
 
-            // Success handling
             if (response.status === 200) {
                 setSuccess('Login successful! Redirecting...');
                 setTimeout(() => {
-                    navigate('/home'); // Navigate to the Home Screen after success
+                    setLoading(false);
+                    navigate('/home');
                 }, 1500);
             }
         } catch (err: unknown) {
-            // Type guard for error object
             if (axios.isAxiosError(err)) {
                 setError(err.response?.data?.message || 'An error occurred during login.');
             } else {
                 setError('An unexpected error occurred.');
             }
+            setLoading(false);
         }
     };
 
     const handleSignUp = () => {
-        navigate('/register'); // Navigate to the Registration Screen
+        navigate('/register');
     };
 
     return (
         <div className="signin-signup-container">
             <header>
-                <h1>Welcome to FoodSnap</h1>
+                <h1>Welcome to FoodTrack</h1>
                 <p>Track your meals effortlessly with AI-powered insights.</p>
             </header>
             <div className="signin-section">
@@ -75,26 +86,47 @@ const SignInSignUp: React.FC = () => {
                         value={formData.email}
                         onChange={handleInputChange}
                     />
+                    <small className={emailValid ? 'text-success' : 'text-danger'}>
+                        {emailValid ? 'Valid email address' : 'Invalid email address'}
+                    </small>
                 </div>
                 <div className="input-group">
                     <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        placeholder="Enter your password"
-                        value={formData.password}
-                        onChange={handleInputChange}
-                    />
+                    <div className="password-field">
+                        <input
+                            type={showPassword ? 'text' : 'password'}
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            value={formData.password}
+                            onChange={handleInputChange}
+                        />
+                        <button
+                            type="button"
+                            className="toggle-password"
+                            onClick={() => setShowPassword(!showPassword)}
+                        >
+                            {showPassword ? 'Hide' : 'Show'}
+                        </button>
+                    </div>
                 </div>
-                {error && <p className="error-message">{error}</p>}
-                {success && <p className="success-message">{success}</p>}
-                <button onClick={handleSignIn} className="signin-button">Sign In</button>
+                {error && <Alert variant="danger" className="custom-alert text-center">{error}</Alert>}
+                {success && <Alert variant="success" className="custom-alert text-center">{success}</Alert>}
+                <button onClick={handleSignIn} className="signin-button" disabled={loading}>
+                    {loading ? (
+                        <>
+                            <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
+                            {' '}Signing In...
+                        </>
+                    ) : (
+                        'Sign In'
+                    )}
+                </button>
                 <a href="#" className="forgot-password">Forgot Password?</a>
             </div>
             <div className="signup-section">
                 <p>Don't have an account?</p>
-                <button onClick={handleSignUp} className="signup-button">Create Account</button>
+                <button onClick={handleSignUp} className="signup-button-1">Create Account</button>
             </div>
         </div>
     );

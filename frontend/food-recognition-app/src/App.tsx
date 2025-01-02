@@ -3,7 +3,8 @@ import { Routes, Route } from 'react-router-dom';
 import SplashScreen from './components/SplashScreen';
 import SignInSignUp from './components/SignInSignUp';
 import HomeScreen from "./pages/HomeScreen";
-import RegistrationScreen from "./pages/RegistrationScreen";
+import RegistrationScreen from "./components/RegistrationScreen";
+import OnboardingScreen from './components/OnboardingScreen';
 
 import { useAuth } from "./context/AuthContext";
 import { Navigate } from "react-router-dom";
@@ -19,6 +20,7 @@ const App: React.FC = () => {
             <Route path="/" element={<SplashScreen />} />
             <Route path="/signin-signup" element={<SignInSignUp />} />
             <Route path="/register" element={<RegistrationScreen />} />
+            <Route path="/onboarding" element={<OnboardingScreen />} />
             <Route path="/home" element={<ProtectedRoute><HomeScreen /></ProtectedRoute>} />
         </Routes>
     );
