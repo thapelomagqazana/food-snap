@@ -183,7 +183,7 @@ describe('Login Functionality', () => {
         // Create a user for testing
         existingUser = await User.create({
             name: 'John Doe',
-            email: 'johndoe@example.com',
+            email: 'johndoe1@example.com',
             password: await bcrypt.hash('password123', 10),
         });
     });
@@ -193,7 +193,7 @@ describe('Login Functionality', () => {
             const response = await request(app)
                 .post('/api/v2/auth/login')
                 .send({
-                    email: 'johndoe@example.com',
+                    email: 'johndoe1@example.com',
                     password: 'password123',
                 });
 
@@ -206,7 +206,7 @@ describe('Login Functionality', () => {
             const response = await request(app)
                 .post('/api/v2/auth/login')
                 .send({
-                    email: 'johndoe@example.com',
+                    email: 'johndoe1@example.com',
                     password: 'password123',
                 });
 
@@ -220,12 +220,12 @@ describe('Login Functionality', () => {
             await request(app)
                 .post('/api/v2/auth/login')
                 .send({
-                    email: 'johndoe@example.com',
+                    email: 'johndoe1@example.com',
                     password: 'password123',
                 });
 
             expect(loggerSpy).toHaveBeenCalledWith(
-                expect.stringContaining('User logged in successfully: johndoe@example.com')
+                expect.stringContaining('User logged in successfully: johndoe1@example.com')
             );
             loggerSpy.mockRestore();
         });
@@ -248,7 +248,7 @@ describe('Login Functionality', () => {
             const response = await request(app)
                 .post('/api/v2/auth/login')
                 .send({
-                    email: 'johndoe@example.com',
+                    email: 'johndoe1@example.com',
                     password: 'wrongpassword',
                 });
 
@@ -271,7 +271,7 @@ describe('Login Functionality', () => {
             const response = await request(app)
                 .post('/api/v2/auth/login')
                 .send({
-                    email: '  johndoe@example.com  ',
+                    email: '  johndoe1@example.com  ',
                     password: 'password123',
                 });
 
@@ -287,7 +287,7 @@ describe('Login Functionality', () => {
             const response = await request(app)
                 .post('/api/v2/auth/login')
                 .send({
-                    email: 'johndoe@example.com',
+                    email: 'johndoe1@example.com',
                     password: 'newpassword123',
                 });
 
@@ -301,7 +301,7 @@ describe('Login Functionality', () => {
                 .fill(null)
                 .map(() =>
                     request(app).post('/api/v2/auth/login').send({
-                        email: 'johndoe@example.com',
+                        email: 'johndoe1@example.com',
                         password: 'password123',
                     })
                 );
@@ -427,5 +427,109 @@ describe('Get Profile Functionality', () => {
             expect(response.body).not.toHaveProperty('unexpectedField');
             expect(response.body.preferences.dietaryRestrictions).toContain('Gluten');
         });
+    });
+});
+
+describe('Edit User Profile API Tests', () => {
+    let user, token;
+    beforeEach(async () => {
+        // Connect to the test database and create a test user
+        user = await User.create({
+            name: 'John Doe',
+            email: 'johndoe@example.com',
+            password: await bcrypt.hash('password123', 10),
+            preferences: {
+                dietaryRestrictions: ['Gluten-Free'],
+                notificationsEnabled: true,
+            },
+        });
+
+        // Generate a valid token
+        token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    });
+
+    test('Edit user profile with valid fields', async () => {
+        const response = await request(app)
+            .put('/api/v2/auth/profile')
+            .set('Authorization', `Bearer ${token}`)
+            .send({
+                name: 'Jane Doe',
+                email: 'janedoe@example.com',
+                preferences: {
+                    dietaryRestrictions: ['Vegan'],
+                    notificationsEnabled: false,
+                },
+            });
+
+        expect(response.status).toBe(200);
+        expect(response.body.message).toBe('Profile updated successfully');
+        expect(response.body.user.name).toBe('Jane Doe');
+        expect(response.body.user.email).toBe('janedoe@example.com');
+        expect(response.body.user.preferences.dietaryRestrictions).toEqual(['Vegan']);
+        expect(response.body.user.preferences.notificationsEnabled).toBe(false);
+    });
+
+    test('Edit user profile with no fields provided', async () => {
+        const response = await request(app)
+            .put('/api/v2/auth/profile')
+            .set('Authorization', `Bearer ${token}`)
+            .send({});
+
+        expect(response.status).toBe(400);
+        expect(response.body.message).toBe('At least one field (name, email, preferences) must be provided');
+    });
+
+    test('Edit user profile with invalid email format', async () => {
+        const response = await request(app)
+            .put('/api/v2/auth/profile')
+            .set('Authorization', `Bearer ${token}`)
+            .send({ email: 'invalid-email' });
+
+        expect(response.status).toBe(400);
+        expect(response.body.message).toBe("Invalid email format");
+    });
+
+    test('Edit user profile without authentication token', async () => {
+        const response = await request(app).put('/api/v2/auth/profile').send({
+            name: 'Jane Doe',
+        });
+
+        expect(response.status).toBe(401);
+        expect(response.body.message).toBe('Unauthorized');
+    });
+
+    test('Edit user profile for non-existent user', async () => {
+        const nonExistentToken = jwt.sign({ id: '607d2f2f1a5e343a2e000000' }, process.env.JWT_SECRET, {
+            expiresIn: '1h',
+        });
+
+        const response = await request(app)
+            .put('/api/v2/auth/profile')
+            .set('Authorization', `Bearer ${nonExistentToken}`)
+            .send({
+                name: 'Ghost User',
+            });
+
+        expect(response.status).toBe(404);
+        expect(response.body.message).toBe('User not found');
+    });
+
+    test('Edit user profile with a duplicate email', async () => {
+        // Create another user to test duplicate email
+        await User.create({
+            name: 'Existing User',
+            email: 'existing@example.com',
+            password: await bcrypt.hash('password123', 10),
+        });
+
+        const response = await request(app)
+            .put('/api/v2/auth/profile')
+            .set('Authorization', `Bearer ${token}`)
+            .send({
+                email: 'existing@example.com',
+            });
+
+        expect(response.status).toBe(400);
+        expect(response.body.message).toBe('Email already exists');
     });
 });

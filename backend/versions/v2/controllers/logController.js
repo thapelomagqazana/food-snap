@@ -1,5 +1,7 @@
-const Log = require('../models/Log'); // Import Log model
-const logger = require('../../../utils/logger'); // Import logger
+const Log = require('../../../models/Log');
+const logger = require('../../../utils/logger');
+const moment = require('moment');
+const mongoose = require("mongoose");
 
 // Create a new meal log
 exports.createLog = async (req, res, next) => {
@@ -11,6 +13,16 @@ exports.createLog = async (req, res, next) => {
             return res.status(400).json({ message: 'mealTime and items are required' });
         }
 
+        if (mealTime.length > 255) {
+            logger.warn('Meal log creation failed: mealTime exceeds maximum length');
+            return res.status(400).json({ message: 'mealTime exceeds maximum allowed length' });
+        }
+
+        if (!items.every(item => item.name && item.calories && item.protein && item.carbs && item.fat)) {
+            logger.warn('Meal log creation failed: Invalid item structure');
+            return res.status(400).json({ message: 'Each item must include name, calories, protein, carbs, and fat' });
+        }
+        
         // Create a new log entry
         const newLog = new Log({
             userId: req.user.id, // User ID from token
@@ -56,6 +68,12 @@ exports.getLogsByDate = async (req, res, next) => {
             return res.status(400).json({ message: 'Date query parameter is required' });
         }
 
+        // Validate date format
+        if (!moment(date, 'YYYY-MM-DD', true).isValid()) {
+            logger.warn('Meal log fetch failed: Invalid date format');
+            return res.status(400).json({ message: 'Invalid date format. Expected format is YYYY-MM-DD' });
+        }
+
         const logs = await Log.find({
             userId: req.user.id,
             createdAt: { $gte: new Date(date), $lt: new Date(new Date(date).setDate(new Date(date).getDate() + 1)) },
@@ -68,11 +86,16 @@ exports.getLogsByDate = async (req, res, next) => {
         next(error); // Pass error to global error handler
     }
 };
-
 // Delete a meal log
 exports.deleteLog = async (req, res, next) => {
     try {
         const { logId } = req.params;
+
+        // Validate logId format
+        if (!mongoose.Types.ObjectId.isValid(logId)) {
+            logger.warn(`Invalid logId format: ${logId}`);
+            return res.status(400).json({ message: 'Invalid logId format' });
+        }
 
         const log = await Log.findOneAndDelete({ _id: logId, userId: req.user.id });
 

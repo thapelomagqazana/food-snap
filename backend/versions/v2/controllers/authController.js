@@ -110,3 +110,45 @@ exports.getProfile = async (req, res, next) => {
         next(error); // Pass error to global error handler
     }
 };
+
+// Edit user profile
+exports.editUserProfile = async (req, res, next) => {
+    try {
+        const { name, email, preferences } = req.body;
+
+        // Validate input
+        if (!name && !email && !preferences) {
+            logger.warn('User profile update failed: No fields provided');
+            return res.status(400).json({ message: 'At least one field (name, email, preferences) must be provided' });
+        }
+
+        if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            return res.status(400).json({ message: 'Invalid email format' });
+        }
+
+        // Update the user profile
+        const updatedUser = await User.findByIdAndUpdate(
+            req.user.id,
+            { $set: { name, email, preferences } },
+            { new: true, runValidators: true, context: 'query' } // Return updated user and run validators
+        );
+
+        if (!updatedUser) {
+            logger.warn(`User profile update failed: User not found for ID ${req.user.id}`);
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        logger.info(`User profile updated successfully for ID ${req.user.id}`);
+        res.status(200).json({ message: 'Profile updated successfully', user: updatedUser });
+    } catch (error) {
+        // Handle duplicate key errors
+        if (error.code === 11000) {
+            logger.warn('User profile update failed: Duplicate email');
+            return res.status(400).json({ message: 'Email already exists' });
+        }
+
+        logger.error('Error updating user profile:', error);
+        next(error); // Pass error to global error handler
+    }
+};
+
