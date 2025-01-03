@@ -8,6 +8,7 @@ import BottomNav from './BottomNav';
 interface Detection {
     label: string;
     confidence: string;
+    thumbnail: string;
 }
 
 interface NutritionalData {
@@ -26,6 +27,7 @@ const ResultsScreen: React.FC = () => {
 
     const [nutritionalData, setNutritionalData] = useState<NutritionalData[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [loadingLog, setLoadingLog] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [alertMessage, setAlertMessage] = useState<{ type: string; message: string } | null>(null);
     const [mealTime, setMealTime] = useState<string>('Breakfast'); // Default meal time
@@ -77,6 +79,9 @@ const ResultsScreen: React.FC = () => {
                 items: nutritionalData,
             };
 
+            setLoadingLog(true);
+            setError(null);
+
             const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/v2/logs`, payload, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('authToken')}`,
@@ -91,9 +96,11 @@ const ResultsScreen: React.FC = () => {
             } else {
                 throw new Error('Unexpected response while logging meal');
             }
+            setLoadingLog(false);
         } catch (err) {
             console.error('Error logging meal:', err);
             setAlertMessage({ type: 'danger', message: 'Failed to log the meal. Please try again.' });
+            setLoadingLog(false);
         }
     };
 
@@ -139,6 +146,12 @@ const ResultsScreen: React.FC = () => {
                 <div className="food-items">
                     {detections.map((detection, index) => (
                         <Card key={index} className="food-item-card">
+                            <Card.Img 
+                                variant="top" 
+                                src={detection.thumbnail} 
+                                alt={`Thumbnail of ${detection.label}`} 
+                                className="food-thumbnail" 
+                            />
                             <Card.Body>
                                 <Card.Title>{detection.label}</Card.Title>
                                 <Card.Text>
@@ -149,6 +162,7 @@ const ResultsScreen: React.FC = () => {
                     ))}
                 </div>
             </section>
+
             <section>
                 <h2>Nutritional Details</h2>
                 <div className="nutritional-table-container">
@@ -201,8 +215,15 @@ const ResultsScreen: React.FC = () => {
             )}
 
             <div className="action-buttons">
-                <Button variant="success" onClick={handleLogMeal}>
-                    Log This Meal
+                <Button variant="success" onClick={handleLogMeal} disabled={loadingLog}>
+                    {loadingLog ? (
+                        <>
+                            <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
+                            {' '}Logging...
+                        </>
+                    ) : (
+                        'Log This Meal'
+                    )}
                 </Button>
                 <Button variant="primary" onClick={handleScanAnother}>
                     Scan Another

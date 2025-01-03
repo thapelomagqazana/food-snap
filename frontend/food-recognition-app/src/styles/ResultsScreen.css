@@ -30,6 +30,14 @@ section {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Slightly deeper shadow for separation */
 }
 
+.food-thumbnail {
+    width: 100%;
+    height: auto;
+    border-radius: 8px 8px 0 0;
+    object-fit: cover;
+    max-height: 150px; /* Adjust as per your design */
+}
+
 /* Food Items */
 .food-items {
     display: flex;

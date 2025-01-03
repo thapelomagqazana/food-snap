@@ -47,6 +47,13 @@ header h1 {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
 }
 
+.analyzing-text {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #555;
+    text-align: center;
+}
+
 .progress-bar-container .progress-bar {
     border-radius: 6px; /* Smooth edges */
     background-color: #76c893; /* Bright green for feedback */

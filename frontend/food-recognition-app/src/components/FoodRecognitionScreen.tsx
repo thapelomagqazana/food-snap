@@ -75,6 +75,7 @@ const FoodRecognitionScreen: React.FC = () => {
             <div className="progress-bar-container">
                 <ProgressBar now={progress} label={`${progress}%`} />
             </div>
+            <p className="analyzing-text">Analyzing your image. Please wait...</p>
             {errorMessage && <p className="error-message">{errorMessage}</p>}
             <Button
                 variant="danger"
