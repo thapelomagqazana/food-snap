@@ -19,7 +19,7 @@ const OnboardingScreen: React.FC = () => {
                 <Carousel.Item>
                     <img
                         className="d-block w-100 carousel-image"
-                        src="capture-meals.jpg" // Replace with your image path
+                        src="capture-meals.webp"
                         alt="Capture meals"
                     />
                     <Carousel.Caption>
@@ -30,7 +30,7 @@ const OnboardingScreen: React.FC = () => {
                 <Carousel.Item>
                     <img
                         className="d-block w-100 carousel-image"
-                        src="nutritional-insights.jpg" // Replace with your image path
+                        src="nutritional-insights.webp"
                         alt="Nutritional insights"
                     />
                     <Carousel.Caption>
@@ -41,7 +41,7 @@ const OnboardingScreen: React.FC = () => {
                 <Carousel.Item>
                     <img
                         className="d-block w-100 carousel-image"
-                        src="track-habits.jpg" // Replace with your image path
+                        src="track-habits.webp"
                         alt="Track eating habits"
                     />
                     <Carousel.Caption>
