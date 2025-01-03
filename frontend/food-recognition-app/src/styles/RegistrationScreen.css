@@ -53,10 +53,57 @@ header p {
     box-shadow: 0 0 5px rgba(118, 200, 147, 0.5);
 }
 
-/* Password Field */
 .password-field {
+    display: flex;
+    align-items: center;
     position: relative;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #f9f9f9;
+    padding: 10px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
+
+.password-field input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    padding: 5px;
+    outline: none;
+}
+
+.password-field input::placeholder {
+    color: #aaa;
+}
+
+.password-field input:focus {
+    box-shadow: none;
+}
+
+.password-field button.toggle-password {
+    border: none;
+    background: none;
+    color: #555;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px;
+    margin-left: 5px;
+    transition: color 0.3s ease;
+}
+
+.password-field button.toggle-password:hover {
+    color: #76c893;
+}
+
+/* Focus effect on the entire password field */
+.password-field:focus-within {
+    border-color: #76c893;
+    box-shadow: 0 0 6px rgba(118, 200, 147, 0.5);
+}
+
 
 .toggle-password {
     position: absolute;

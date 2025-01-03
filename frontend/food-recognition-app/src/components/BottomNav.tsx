@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import '../styles/BottomNav.css'; // Optional: Add specific styles for the navbar
+import '../styles/BottomNav.css';
 
 const BottomNav: React.FC = () => {
     const navigate = useNavigate();
