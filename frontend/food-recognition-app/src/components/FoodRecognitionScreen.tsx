@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, lazy, Suspense } from 'react';
 import { ProgressBar, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/FoodRecognitionScreen.css';
-import BottomNav from './BottomNav';
+const BottomNav = lazy(() => import('./BottomNav'));
 
 interface RecognitionState {
     image: string; // Base64 or image URL
@@ -85,7 +85,9 @@ const FoodRecognitionScreen: React.FC = () => {
             >
                 Cancel
             </Button>
-            <BottomNav />
+            <Suspense fallback={<div>Loading navigation...</div>}>
+                <BottomNav />
+            </Suspense>
         </div>
     );
 };

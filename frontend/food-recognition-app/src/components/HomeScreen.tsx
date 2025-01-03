@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, lazy, Suspense } from 'react';
 import axios from 'axios';
 import { Modal, Button } from 'react-bootstrap';
-import BottomNav from './BottomNav';
+const BottomNav = lazy(() => import('./BottomNav'));
 import { useNavigate } from 'react-router-dom';
 import '../styles/HomeScreen.css';
 
@@ -139,7 +139,9 @@ const HomeScreen: React.FC = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
-            <BottomNav />
+            <Suspense fallback={<div>Loading navigation...</div>}>
+                <BottomNav />
+            </Suspense>
         </div>
     );
 };

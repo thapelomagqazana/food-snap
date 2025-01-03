@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Button, Card, Form, Modal, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import '../styles/ProfileScreen.css';
-import BottomNav from './BottomNav';
+const BottomNav = lazy(() => import('./BottomNav'));
 
 interface UserProfile {
     name: string;
@@ -176,7 +176,9 @@ const ProfileScreen: React.FC = () => {
                 </Card.Body>
             </Card>
 
-            <BottomNav />
+            <Suspense fallback={<div>Loading navigation...</div>}>
+                <BottomNav />
+            </Suspense>
 
             {/* Logout Confirmation Modal */}
             <Modal show={showLogoutConfirm} onHide={() => setShowLogoutConfirm(false)} centered>

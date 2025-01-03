@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Button, Card, Accordion, Table, Tabs, Tab, Spinner, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/DailyLogsScreen.css';
-import BottomNav from './BottomNav';
+const BottomNav = lazy(() => import('./BottomNav'));
 
 interface MealLog {
     mealTime: string;
@@ -179,7 +179,9 @@ const DailyLogsScreen: React.FC = () => {
                     Back to Home
                 </button>
             </div>
-            <BottomNav />
+            <Suspense fallback={<div>Loading navigation...</div>}>
+                <BottomNav />
+            </Suspense>
         </div>
     );
 };

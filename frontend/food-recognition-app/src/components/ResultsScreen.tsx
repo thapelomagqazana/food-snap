@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, lazy, Suspense } from 'react';
 import axios from "axios";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, Card, Table, Spinner, Alert, Form } from 'react-bootstrap';
 import '../styles/ResultsScreen.css';
-import BottomNav from './BottomNav';
+const BottomNav = lazy(() => import('./BottomNav'));
 
 interface Detection {
     label: string;
@@ -229,7 +229,10 @@ const ResultsScreen: React.FC = () => {
                     Scan Another
                 </Button>
             </div>
-            <BottomNav />
+            <Suspense fallback={<div>Loading navigation...</div>}>
+                <BottomNav />
+            </Suspense>
+
         </div>
     );
 };
