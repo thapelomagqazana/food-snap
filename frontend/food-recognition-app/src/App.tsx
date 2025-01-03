@@ -8,6 +8,7 @@ import OnboardingScreen from './components/OnboardingScreen';
 import FoodRecognitionScreen from './components/FoodRecognitionScreen';
 import ResultsScreen from './components/ResultsScreen';
 import DailyLogsScreen from './components/DailyLogsScreen';
+import ProfileScreen from './components/ProfileScreen';
 
 import { useAuth } from "./context/AuthContext";
 import { Navigate } from "react-router-dom";
@@ -28,6 +29,7 @@ const App: React.FC = () => {
             <Route path="/food-recognition" element={<ProtectedRoute><FoodRecognitionScreen /></ProtectedRoute>} />
             <Route path="/results" element={<ProtectedRoute><ResultsScreen /></ProtectedRoute>} />
             <Route path="/daily-logs" element={<ProtectedRoute><DailyLogsScreen /></ProtectedRoute>} />   
+            <Route path="/profile" element={<ProtectedRoute><ProfileScreen /></ProtectedRoute>} />   
         </Routes>
     );
 };

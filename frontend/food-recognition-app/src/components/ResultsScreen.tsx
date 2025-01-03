@@ -134,11 +134,6 @@ const ResultsScreen: React.FC = () => {
             <header>
                 <h1>Your Meal Analysis</h1>
             </header>
-            {alertMessage && (
-                <Alert variant={alertMessage.type} onClose={() => setAlertMessage(null)} dismissible>
-                    {alertMessage.message}
-                </Alert>
-            )}
             <section>
                 <h2>Recognized Food Items</h2>
                 <div className="food-items">
@@ -198,6 +193,12 @@ const ResultsScreen: React.FC = () => {
                     <option value="Snack">Snack</option>
                 </Form.Select>
             </Form.Group>
+
+            {alertMessage && (
+                <Alert variant={alertMessage.type} onClose={() => setAlertMessage(null)} dismissible>
+                    {alertMessage.message}
+                </Alert>
+            )}
 
             <div className="action-buttons">
                 <Button variant="success" onClick={handleLogMeal}>
