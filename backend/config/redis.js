@@ -1,11 +1,17 @@
 const Redis = require('ioredis');
 const logger = require("../utils/logger");
-const { redisHost, redisPort, redisPassword } = require("./env");
+const { URL } = require('url');
+const { redisURL } = require("./env");
 
+// Assume REDIS_URL is provided in the format redis://default:password@host:port
+const redisUrl = redisURL || 'redis://127.0.0.1:6379';
+const parsedUrl = new URL(redisUrl);
+
+// Initialize Redis client with parsed connection details
 const redisClient = new Redis({
-    host: redisHost || '127.0.0.1',
-    port: redisPort || 6379,
-    password: redisPassword || undefined,
+    host: parsedUrl.hostname,
+    port: parsedUrl.port,
+    password: parsedUrl.password,
 });
 
 redisClient.on('connect', () => {
