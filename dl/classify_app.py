@@ -15,14 +15,6 @@ model = YOLO('yolov5su.pt')  # Use 'yolov5x.pt' for higher accuracy
 # Set confidence threshold
 CONFIDENCE_THRESHOLD = 0.25
 
-# Define the food-related categories
-# FOOD_CATEGORIES = [
-#     "apple", "banana", "bread", "burger", "cake", "carrot", "cherry",
-#     "chocolate", "coffee", "donut", "egg", "fish", "grape", "hotdog",
-#     "ice cream", "lemon", "mango", "orange", "peach", "pizza", "salad",
-#     "sandwich", "steak", "strawberry", "sushi", "tomato", "watermelon"
-# ]
-
 NON_FOOD_CATEGORIES = [
     "person", "bicycle", "car", "motorcycle", "airplane", "bus", "train", "truck", "boat",
     "traffic light", "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat", 
