@@ -7,7 +7,7 @@ const morganMiddleware = require("./middleware/loggingMiddleware");
 // Initialize app and connect to the database
 const app = express();
 
-app.get('/', (req, res) => res.send('FoodSnap Backend Running'));
+app.get('/', (req, res) => res.send('CaloriSee Backend Running'));
 
 // Middleware for request logging
 app.use(morganMiddleware);
