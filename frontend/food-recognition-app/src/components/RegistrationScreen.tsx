@@ -115,8 +115,8 @@ const RegistrationScreen: React.FC = () => {
     return (
         <div className="registration-container">
             <header>
-                <h1>Create Your NutriSnap Account</h1>
-                <p>Join the NutriSnap community and start tracking your meals effortlessly!</p>
+                <h1>Create Your CaloriSee Account</h1>
+                <p>Join the CaloriSee community and start tracking your meals effortlessly!</p>
             </header>
             <div className="form">
                 <div className="input-group">

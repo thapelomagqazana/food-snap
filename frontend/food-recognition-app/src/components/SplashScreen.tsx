@@ -6,16 +6,16 @@ import '../styles/SplashScreen.css';
 const SplashScreen: React.FC = () => {
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            navigate('/signin-signup');
-        }, 5000);
-        return () => clearTimeout(timer);
-    }, [navigate]);
+    // useEffect(() => {
+    //     const timer = setTimeout(() => {
+    //         navigate('/signin-signup');
+    //     }, 5000);
+    //     return () => clearTimeout(timer);
+    // }, [navigate]);
 
     return (
         <div className="splash-container">
-            <header className="logo">NutriSnap</header>
+            <header className="logo">CaloriSee</header>
             <p className="tagline">Eat Smart, Live Healthy</p>
             <div className="loading-indicator">
                 <span></span>

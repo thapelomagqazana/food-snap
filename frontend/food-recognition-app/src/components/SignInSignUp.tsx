@@ -74,7 +74,7 @@ const SignInSignUp: React.FC = () => {
     return (
         <div className="signin-signup-container">
             <header>
-                <h1>Welcome to NutriSnap</h1>
+                <h1>Welcome to CaloriSee</h1>
                 <p>Track your meals effortlessly with AI-powered insights.</p>
             </header>
             <div className="signin-section">

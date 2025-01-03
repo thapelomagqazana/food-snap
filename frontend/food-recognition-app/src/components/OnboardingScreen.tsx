@@ -13,7 +13,7 @@ const OnboardingScreen: React.FC = () => {
     return (
         <div className="onboarding-container">
             <header>
-                <h1>Get Started with NutriSnap</h1>
+                <h1>Get Started with CaloriSee</h1>
             </header>
             <Carousel className="features-carousel">
                 <Carousel.Item>
@@ -51,7 +51,7 @@ const OnboardingScreen: React.FC = () => {
                 </Carousel.Item>
             </Carousel>
             <button className="start-button" onClick={handleStart}>
-                Start Using NutriSnap
+                Start Using CaloriSee
             </button>
         </div>
     );
