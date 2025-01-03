@@ -28,6 +28,7 @@ module.exports = {
     nodeEnv: process.env.NODE_ENV || "development",
     aiServiceURL: process.env.FASTAPI_URL,
     fdcAPIKey: process.env.FDC_API_KEY,
+    frontendURL: process.env.FRONTEND_URL,
     // aws: {
     //     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     //     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,

@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require("path");
+const { frontendURL } = require("./config/env");
 const errorHandler = require("./middleware/errorHandler");
 const morganMiddleware = require("./middleware/loggingMiddleware");
 // Initialize app and connect to the database
@@ -14,7 +15,11 @@ app.use(morganMiddleware);
 // Middleware
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-app.use(cors());
+app.use(cors({
+    origin: frontendURL,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+}));
 
 // Serve static files
 app.use('/static', express.static(path.join(__dirname, 'static')));
