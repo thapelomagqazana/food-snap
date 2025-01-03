@@ -51,18 +51,18 @@ const ProfileScreen: React.FC = () => {
         setEditMode(!editMode);
     };
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const target = e.target as HTMLInputElement | HTMLSelectElement;
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+        const target = e.target;
     
-        if (target.type === 'checkbox') {
+        if (target instanceof HTMLInputElement && target.type === 'checkbox') {
             setProfile((prevProfile) => ({
                 ...prevProfile,
-                [target.name]: (target as HTMLInputElement).checked, // Assert target as HTMLInputElement for `checked`
+                [target.name]: target.checked, // Use `checked` only for checkbox inputs
             }));
         } else {
             setProfile((prevProfile) => ({
                 ...prevProfile,
-                [target.name]: target.value, // Use `value` for other inputs
+                [target.name]: target.value, // Use `value` for text and select inputs
             }));
         }
     };
