@@ -1,5 +1,5 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
-import { Button, Card, Accordion, Table, Tabs, Tab, Spinner, Alert } from 'react-bootstrap';
+import { Button, Card, Accordion, Table, Tabs, Tab, Spinner, Alert, Pagination } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/DailyLogsScreen.css';
@@ -19,6 +19,10 @@ const DailyLogsScreen: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
+
+    // Pagination states
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const logsPerPage = 3; // Logs per page
 
     useEffect(() => {
         const fetchLogs = async () => {
@@ -52,8 +56,18 @@ const DailyLogsScreen: React.FC = () => {
         fetchLogs();
     }, [selectedDate]);
 
+    // Get logs for the current page
+    const indexOfLastLog = currentPage * logsPerPage;
+    const indexOfFirstLog = indexOfLastLog - logsPerPage;
+    const currentLogs = mealLogs.slice(indexOfFirstLog, indexOfLastLog);
+
+    const handlePageChange = (pageNumber: number) => {
+        setCurrentPage(pageNumber);
+    };
+
     const handleDateChange = (key: string) => {
         setSelectedDate(key);
+        setCurrentPage(1); // Reset to first page on date change
     };
 
     const handleBackToHome = () => {
@@ -112,11 +126,11 @@ const DailyLogsScreen: React.FC = () => {
             </Tabs>
 
             <section className="meal-logs">
-                {mealLogs.length === 0 ? (
+                {currentLogs.length === 0 ? (
                     <p className="no-logs-message">No logs available for the selected date.</p>
                 ) : (
                     <Accordion>
-                        {mealLogs.map((log, index) => (
+                        {currentLogs.map((log, index) => (
                             <Accordion.Item eventKey={index.toString()} key={index}>
                                 <Accordion.Header>
                                     {log.mealTime} - {log.totalCalories} kcal
@@ -159,6 +173,21 @@ const DailyLogsScreen: React.FC = () => {
                     </Accordion>
                 )}
             </section>
+
+            {/* Pagination Controls */}
+            {mealLogs.length > logsPerPage && (
+                <Pagination className="pagination-controls">
+                    {Array.from({ length: Math.ceil(mealLogs.length / logsPerPage) }, (_, index) => (
+                        <Pagination.Item
+                            key={index + 1}
+                            active={index + 1 === currentPage}
+                            onClick={() => handlePageChange(index + 1)}
+                        >
+                            {index + 1}
+                        </Pagination.Item>
+                    ))}
+                </Pagination>
+            )}
 
             <section className="summary-section">
                 <Card>

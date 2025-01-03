@@ -175,6 +175,10 @@ header h1 {
         padding: 12px 18px;
         font-size: 16px;
     }
+
+    .action-buttons {
+        margin-bottom: 130px;
+    }
 }
 
 /* Desktop View */
@@ -207,8 +211,6 @@ header h1 {
     }
 
     .action-buttons {
-        margin-bottom: 50px;
+        margin-bottom: 150px;
     }
-
-
 }
