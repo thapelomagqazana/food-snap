@@ -6,12 +6,12 @@ import '../styles/SplashScreen.css';
 const SplashScreen: React.FC = () => {
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     const timer = setTimeout(() => {
-    //         navigate('/signin-signup');
-    //     }, 5000);
-    //     return () => clearTimeout(timer);
-    // }, [navigate]);
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            navigate('/signin-signup');
+        }, 5000);
+        return () => clearTimeout(timer);
+    }, [navigate]);
 
     return (
         <div className="splash-container">
