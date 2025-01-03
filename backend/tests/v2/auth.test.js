@@ -6,6 +6,7 @@ const User = require('../../models/User');
 const logger = require('../../utils/logger');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const redisClient = require('../../config/redis')
 
 // Load environment variables from the .env file
 dotenv.config({ path: '../.env' });
@@ -28,6 +29,7 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
+    await redisClient.quit();
     // Disconnect from database
     await mongoose.disconnect();
 });

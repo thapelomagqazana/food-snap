@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Button, Card, Table, Spinner } from 'react-bootstrap';
+import { Button, Card, Table, Spinner, Alert, Form } from 'react-bootstrap';
 import '../styles/ResultsScreen.css';
 import BottomNav from './BottomNav';
 
@@ -27,10 +27,12 @@ const ResultsScreen: React.FC = () => {
     const [nutritionalData, setNutritionalData] = useState<NutritionalData[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const [alertMessage, setAlertMessage] = useState<{ type: string; message: string } | null>(null);
+    const [mealTime, setMealTime] = useState<string>('Breakfast'); // Default meal time
 
     useEffect(() => {
         if (!detections || detections.length === 0) {
-            setError('No food items detected. Redirecting to the home screen...');
+            setError('No food items detected from the model. Redirecting to the home screen...');
             setTimeout(() => {
                 navigate('/home');
             }, 3000);
@@ -59,20 +61,40 @@ const ResultsScreen: React.FC = () => {
         fetchNutritionalData();
     }, [detections, navigate]);
 
-    // Utility function to ensure numeric values
     const sanitizeValue = (value: any): number => {
         return isNaN(value) || value === null || value === undefined ? 0 : Number(value);
     };
 
-    // Calculate totals with `NaN` handling
     const totalCalories = nutritionalData.reduce((total, item) => total + sanitizeValue(item.calories), 0);
     const totalProtein = nutritionalData.reduce((total, item) => total + sanitizeValue(item.protein), 0);
     const totalCarbs = nutritionalData.reduce((total, item) => total + sanitizeValue(item.carbs), 0);
     const totalFat = nutritionalData.reduce((total, item) => total + sanitizeValue(item.fat), 0);
 
-    const handleLogMeal = () => {
-        console.log('Meal logged:', nutritionalData);
-        navigate('/daily-logs');
+    const handleLogMeal = async () => {
+        try {
+            const payload = {
+                mealTime,
+                items: nutritionalData,
+            };
+
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/v2/logs`, payload, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+                },
+            });
+
+            if (response.status === 201) {
+                setAlertMessage({ type: 'success', message: 'Meal logged successfully!' });
+                setTimeout(() => {
+                    navigate('/daily-logs');
+                }, 2000);
+            } else {
+                throw new Error('Unexpected response while logging meal');
+            }
+        } catch (err) {
+            console.error('Error logging meal:', err);
+            setAlertMessage({ type: 'danger', message: 'Failed to log the meal. Please try again.' });
+        }
     };
 
     const handleScanAnother = () => {
@@ -86,13 +108,9 @@ const ResultsScreen: React.FC = () => {
                     <h1>Your Meal Analysis</h1>
                 </header>
                 <p className="error-message">{error}</p>
-                {detections && detections.length === 0 ? (
-                    <p>Redirecting to the home screen...</p>
-                ) : (
-                    <Button variant="primary" onClick={handleScanAnother}>
-                        Try Again
-                    </Button>
-                )}
+                <Button variant="primary" onClick={handleScanAnother}>
+                    Try Again
+                </Button>
             </div>
         );
     }
@@ -116,6 +134,11 @@ const ResultsScreen: React.FC = () => {
             <header>
                 <h1>Your Meal Analysis</h1>
             </header>
+            {alertMessage && (
+                <Alert variant={alertMessage.type} onClose={() => setAlertMessage(null)} dismissible>
+                    {alertMessage.message}
+                </Alert>
+            )}
             <section>
                 <h2>Recognized Food Items</h2>
                 <div className="food-items">
@@ -165,6 +188,16 @@ const ResultsScreen: React.FC = () => {
                     </Table>
                 </div>
             </section>
+
+            <Form.Group className="meal-time-selector">
+                <Form.Label>Select Meal Time</Form.Label>
+                <Form.Select value={mealTime} onChange={(e) => setMealTime(e.target.value)}>
+                    <option value="Breakfast">Breakfast</option>
+                    <option value="Lunch">Lunch</option>
+                    <option value="Dinner">Dinner</option>
+                    <option value="Snack">Snack</option>
+                </Form.Select>
+            </Form.Group>
 
             <div className="action-buttons">
                 <Button variant="success" onClick={handleLogMeal}>

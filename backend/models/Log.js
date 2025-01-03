@@ -9,7 +9,7 @@ const logSchema = new mongoose.Schema({
             calories: { type: Number, required: true },
             protein: { type: Number, required: true },
             carbs: { type: Number, required: true },
-            fat: { type: Number, required: true },
+            fats: { type: Number, required: true },
         },
     ],
 }, { timestamps: true });

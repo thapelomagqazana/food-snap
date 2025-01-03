@@ -53,8 +53,8 @@ describe('Create Meal Log API Tests', () => {
             .send({
                 mealTime: 'Breakfast',
                 items: [
-                    { name: 'Eggs', calories: 150, protein: 12, carbs: 1, fat: 10 },
-                    { name: 'Toast', calories: 75, protein: 2, carbs: 14, fat: 1 },
+                    { name: 'Eggs', calories: 150, protein: 12, carbs: 1, fats: 10 },
+                    { name: 'Toast', calories: 75, protein: 2, carbs: 14, fats: 1 },
                 ],
             })
             .set('Authorization', `Bearer ${token}`);
@@ -70,7 +70,7 @@ describe('Create Meal Log API Tests', () => {
             .post('/api/v2/logs')
             .send({
                 items: [
-                    { name: 'Eggs', calories: 150, protein: 12, carbs: 1, fat: 10 },
+                    { name: 'Eggs', calories: 150, protein: 12, carbs: 1, fats: 10 },
                 ],
             })
             .set('Authorization', `Bearer ${token}`);
@@ -100,7 +100,7 @@ describe('Create Meal Log API Tests', () => {
             .send({
                 mealTime: longMealTime,
                 items: [
-                    { name: 'Eggs', calories: 150, protein: 12, carbs: 1, fat: 10 },
+                    { name: 'Eggs', calories: 150, protein: 12, carbs: 1, fats: 10 },
                 ],
             })
             .set('Authorization', `Bearer ${token}`);
@@ -133,12 +133,12 @@ describe('Fetch Daily Logs API Tests', () => {
             {
                 userId: user._id,
                 mealTime: 'Breakfast',
-                items: [{ name: 'Eggs', calories: 150, protein: 12, carbs: 1, fat: 10 }],
+                items: [{ name: 'Eggs', calories: 150, protein: 12, carbs: 1, fats: 10 }],
             },
             {
                 userId: user._id,
                 mealTime: 'Lunch',
-                items: [{ name: 'Salad', calories: 200, protein: 5, carbs: 15, fat: 5 }],
+                items: [{ name: 'Salad', calories: 200, protein: 5, carbs: 15, fats: 5 }],
             },
         ]);
 
@@ -157,8 +157,8 @@ describe('Fetch Daily Logs API Tests', () => {
                 userId: user._id,
                 mealTime: 'Breakfast',
                 items: [
-                    { name: 'Eggs', calories: 78, protein: 6, carbs: 0, fat: 5 },
-                    { name: 'Toast', calories: 64, protein: 2, carbs: 12, fat: 1 },
+                    { name: 'Eggs', calories: 78, protein: 6, carbs: 0, fats: 5 },
+                    { name: 'Toast', calories: 64, protein: 2, carbs: 12, fats: 1 },
                 ],
                 createdAt: new Date(date), // Specific date
             },
@@ -166,7 +166,7 @@ describe('Fetch Daily Logs API Tests', () => {
                 userId: user._id,
                 mealTime: 'Lunch',
                 items: [
-                    { name: 'Salad', calories: 150, protein: 5, carbs: 10, fat: 7 },
+                    { name: 'Salad', calories: 150, protein: 5, carbs: 10, fats: 7 },
                 ],
                 createdAt: new Date(date), // Specific date
             },
@@ -221,7 +221,7 @@ describe('Delete Meal Log API Tests', () => {
         const log = await Log.create({
             userId: user._id,
             mealTime: 'Breakfast',
-            items: [{ name: 'Eggs', calories: 78, protein: 6, carbs: 0, fat: 5 }],
+            items: [{ name: 'Eggs', calories: 78, protein: 6, carbs: 0, fats: 5 }],
         });
     
         logId = log._id; // Store logId for testing

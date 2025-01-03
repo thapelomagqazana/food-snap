@@ -7,6 +7,7 @@ import RegistrationScreen from "./components/RegistrationScreen";
 import OnboardingScreen from './components/OnboardingScreen';
 import FoodRecognitionScreen from './components/FoodRecognitionScreen';
 import ResultsScreen from './components/ResultsScreen';
+import DailyLogsScreen from './components/DailyLogsScreen';
 
 import { useAuth } from "./context/AuthContext";
 import { Navigate } from "react-router-dom";
@@ -26,6 +27,7 @@ const App: React.FC = () => {
             <Route path="/home" element={<ProtectedRoute><HomeScreen /></ProtectedRoute>} />
             <Route path="/food-recognition" element={<ProtectedRoute><FoodRecognitionScreen /></ProtectedRoute>} />
             <Route path="/results" element={<ProtectedRoute><ResultsScreen /></ProtectedRoute>} />
+            <Route path="/daily-logs" element={<ProtectedRoute><DailyLogsScreen /></ProtectedRoute>} />   
         </Routes>
     );
 };

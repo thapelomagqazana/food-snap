@@ -20,7 +20,7 @@ const BottomNav: React.FC = () => {
                     </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Nav.Link onClick={() => handleNavigation('/logs')}>
+                    <Nav.Link onClick={() => handleNavigation('/daily-logs')}>
                         <i className="bi bi-list-check"></i>
                         <span>Logs</span>
                     </Nav.Link>

@@ -8,6 +8,8 @@ exports.createLog = async (req, res, next) => {
     try {
         const { mealTime, items } = req.body;
 
+        console.log(items);
+
         if (!mealTime || !items || items.length === 0) {
             logger.warn('Meal log creation failed: Missing mealTime or items');
             return res.status(400).json({ message: 'mealTime and items are required' });
@@ -18,7 +20,13 @@ exports.createLog = async (req, res, next) => {
             return res.status(400).json({ message: 'mealTime exceeds maximum allowed length' });
         }
 
-        if (!items.every(item => item.name && item.calories && item.protein && item.carbs && item.fat)) {
+        if (!items.every(item => 
+            item.name && 
+            item.calories !== undefined && item.calories !== null &&
+            item.protein !== undefined && item.protein !== null &&
+            item.carbs !== undefined && item.carbs !== null &&
+            item.fats !== undefined && item.fats !== null
+        )) {
             logger.warn('Meal log creation failed: Invalid item structure');
             return res.status(400).json({ message: 'Each item must include name, calories, protein, carbs, and fat' });
         }

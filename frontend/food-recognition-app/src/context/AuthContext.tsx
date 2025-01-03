@@ -32,7 +32,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         localStorage.removeItem("authToken");
         setToken(null);
         setIsAuthenticated(false);
-        navigate("/login"); // Redirect to login
+        navigate("/signin-signup"); // Redirect to login
         
     };
 
