@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Card, Form, Modal, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from '../context/AuthContext';
 import '../styles/ProfileScreen.css';
 import BottomNav from './BottomNav';
 
@@ -52,12 +52,21 @@ const ProfileScreen: React.FC = () => {
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const { name, value, type, checked } = e.target;
-        setProfile((prevProfile) => ({
-            ...prevProfile,
-            [name]: type === 'checkbox' ? checked : value,
-        }));
+        const target = e.target as HTMLInputElement | HTMLSelectElement;
+    
+        if (target.type === 'checkbox') {
+            setProfile((prevProfile) => ({
+                ...prevProfile,
+                [target.name]: (target as HTMLInputElement).checked, // Assert target as HTMLInputElement for `checked`
+            }));
+        } else {
+            setProfile((prevProfile) => ({
+                ...prevProfile,
+                [target.name]: target.value, // Use `value` for other inputs
+            }));
+        }
     };
+    
 
     const handleSaveChanges = async () => {
         try {
@@ -78,6 +87,7 @@ const ProfileScreen: React.FC = () => {
 
     const handleLogout = () => {
         logout();
+        navigate('/login');
     };
 
     if (loading) {
