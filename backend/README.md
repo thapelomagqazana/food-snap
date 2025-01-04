@@ -76,8 +76,8 @@ Delete a specific meal log.
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/username/foodsnap-api.git
-   cd foodsnap-api
+   git clone git@github.com:thapelomagqazana/food-snap.git
+   cd food-snap/backend/
    ```
 
 2. Install dependencies:
@@ -105,12 +105,12 @@ Delete a specific meal log.
 - Use a tool like Postman to test the API endpoints.
 - Ensure MongoDB and Redis are running before starting the server.
 
-## Monitoring & Performance
+<!-- ## Monitoring & Performance
 - Integrated with **Prometheus** for metrics scraping.
 - Use **Grafana** for real-time dashboard monitoring.
 - Load testing with **k6**.
 - Profiling with **Clinic.js**.
-- Error tracking using **Sentry**.
+- Error tracking using **Sentry**. -->
 
 ## Contributing
 Feel free to submit issues or create pull requests. Contributions are welcome!
